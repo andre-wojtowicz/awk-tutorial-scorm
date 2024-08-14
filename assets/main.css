@@ -1,0 +1,125 @@
+pre {
+  overflow-x: hidden; }
+
+.awk_text {
+  padding-top: 0.5rem;
+  width: 100%;
+  background-color: #f4f3ec;
+  margin-bottom: 1rem;
+  outline: none;
+  font-family: "Source Code Pro", Monaco, "Andale Mono", monospace; }
+  .awk_text#mail_list {
+    height: 14rem; }
+  .awk_text#earnings {
+    height: 15rem; }
+  .awk_text#people {
+    height: 15rem; }
+
+.awk {
+  margin-bottom: 1rem;
+  position: relative; }
+  .awk * {
+    font-family: "Source Code Pro", Monaco, "Andale Mono", monospace;
+    box-sizing: border-box; }
+  .awk .awk_file_name_hover {
+    position: absolute;
+    margin-top: -.7rem;
+    background-color: white;
+    font-size: .7rem;
+    margin-left: 1.5rem;
+    color: black;
+    padding: 0 5px 0 5px;
+}
+  .awk textarea.awk_src {
+    padding-top: 0.5rem;
+    width: 100%;
+    max-width: 100%;
+    resize: vertical; }
+    .awk textarea.awk_src.awk_src_medium {
+      height: 9rem; }
+    .awk textarea.awk_src.awk_src_large {
+      height: 12rem; }
+  .awk div.awk_input {
+    background-color: black;
+    color: white;
+    border: 0;
+    outline: none;
+    font-size: .8rem;
+    margin-bottom: 0rem;
+    padding: 0.5rem;
+    width: 100%; }
+  .awk samp.awk_output {
+    width: 100%;
+    display: none;
+    padding: 0.5rem;
+    margin: 0;
+    font-size: .8rem;
+    background-color: rgba(31, 29, 29, 0.94);
+    color: white; }
+    .awk samp.awk_output.exception, .awk samp.awk_output.incorrect {
+      color: red; }
+    .awk samp.awk_output.correct {
+      background-color: forestgreen; }
+  .awk .awk_reveal {
+    margin-top: 0.5rem; }
+
+.awk_text {
+  resize: vertical;
+  width: 100%;
+  background-color: white; }
+
+.awk_example_button {
+  font-family: "Source Code Pro", Monaco, "Andale Mono", monospace;
+  color: var(--body-color);
+ }
+
+.awk2, .awk2 * {
+  font-family: "Source Code Pro", Monaco, "Andale Mono", monospace;
+  box-sizing: border-box; }
+.awk2 .awk_source_container {
+  position: relative; }
+  .awk2 .awk_source_container .awk_source_filename {
+    position: absolute;
+    margin-top: -.7rem;
+    margin-left: 1.5rem;
+    font-size: 0.7rem;
+    background-color: white;
+    color: black;
+    padding: 0 5px 0 5px; }
+  .awk2 .awk_source_container .awk_source {
+    font-size: .75rem;
+    padding: 0;
+    resize: vertical;
+    width: 100%;
+    padding-top: 0.5rem;
+    height: 5rem; }
+    .awk2 .awk_source_container .awk_source.awk_src_medium {
+      height: 9rem; }
+    .awk2 .awk_source_container .awk_source.awk_src_large {
+      height: 20rem; }
+  .awk2 .awk_source_container .buttons {
+    padding-bottom: .3rem;
+    position: absolute;
+    right: .8rem;
+    bottom: .4rem; }
+    .awk2 .awk_source_container .buttons .run {
+      background-color: green;
+      border-color: green; }
+.awk2 .awk_output {
+  width: 100%;
+  display: none;
+  padding: 0.5rem;
+  margin: 0;
+  font-size: .8rem;
+  background-color: rgba(31, 29, 29, 0.94);
+  color: white; }
+  .awk2 .awk_output.exception, .awk2 .awk_output.incorrect {
+    color: red;
+    display: inline-block; }
+  .awk2 .awk_output.correct {
+    background-color: forestgreen;
+    display: inline-block; }
+.awk_input::before {
+  content: "$";
+  margin-right: 6px;
+}

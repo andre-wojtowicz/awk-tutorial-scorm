@@ -1,0 +1,20 @@
+<!--
+filename - Name of file you are writing awk in (.awk added)
+soln - key of solution in awk_tutorial2.js
+txt_source - id of text file with source text (.txt added)
+awk_src_class - applied to text area to set height
+-->
+<div class="awk2" data-txt_source="{{include.txt_source}}" data-soln="{{include.soln}}">
+    <div class="awk_source_container">
+        <span class="awk_source_filename">{{ include.filename }}.awk</span>
+<textarea spellcheck="false" class="awk_source {{include.awk_src_class}} " aria-label="Umieść tutaj swój kod awk" id="{{include.awk_file}}">
+{{ include.init }}
+</textarea>
+        <div class="buttons">
+            <button onClick="run(this)" title="Możesz również użyć kombinacji klawiszy Ctrl+Enter lub ⌘+Enter">awk -f {{include.filename}}.awk {{include.txt_source}}.txt</button>
+            <button onClick="reveal(this)">Pokaż rozwiązanie</button>
+        </div>
+    </div>
+    <samp class="awk_output">BLAH</samp>
+
+</div>

@@ -1,6 +1,27 @@
 <div class="awk" data-awk_file="{{ include.awk_file }}" data-awk_soln="{{ include.awk_soln }}">
-    <div spellcheck="false" contenteditable="true" role='textbox' class="{{ include.consoleClass}} awk_input">{{ include.awk_init }}</div>
+    <div spellcheck="false" contenteditable="true" role='textbox' id="{{include.awk_soln}}" class="{{ include.consoleClass}} awk_input language-bash">{{ include.awk_init }}</div>
     <samp class="awk_output"></samp>
     <button class="awk_run" onClick="awk_run(this)">▶ Uruchom</button>
-    <button class="awk_reveal" onClick="reveal(this)">Pokaż rozwiązanie</button>
 </div>
+<script>
+    var editor = ace.edit("{{include.awk_soln}}", {
+        minLines: 1,
+        maxLines: 1,
+        showLineNumbers: false,
+        readOnly: false,
+        newLineMode: 'auto',
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/sh");
+    
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+
+    editors["{{include.awk_soln}}"] = editor;
+</script>

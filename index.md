@@ -15,27 +15,36 @@ layout: page
     var text_editors = {};
 </script>
 
-`awk` is a language that takes whitespace separated input files (columns), matches them against patterns, and executes
-code for each match.
-`awk` is available on almost every single linux system.
+*AWK* to język programowania, który przyjmuje na wejściu pliki, w których dane są rozdzielone białymi znakami (kolumny), sprawdza dla kolejnych linii warunki ich dalszego przetwarzania, a następnie wykonuje kod dla danej linii w przypadku spełnienia warunków. Język *AWK* posiada [wiele implementacji](https://en.wikipedia.org/wiki/AWK#Versions_and_implementations), z których jedną z najpopularniejszych jest wersja GNU [`gawk`](https://man7.org/linux/man-pages/man1/gawk.1.html). Program `awk` jest dostępny w zasadzie w każdej dystrybucji Linux, a w systemie występuje najczęściej jako dowiązanie symboliczne do wybranej implementacji języka *AWK*.
 
-```plaintext
-# For every line execute code if the pattern matches that line
-pattern { code }
-    
-# Run code for every line
-{ code } 
+Najczęściej program `awk` stosuje się do szybkiego skryptowego przetwarzania tekstu bezpośrednio z poziomu terminala, tworząc tzw. jednolinijkowce. Wygląda to następująco:
+
+```bash
+$ awk 'treść skryptu przetwarzającego dane wejściowe' plik_do_przetworzenia
 ```
+
+Poniżej znajdują się dwa szablony stanowiące podstawę skryptów `awk`:
+
+1. Dla każdej linii, jeśli `warunek` jest spełniony dla linii, uruchom `kod`:
+   ```plaintext
+   warunek { kod }
+   ```
+2. Dla każdej linii, uruchom `kod`:
+   ```plaintext
+   { kod } 
+   ```
 
 ----
 
 ### Przykład 1
 
-Here's an example of an awk command that just returns its input (`$0` refers to the full source line). Click into the terminal and press `Enter`.
+Poniżej znajduje się przykład polecenia `awk`, które po prostu wyświetla dane otrzymane na wejściu z pliku `mail_list`. Zmienna `$0` oznacza całą aktualnie przetwarzaną linię.
+
+> 💡 Aby uruchomić kod, możesz kliknąć w poniższy terminal i nacisnąć klawisz `<Enter>` albo nacisnąć przycisk `[▶ Uruchom]`.
 
 {% include awk_console.html awk_file="mail_list" awk_soln="hello_world0" awk_init="awk '{ print $0 }' mail_list" %}
 
-Here's an example of data ready for awk to process `./mail_list`:
+Poniżej znajduje się przykładowa zawartość pliku `mail_list`, która jest przetwarzana przez `awk`:
 
 <div class="awk"><br/>
 <span class="awk_file_name_hover">📜 mail_list</span>
@@ -71,8 +80,9 @@ Bill         555-1337    billiam.billy@cal.tech.edu         R</div>
     text_editors["mail_list"] = editor;
 </script>
 
+Jak widać, dane w pliku `mail_list` są zapisane w sposób kolumnowy, w tym wypadku oddzielone spacjami (liczba spacji nie ma znaczenia).
 
-Let's try an easy example with no pattern. Printing the first column (`$1`). (Press enter to run)
+Spójrzmy na kolejny prosty przykład, który nie stosuje warunków przetwarzania. Poniższy skrypt wyświetli pierwszą kolumnę (`$1`):
 
 {% include awk_console.html awk_file="mail_list" awk_soln="hello_world" awk_init="awk '{ print $1 }' mail_list" %}
 
@@ -80,9 +90,9 @@ Let's try an easy example with no pattern. Printing the first column (`$1`). (Pr
 
 ### Zadanie 1
 
-Next let's print columns `$1` and `$2` separated by a space `" "` <br/>That looks like this : `$1 " " $2`<br/> `print` will accept multiple arguments separated by spaces (no plus signs here)
+Spróbujemy wyświetlić kolumny `$1` i `$2` oddzielone spacją `" "`. W skrypcie będzie to wyglądało mniej więcej tak: `$1 " " $2`. Polecenie `print` przyjmuje wiele argumentów oddzielonych spacjami (nie ma potrzeby łączenia danych np. za pomocą znaku plus, tak jak to jest w niektórych innych językach programowania).
 
-You'll need to modify the code this time, adding " "
+Zmodyfikuj poniższy kod, dodając `" "`.
 
 {% include awk_console.html awk_file="mail_list" awk_soln="hello_world2" awk_init="awk '{ print $1 $2 }' mail_list" %}
 
@@ -90,7 +100,7 @@ You'll need to modify the code this time, adding " "
 
 ### Zadanie 2
 
-Okay how about a pattern? You saw `$1` means column one. How about printing the phone number for every Bill?
+No dobra, a co z warunkami przetwarzania? Widzieliśmy wcześniej, że `$1` oznacza pierwszą kolumnę. Uzupełnij poniższy kod tak, aby dla każdego Billa wyświetlił się jego numer telefonu.
 
 {% include awk_console.html awk_file="mail_list" awk_soln="column_1" awk_init="awk '$1 == \"Bill\" { }' mail_list" %}
 
@@ -98,10 +108,13 @@ Okay how about a pattern? You saw `$1` means column one. How about printing the 
 
 ### Zadanie 3
 
-Next let's try multiple patterns. In addition to printing all Bill's phone numbers let's print the name of the person with 
-the phone number `555-3430`.
+Spójrzmy teraz na wariant z wieloma warunkami przetwarzania:
 
-```pattern1 { code1 } pattern2 { code2 }```
+```plaintext
+warunek1 { kod1 } warunek2 { kod2 }
+```
+
+Popraw i uzupełnij poniższy skrypt tak, aby oprócz wyświetlenia wszystkich numerów telefonów osób o imieniu Bill, program wypisał również imię osoby z numerem telefonu `555-3430`.
 
 {% include awk_console.html awk_file="mail_list" awk_soln="phonenum" awk_init="awk '$1 == \"Bill\" { print $1 }' mail_list" %}
 
@@ -109,13 +122,13 @@ the phone number `555-3430`.
 
 ### Przykład 2
 
-awk variables can be initialized in a `BEGIN { x = 0 }` pattern or just default to 0.
-Similarly the `END` pattern matches once after all rows are complete. Thus far we've used plain `{ code }` with no begin nor end preceeding it.
-These blocks run on every line.
+Zmienne `awk` mogą być inicjalizowane w pierwszym warunku `BEGIN { x = 0 }`; jeśli ich nie zainicjalizujemy wprost, to domyślnie mają ustawioną wartość 0. Na podobnej zasadzie działa ostatni warunek `END`, który uruchamia się po zakończeniu przetwarzania wszystkich wierszy. 
 
-Try running these two examples to get an idea of how BEGIN and END work.
+Dotychczas używaliśmy prostych skryptów `{ kod }` i `warunek { kod }`, bez poprzedzających ich warunków `BEGIN` i `END`. Kod i warunki były wykonywane dla każdej przetwarzanej linii.
 
-{% include awk_console.html awk_file="mail_list" awk_soln="beginend" awk_init="awk 'BEGIN { print \"I run first\" } { print \"I run every line\" } END { print \"I run last\" }' mail_list"%}
+Spróbuj uruchomić poniższe dwa przykłady, tak aby zobaczyć, jak działają warunki `BEGIN` i `END`. 
+
+{% include awk_console.html awk_file="mail_list" awk_soln="beginend" awk_init="awk 'BEGIN { print \"start\" } { print \"dla każdej linii\" } END { print \"koniec\" }' mail_list"%}
 
 {% include awk_console.html awk_file="mail_list" awk_soln="beginend2" awk_init="awk 'BEGIN { x = 1000 } { x += 1 } END { print x }' mail_list" %}
 
@@ -123,8 +136,9 @@ Try running these two examples to get an idea of how BEGIN and END work.
 
 ### Zadanie 4
 
-Here's an example where we add 5 to s for each line. awk also supplies a `length()` function that can accept a column.
-Can you sum the length of everyone's name?
+W poniższym skrypcie każda przetwarzana linia oznacza zwiększenie wartości zmiennej `s` o 5.
+
+*AWK* posiada funkcję `length()`, która jako argument przyjmuje kolumnę i zwraca liczbę znaków przetwarzanego ciągu tekstowego. Zmień poniższy kod tak, aby wyświetlić łączną liczbę znaków wszystkich imion.
 
 {% include awk_console.html awk_file="mail_list" awk_soln="vars1" awk_init="awk '{ s += 5 } END { print s } ' mail_list"%}
 
@@ -132,11 +146,19 @@ Can you sum the length of everyone's name?
 
 ### Zadanie 5
 
-awk can also use regular expressions as patterns. You can match your regex against the entire line
-`/regex/ { code }` or against a column `$1 ~ /regex/ { code }`.
+W *AWK* można również stosować wyrażenia regularne. Regexy można dopasowywać do całej przetwarzanej linii:
 
-Here's a regex that matches any word containing only vowels `/^[AEIOUYaeiouy]+$/` can use you use it to match names with
-only vowels and print them?
+```plaintext
+/regex/ { kod }
+```
+
+lub do wybranej kolumny:
+
+```plaintext
+$3 ~ /regex/ { kod }
+```
+
+Następujący regex dopasowuje słowa, które zawierają wyłącznie samogłoski: `/^[AEIOUYaeiouy]+$/`. Użyj go do wyświetlenia imion składających się z samych samogłosek.
 
 {% include awk_console.html awk_file="mail_list" awk_soln="regex" awk_init="awk '/^[AEIOUYaeiouy]+$/ {}' mail_list" %}
 
@@ -144,10 +166,13 @@ only vowels and print them?
 
 ### Zadanie 6
 
-Control flow! `awk` has `if` and `else` like other languages. Here we have a dataset of names, ages, and countries.
-Let's try and use if else to print (senior) + the name of everyone whose age is at least 65.
+Czas na przepływ sterowania! W *AWK*, podobniej jak w innych językach, mamy instrukcje warunkowe `if` i `else`. Schematyczne użycie może wyglądać następująco:
 
-`optionalPattern { if (something >= else) { do this } else { do that }}`
+```plaintext
+opcjonalny_warunek { if (coś_a >= coś_b) { kod1 } else { kod2 } }
+```
+
+Poniższy plik zawiera dane dotyczące imion, wieku i krajów:
 
 <div class="awk"><br/>
 <span class="awk_file_name_hover">📜 people</span>
@@ -182,7 +207,7 @@ Leslie-Lamport         80    USA</div>
     text_editors["people"] = editor;
 </script>
 
-Output format:
+Użyj instrukcji `if`/`else` tak, aby wyświetlić imiona, ale osoby w wieku co najmniej 65 lat mają mieć przedrostek `(senior)`. Oczekiwany format wyjściowych danych:
 
 ```
 (senior) Frances-Spence
@@ -200,8 +225,9 @@ Bolade-Ibrahim
 
 ### Zadanie 7
 
-Let's try some logic! `awk` supports logical and: `&&` as well as logical or: `||`
-Try and use `&&` and `||` to write a pattern that matches only seniors in the USA.
+Czas na wyrażenia logiczne! *AWK* wspiera wyrażenia zawierające koniunkcję `&&` i alternatywę `||`. 
+
+Wyświetl imiona osób, które mają co najmniej 65 lat **oraz** pochodzą ze Stanów Zjednoczonych.
 
 {% include awk_console.html awk_file="people" awk_soln="logical1" awk_init="awk '$2 >= 65 {print $1}' people" %}
 
@@ -209,7 +235,7 @@ Try and use `&&` and `||` to write a pattern that matches only seniors in the US
 
 ### Zadanie 8
 
-Next try seniors OR people in nigeria (NG).
+Wyświetl imiona osób, które mają co najmniej 65 lat **lub** pochodzą z Nigerii.
 
 {% include awk_console.html awk_file="people" awk_soln="logical2" awk_init="awk '$2 >= 65 {print $1}' people" %}
 
@@ -217,20 +243,20 @@ Next try seniors OR people in nigeria (NG).
 
 ### Zadanie 9
 
-How about summing up the number of seniors inside and outside of the USA? Just like we implicitly created variables
-using `{ s += length($2) }`
-earlier we can create two new variables to count seniors in/out of the USA.
+Podobnie jak wcześniej niejawnie tworzyliśmy zmienną używając `{ s += length($2) }`, możemy stworzyć dwie nowe zmienne do zliczenia osób w wieku co najmniej 65 lat pochodzących z USA i spoza tego kraju.
 
-Try doing this two ways
+Spróbuj wykonać to zadanie na dwa sposoby:
 
-1. Matching every line with a senior and then using if/else on $3
-2. Using two patterns one that matches seniors in the USA and one that matches seniors not the USA
+1. przetwarzając każdą linię z osobą w wieku 65 lat, a następnie używając `if`/`else` na `$3`,
+2. używając dwóch warunków jednocześnie, tj. pierwszy przetwarzający tylko osoby w wieku 65 lat z USA, a drugi przetwarzający tylko osoby w wieku 65 lat spoza USA (operator nierówności to `!=`).
 
-Multiple patterns looks like this
+W tym zadaniu schematycznie użycie kilku warunków jednocześnie wygląda następująco:
 
-`awk 'pattern1 { code1 } pattern2 { code2 } END { finalCode }' people`
+```bash
+$ awk 'warunek1 { kod1 } warunek2 { kod2 } END { kod_na_koniec }' plik
+```
 
-Your solution should be two numbers separated by a space `4 2`
+Twoje rozwiązanie powinno zawierać dwie liczby oddzielone spacją, tj. `4 2`.
 
 {% include awk_console.html awk_file="people" awk_soln="multPatt" awk_init="awk '{}' people" consoleClass="consoleH2" %}
 
@@ -238,30 +264,30 @@ Your solution should be two numbers separated by a space `4 2`
 
 ### Zadanie 10
 
-`awk` has a few builtins, these are variables defined for you. Here are a few:
+*AWK* posiada kilka dostępnych dla nas zmiennych wbudowanych. Oto kilka z nich:
 
-|name|value|
-|----|----|
-|FS|Field separator (space in our examples)|
-|RS|Record separtor (newline here)|
-|NF|Number of columns (fields)|
-|NR|Index of current row (record)|
-|$0|Full Line (all columns)|
+| Nazwa | Wartość |
+|:-----:|---------|
+| `FS`  | separator pól/kolumn (ang. _**f**ield **s**eparator_, domyślnie znak spacji) |
+| `RS`  | separator wierszy (ang. _**r**ecord **s**epartor_, domyślnie znak nowej linii) |
+| `NF`  | liczba pól/kolumn (ang. _**n**umber of **f**ields_) |
+| `NR`  | aktualna liczba przetworzonych wierszy (ang. _total **n**umber of **r**ecords seen so far_) |
+| `$0`  | cała linia (wszystkie kolumny) |
 
-See if you can use this to pull out only the odd rows from the people dataset. (`awk` supports `%` and `/`)
+Spróbuj użyć którychś z powyższych zmiennych tak, aby wyświetlić tylko nieparzyste wiersze pliku `people` (operator modulo to `%`).
 
 {% include awk_console.html awk_file="people" awk_soln="odd" awk_init="awk '{}' people" %}
 
 ----
 
-When you're using awk from the command line you'll also have access to flags (we can't use them easily here on the web).
-A few flags worth knowing are:
+Używając `awk` z poziomu terminala, dostępne są dla nas również flagi wpływające na działanie programu (niestety nie możemy z nich korzystać w internetowym symulatorze).
+Poniżej znajduje się kilka istotniejszych przełączników:
 
-| flag | example          | purpose                                                                                 |
-|------|------------------|-----------------------------------------------------------------------------------------|
-| `-F` | `awk -F:`          | Columns are separated by a colon `:`                                                    |
-| `-f` | `awk -f script.awk`| Load awk script from a file instead of the command line                                  |
-| `-v` | `awk -v init=1`    | The variable init begins as 1 instead of the default 0 <br>Equivalent to `awk 'BEGIN { init = 1 } ...'` |
+| Flaga | Przykład użycia        | Cel                                                                                     |
+|:-----:|:-----------------------|-----------------------------------------------------------------------------------------|
+| `-F`  | `awk -F: ...`          | wskazanie, że kolumny są oddzielone znakiem `:`                                         |
+| `-f`  | `awk -f script.awk ...`| wczytanie skryptu AWK z pliku zamiast jako argumentu programu                           |
+| `-v`  | `awk -v init=1 ...`    | inicjalizacja zmiennej `init` z wartością 1 zamiast domyślnej 0;<br>równoważne z `awk 'BEGIN { init = 1 } ...` |
 
 ## Tablice i pętle
 

@@ -29,10 +29,10 @@ const SOLUTIONS_A = {
 }
 
 const SOLUTIONS_B = { 
-    'exercise_1': '$1 == "Frances-Spence" { print $0 }',
-    'exercise_2': '{ arr[$1] += $2 } END { print arr["Moondog"] }',
-    'exercise_3': '{ arr[$1] += $2 } \nEND { \n    for (key in arr) {\n         print key " " arr[key]\n     }\n }',
-    'exercise_4': '{ arr[$1] += $2 } \n' +
+    'exercise_10': '$1 == "Frances-Spence" { print $0 }',
+    'exercise_11': '{ arr[$1] += $2 } END { print arr["Moondog"] }',
+    'exercise_12': '{ arr[$1] += $2 } \nEND { \n    for (key in arr) {\n         print key " " arr[key]\n     }\n }',
+    'exercise_13': '{ arr[$1] += $2 } \n' +
         'END { \n' +
         '    max = "not_set"\n' +
         '    max_person = "not_set"\n' +
@@ -44,7 +44,7 @@ const SOLUTIONS_B = {
         '    }\n' +
         '    print max_person\n' +
         ' }',
-    'exercise_5': 'END { \n' +
+    'exercise_14': 'END { \n' +
         '    arr[0] = 0\n' +
         '    arr[1] = 1\n' +
         '    for (i = 2 ; i < 100; i++) {\n' +
@@ -61,7 +61,7 @@ const SOLUTIONS_B = {
         '        print i \" => \" arr[i]\n' +
         '    }\n' +
         '}',
-    'exercise_6': 'END {\n' +
+    'exercise_15': 'END {\n' +
         '    for ( i = 1; i < 100; i++) {\n' +
         '        arr[i] = i\n' +
         '    }\n' +

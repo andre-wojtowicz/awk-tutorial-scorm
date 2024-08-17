@@ -2,6 +2,16 @@ body>div.container {
 	max-width: 53rem !important;
 }
 
+.masthead {
+	text-align: center;
+	padding-bottom: 0px !important;
+	margin-bottom: 0px !important;
+}
+
+.footer {
+	display: none;
+}
+
 pre {
 	overflow-x: hidden;
 }

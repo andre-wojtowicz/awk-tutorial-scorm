@@ -42,15 +42,15 @@ const SOLUTIONS_B = {
         '             max_person = key\n' +
         '         }\n' +
         '    }\n' +
-        '    print max_person\n' +
+        '    print max_person " " max\n' +
         ' }',
     'exercise_15': 'END { \n' +
         '    arr[0] = 0\n' +
         '    arr[1] = 1\n' +
-        '    for (i = 2 ; i < 100; i++) {\n' +
+        '    for (i = 2 ; i < 10; i++) {\n' +
         '        arr[i] += arr[i-1] + arr[i-2]\n' +
         '    }\n' +
-        '    for (i = 0; i < 100; i++) {\n' +
+        '    for (i = 0; i < 10; i++) {\n' +
         '        total += arr[i]\n' +
         '        print i " " total\n' +
         '    } \n' +
@@ -62,7 +62,7 @@ const SOLUTIONS_B = {
         '    }\n' +
         '}',
     'exercise_16': 'END {\n' +
-        '    for ( i = 1; i < 100; i++) {\n' +
+        '    for ( i = 2; i < 100; i++) {\n' +
         '        arr[i] = i\n' +
         '    }\n' +
         '    for ( i = 2; i < 100; i++) {\n' +
@@ -70,7 +70,7 @@ const SOLUTIONS_B = {
         '            delete arr[curr]\n' +
         '        }\n' +
         '    }\n' +
-        '    for ( i = 0; i < 100; i++) {\n' +
+        '    for ( i = 2; i < 100; i++) {\n' +
         '        if (i in arr) { print i }\n' +
         '    }\n' +
         '}',

@@ -280,7 +280,9 @@ Spróbuj użyć którychś z powyższych zmiennych tak, aby wyświetlić tylko n
 
 ----
 
-Używając `awk` z poziomu terminala, dostępne są dla nas również flagi wpływające na działanie programu (niestety nie możemy z nich korzystać w internetowym symulatorze).
+## Pliki skryptów, tablice i pętle
+
+Używając `awk` z poziomu terminala, dostępne są dla nas również flagi wpływające na działanie programu (niestety nie możemy z nich wszystkich wprost skorzystać w internetowym symulatorze).
 Poniżej znajduje się kilka istotniejszych przełączników:
 
 | Flaga | Przykład użycia        | Cel                                                                                     |
@@ -289,16 +291,9 @@ Poniżej znajduje się kilka istotniejszych przełączników:
 | `-f`  | `awk -f script.awk ...`| wczytanie skryptu AWK z pliku zamiast jako argumentu programu                           |
 | `-v`  | `awk -v init=1 ...`    | inicjalizacja zmiennej `init` z wartością 1 zamiast domyślnej 0;<br>równoważne z `awk 'BEGIN { init = 1 } ...` |
 
-## Tablice i pętle
+W dalszej części samouczka będziemy pisać nieco dłuższe skrypty. Wygodniej będzie nam uruchamiać program `awk` przekazując mu jako argument plik skryptu korzystając z flagi `-f`, np. `awk -f file.awk input.txt`.
 
-`awk` is a language that takes whitespace separated input files (columns), matches them against patterns, and executes
-code for each match.
-`awk` is available on almost every single linux system.
-
-But you already new that. Because you've done the "[Basic awk: an interactive introduction to awk](/projects/awk.html)" 
-tutorial already. We're diving right in and I won't be re-explaining things from basic awk. Fair warning. 
-
-Here's the some similar earnings data to last time. People are listed multiple times. 
+Poniżej znajduje się plik z zarobkami `earnings.txt`. Niektóre osoby występują kilka razy.
 
 <div class="awk"><br/>
 <span class="awk_file_name_hover">📜 earnings.txt</span>
@@ -340,19 +335,13 @@ Leslie-Lamport          80     USA</div>
     text_editors["earnings"] = editor;
 </script>
 
-This time we'll be writing longer awk programs so we'll run our `awk` from `.awk` files (think .c .py .js, .rs) with `awk -f file.awk input.txt`.
-
-Edit the `.awk` file and click the 
-<button disabled class='awk_example_button'>awk -f exercise.awk source.txt</button> 
-command in the textbox when you're ready (or MacOS: `⌘+Enter` Windows: `Ctrl+Enter`).
-
-You can also view my solution by clicking <button disabled class='awk_example_button'>Show Solution</button>
-
 ----
 
 ### Zadanie 11
 
-The first challenge is a <small>tiny</small> review. Print the entire row `$0` if the name is "Frances-Spence"
+Rozpocznijmy od małej powtórki. Wyświetl cały wiersz `$0` jeśli imię to Frances-Spence.
+
+> 💡 Zmień poniższy skrypt `.awk`, a następnie uruchom go klikając w prawym dolnym rogu edytora na przycisk `[$ awk -f exercise_11.awk earnings.txt]`, który zasymuluje uruchomienie programu `awk` w terminalu. Możesz również użyć kombinacji klawiszy `<Ctrl+Enter>` lub `<⌘+Enter>`.
 
 {% include awk_file.html id="exercise_11" filename="exercise_11" soln="exercise_11" txt_source="earnings" init="{ print $0 }" %} 
 
@@ -360,13 +349,11 @@ The first challenge is a <small>tiny</small> review. Print the entire row `$0` i
 
 ### Zadanie 12
 
-`awk` arrays are dictionaries where keys can be anything (though they are stringified) and values can also be anything. 
-Like all `awk` variables arrays require no initialization. 
+Tablice w *AWK* są słownikami, w których klucze mogą być dowolne (aczkolwiek są przekształcane ostatecznie na ciągi znaków), a wartości również mogą być również dowolne. Jak wszystkie zmienne w *AWK*, tablice nie wymagają inicjalizacji.
 
-If you wanted to add the number in column 2 under the name in column 1 you could do this `sums[$1] += $2`.
+Np. jeśli chcesz w tablicy dodać liczbę z kolumny 2 do wartości klucza o nazwie wartości kolumny 1, możesz to zrobić tak: `sums[$1] += $2`.
 
-Try it out. Sum the earnings (column 2) of each person. At the end print the total earnings of Moondog &nbsp; `arr["Moondog"]` &nbsp;. We'll go over how to loop
-over everyone's earnings next. (Note: you might want to use an `END` pattern here)
+Sprawdźmy to. Zsumuj zarobki (kolumna 2) każdej osoby, a na końcu wypisz całkowite zarobki osoby o imieniu Moondog używając `arr["Moondog"]` (przydatny będzie warunek `END`; możesz go umieścić w nowej linii). W dalszej części materiałów omówimy jak przejść przez zarobki wszystkich osób.
 
 {% include awk_file.html id="exercise_12" filename="exercise_12" soln="exercise_12" txt_source="earnings" init="{ print $0 }" %} 
 
@@ -374,11 +361,15 @@ over everyone's earnings next. (Note: you might want to use an `END` pattern her
 
 ### Zadanie 13
 
-Okay fine. You summed them. Let's print them all. `awk` has for-each syntax. It looks like this.
+No dobrze -- skoro już wiemy jak zsumować zarobki poszczególnych osób, to je wyświetlmy. *AWK* posiada pętlę `for`, której schematyczne użycie może wyglądać następująco:
 
-`for (key in arr) {  print key " " arr[key] }`
+```bash
+for (klucz in tablica) { 
+    print klucz " " tablica[klucz]
+}
+```
 
-Now let's have you print everyone's name and their total using the for syntax (separated by a single space).
+Wyświetl wszystkie imiona i odpowiadające im łączne zarobki (imię i łączne zarobki oddziel pojedynczą spacją).
 
 {% include awk_file.html awk_src_class="awk_src_medium" id="exercise_13" filename="exercise_13" soln="exercise_13" txt_source="earnings" init="{ print $0 }" %}
 
@@ -386,8 +377,14 @@ Now let's have you print everyone's name and their total using the for syntax (s
 
 ### Zadanie 14
 
-Good good. Okay now can you use a temporary variable to find the person with the highest total? This will require
-combining `for (key in arr)` and if statements like `if (val > max) { max = val }` 
+Teraz użyj dodatkowych zmiennych tak, aby znaleźć osobę z najwyższymi łącznymi zarobkami (wyświetl imię i łączne zarobki oddzielone spacją). Będzie to wymagało połączenia pętli `for` oraz instrukcji warunkowej typu:
+
+```bash
+if (val > max) {
+    max = val
+    ...
+}
+```
 
 {% include awk_file.html awk_src_class="awk_src_medium" id="exercise_14" filename="exercise_14" soln="exercise_14" txt_source="earnings" init="{ print $0 }" %}
 
@@ -403,8 +400,13 @@ combining `for (key in arr)` and if statements like `if (val > max) { max = val 
     text_editors["empty_stdin"] = editor;
 </script>
 
-Arrays can of course also uses numbers as indices. 
-I'm going to skip over explaining the for loop syntax because it's just like many other languages except with no type on `i`.
+Skrypty *AWK* mogą również pomijać przetwarzanie tekstu i dane wejściowe. Na początku musimy jednak zwrócić uwagę na to, że jeśli nie podamy w poleceniu `awk` jako ostatniego argumentu nazwy pliku do wczytania, program będzie oczekiwał danych na standardowym wejściu. W tym wypadku prostą sztuczką jest przekierowanie na standardowe wejście pustego ciągu znaków np. używając składni Bash `<<< ''`. Przykładowo, w terminalu wyglądałoby to następująco:
+
+```bash
+$ awk -f script.awk <<< ''
+```
+
+W poniższym przykładzie możemy zobaczyć, że pomijamy dane wejściowe oraz przy pomocy warunku `END` iterujemy po tablicy `arr`, której kluczami są liczby całkowite od 0 do 9:
 
 {% include awk_file_nostdin.html awk_src_class="awk_src_medium" id="loop_example" filename="loop_example" soln="loop_example"
 init="END {
@@ -418,47 +420,55 @@ init="END {
 
 ### Zadanie 15
 
-Next up, I'm going to give you an array. Your job is to loop through it and at each index print the index, a space, and the running total (inclusive) thus far.
+Twoim zadaniem jest przejść w pętli po przygotowanej wcześniej tablicy `arr` tak, aby dla każdego indeksu (klucza) wypisać indeks, spację i sumę bieżącą wartości tablicy.
 
 {% include awk_file_nostdin.html awk_src_class="awk_src_large" id="exercise_15" filename="exercise_15" soln="exercise_15" init="END {
     arr[0] = 0
     arr[1] = 1
-    for (i = 2 ; i < 100; i++) {        
+    for (i = 2 ; i < 10; i++) {        
         arr[i] += arr[i-1] + arr[i-2]
     }
-    # Don't touch above here ^
-    # Print the index and running total from 0 to 99
-}
-" %}
+    # Nie zmieniaj powyższego kodu ^
+    # Wyświetl indeks i sumę bieżącą od 0 do 9
+    
+}" %}
 
 ----
 
 ### Zadanie 16
 
-There are two more important things we can do with arrays in `awk`. Ask if they contain a key `if (key in arr) {} else {}` and delete a key/value &nbsp; `delete arr[key]`.
+W *AWK* możemy sprawdzić, czy tablica zawiera klucz:
 
-Let's use `delete` and `in` to calculate the primes from 1 to 100. We'll use the [prime sieve method](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes). 
-If you don't know what that is go read the wikipedia page and come back. 
+```bash
+if (klucz in tablica) {
+    ...
+} else {
+    ...
+}
+```
 
-Okay welcome back. Use `delete` to remove every non-prime. After removing all the non-primes loop from 0 to 100 and use something like `if (number in primes)` to print
-only the remaining numbers.
+Możemy również usunąć klucz (i odpowiadającą mu wartość) za pomocą:
+
+```bash
+delete tablica[klucz]
+```
+
+Twoim ostatnim zadaniem jest zaimplementowanie metody [sita Eratostenesa](https://pl.wikipedia.org/wiki/Sito_Eratostenesa) do wyświetlenia liczb pierwszych nie większych niż 100.
+
+Skorzystaj z tablicy i użyj `delete` oraz `in` tak, aby usunąć wszystkie liczby, które nie są pierwsze. Po usunięciu wszystkich liczb niebędących liczbami pierwszymi, przejdź w pętli od 2 do 100 i wypisz pozostałe w tablicy liczby używając czegoś w stylu `if (number in arr)`.
 
 {% include awk_file_nostdin.html awk_src_class="awk_src_large" id="exercise_16" filename="exercise_16" soln="exercise_16" init="END {
-    for ( i = 1; i < 100; i++) {
+    for (i = 2; i < 100; i++) {
         arr[i] = i
     }
-    # go forth and sieve!
-} "%}
+    # Idź i odsiewaj!
+    
+}"%}
+
+## Podsumowanie
+
+Jak widać, w ostatnich zadaniach nie używaliśmy już plików z danymi wejściowymi. *AWK* jest językiem, który możemy używać w oderwaniu od danych tabelarycznych, jednakże to właśnie podczas pracy z tego typu danymi sprawdza się on najlepiej. Co do zasady nie zaleca się pisania zbyt skomplikowanych programów w *AWK*.
 
 ----
 
-You may have noticed we're not even using the source files anymore. `awk` is a full language that can be used independently of tabular data.
-Though it definitely shines on tabular data and I don't suggest writing too complex a program in `awk`.
-
-----
-
-Autorem samouczka jest [Nathaniel Tracy-Amoroso](https://github.com/n8ta).
-
-Some examples are pulled from the [GNU awk users guide](https://www.gnu.org/software/gawk/manual/gawk.html) under the [GNU Free Documentation License](https://www.gnu.org/software/gawk/manual/gawk.html#GNU-Free-Documentation-License)
-
-[awkjs](https://www.npmjs.com/package/awkjs) is used under the [MIT license](https://github.com/petli-full/awkjs/blob/master/LICENSE)
+Autorem samouczka jest [Nathaniel Tracy-Amoroso](https://github.com/n8ta). Część zadań i przykładów została zaczerpnięta z [podręcznika użytkownika GNU awk](https://www.gnu.org/software/gawk/manual/gawk.html) na licencji [GNU Free Documentation License](https://www.gnu.org/software/gawk/manual/gawk.html#GNU-Free-Documentation-License). Silnik [awkjs](https://www.npmjs.com/package/awkjs) jest dystrybuowany na licencji [MIT](https://github.com/petli-full/awkjs/blob/master/LICENSE).

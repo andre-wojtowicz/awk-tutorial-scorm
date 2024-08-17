@@ -27,12 +27,15 @@ pattern { code }
 { code } 
 ```
 
+----
+
+### Przykład 1
+
 Here's an example of an awk command that just returns its input (`$0` refers to the full source line). Click into the terminal and press `Enter`.
 
 {% include awk_console.html awk_file="mail_list" awk_soln="hello_world0" awk_init="awk '{ print $0 }' mail_list" %}
 
-Here's an example of data ready for awk to process `./mail_list`. You can edit this data and the terminals below will
-use the new data.
+Here's an example of data ready for awk to process `./mail_list`:
 
 <div class="awk"><br/>
 <span class="awk_file_name_hover">📜 mail_list</span>
@@ -54,7 +57,16 @@ Bill         555-1337    billiam.billy@cal.tech.edu         R</div>
 <script>
     var editor = ace.edit("mail_list");
     editor.setShowPrintMargin(false);
-    editor.setTheme("ace/theme/monokai");
+    editor.setReadOnly(true);
+    editor.setOptions({
+        maxLines: Infinity
+    });
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(8);
+    editor.renderer.setScrollMargin(3, 3);
+    editor.setOptions({highlightActiveLine: false});
+    editor.renderer.$cursorLayer.element.style.display = "none";
+    editor.setTheme("ace/theme/cobalt");
     editor.session.setMode("ace/mode/text");
     text_editors["mail_list"] = editor;
 </script>
@@ -95,6 +107,8 @@ the phone number `555-3430`.
 
 ----
 
+### Przykład 2
+
 awk variables can be initialized in a `BEGIN { x = 0 }` pattern or just default to 0.
 Similarly the `END` pattern matches once after all rows are complete. Thus far we've used plain `{ code }` with no begin nor end preceeding it.
 These blocks run on every line.
@@ -128,8 +142,10 @@ only vowels and print them?
 
 ----
 
+### Zadanie 6
+
 Control flow! `awk` has `if` and `else` like other languages. Here we have a dataset of names, ages, and countries.
-Let's try and use if else to print (senior) + the name of everyone whose age is over 65.
+Let's try and use if else to print (senior) + the name of everyone whose age is at least 65.
 
 `optionalPattern { if (something >= else) { do this } else { do that }}`
 
@@ -152,25 +168,37 @@ Leslie-Lamport         80    USA</div>
 <script>
     var editor = ace.edit("people");
     editor.setShowPrintMargin(false);
-    editor.setTheme("ace/theme/monokai");
+    editor.setReadOnly(true);
+    editor.setOptions({
+        maxLines: Infinity
+    });
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(8);
+    editor.renderer.setScrollMargin(3, 3);
+    editor.setOptions({highlightActiveLine: false});
+    editor.renderer.$cursorLayer.element.style.display = "none";
+    editor.setTheme("ace/theme/cobalt");
     editor.session.setMode("ace/mode/text");
     text_editors["people"] = editor;
 </script>
 
+Output format:
+
 ```
-# Output format:
-(senior) Frances Spence
+(senior) Frances-Spence
+(senior) Yoshihide
 Nate
-DojaCat
 ...
+Bolade-Ibrahim
 (senior) Jean-Bartik
+(senior) Leslie-Lamport
 ```
 
 {% include awk_console.html awk_file="people" awk_soln="ifelse" awk_init="awk '{}' people" %}
 
 ----
 
-### Zadanie 6
+### Zadanie 7
 
 Let's try some logic! `awk` supports logical and: `&&` as well as logical or: `||`
 Try and use `&&` and `||` to write a pattern that matches only seniors in the USA.
@@ -179,7 +207,7 @@ Try and use `&&` and `||` to write a pattern that matches only seniors in the US
 
 ----
 
-### Zadanie 7
+### Zadanie 8
 
 Next try seniors OR people in nigeria (NG).
 
@@ -187,7 +215,7 @@ Next try seniors OR people in nigeria (NG).
 
 ----
 
-### Zadanie 8
+### Zadanie 9
 
 How about summing up the number of seniors inside and outside of the USA? Just like we implicitly created variables
 using `{ s += length($2) }`
@@ -208,7 +236,7 @@ Your solution should be two numbers separated by a space `4 2`
 
 ----
 
-### Zadanie 9
+### Zadanie 10
 
 `awk` has a few builtins, these are variables defined for you. Here are a few:
 
@@ -272,8 +300,17 @@ Leslie-Lamport          80     USA</div>
 <script>
     var editor = ace.edit("earnings");
     editor.setShowPrintMargin(false);
-    editor.setTheme("ace/theme/monokai");
+    editor.setReadOnly(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(8);
+    editor.renderer.setScrollMargin(3, 3);
+    editor.setOptions({highlightActiveLine: false});
+    editor.renderer.$cursorLayer.element.style.display = "none";
+    editor.setTheme("ace/theme/cobalt");
     editor.session.setMode("ace/mode/text");
+    editor.setOptions({
+        maxLines: Infinity
+    });
     text_editors["earnings"] = editor;
 </script>
 
@@ -287,15 +324,15 @@ You can also view my solution by clicking <button disabled class='awk_example_bu
 
 ----
 
-### Zadanie 10
+### Zadanie 11
 
 The first challenge is a <small>tiny</small> review. Print the entire row `$0` if the name is "Frances-Spence"
 
-{% include awk_file.html id="exercise_10" filename="exercise_10" soln="exercise_10" txt_source="earnings" init="{ print $0 }" %} 
+{% include awk_file.html id="exercise_11" filename="exercise_11" soln="exercise_11" txt_source="earnings" init="{ print $0 }" %} 
 
 ----
 
-### Zadanie 11
+### Zadanie 12
 
 `awk` arrays are dictionaries where keys can be anything (though they are stringified) and values can also be anything. 
 Like all `awk` variables arrays require no initialization. 
@@ -305,11 +342,11 @@ If you wanted to add the number in column 2 under the name in column 1 you could
 Try it out. Sum the earnings (column 2) of each person. At the end print the total earnings of Moondog &nbsp; `arr["Moondog"]` &nbsp;. We'll go over how to loop
 over everyone's earnings next. (Note: you might want to use an `END` pattern here)
 
-{% include awk_file.html id="exercise_11" filename="exercise_11" soln="exercise_11" txt_source="earnings" init="{ print $0 }" %} 
+{% include awk_file.html id="exercise_12" filename="exercise_12" soln="exercise_12" txt_source="earnings" init="{ print $0 }" %} 
 
 ----
 
-### Zadanie 12
+### Zadanie 13
 
 Okay fine. You summed them. Let's print them all. `awk` has for-each syntax. It looks like this.
 
@@ -317,18 +354,20 @@ Okay fine. You summed them. Let's print them all. `awk` has for-each syntax. It 
 
 Now let's have you print everyone's name and their total using the for syntax (separated by a single space).
 
-{% include awk_file.html awk_src_class="awk_src_medium" id="exercise_12" filename="exercise_12" soln="exercise_12" txt_source="earnings" init="{ print $0 }" %}
+{% include awk_file.html awk_src_class="awk_src_medium" id="exercise_13" filename="exercise_13" soln="exercise_13" txt_source="earnings" init="{ print $0 }" %}
 
 ----
 
-### Zadanie 13
+### Zadanie 14
 
 Good good. Okay now can you use a temporary variable to find the person with the highest total? This will require
 combining `for (key in arr)` and if statements like `if (val > max) { max = val }` 
 
-{% include awk_file.html awk_src_class="awk_src_medium" id="exercise_13" filename="exercise_13" soln="exercise_13" txt_source="earnings" init="{ print $0 }" %}
+{% include awk_file.html awk_src_class="awk_src_medium" id="exercise_14" filename="exercise_14" soln="exercise_14" txt_source="earnings" init="{ print $0 }" %}
 
 ----
+
+### Przykład 3
 
 <div class="awk" style="display: none;">
 <div class="awk_text" id="empty_stdin"></div>
@@ -351,11 +390,11 @@ init="END {
 
 ----
 
-### Zadanie 14
+### Zadanie 15
 
 Next up, I'm going to give you an array. Your job is to loop through it and at each index print the index, a space, and the running total (inclusive) thus far.
 
-{% include awk_file_nostdin.html awk_src_class="awk_src_large" id="exercise_14" filename="exercise_14" soln="exercise_14" init="END {
+{% include awk_file_nostdin.html awk_src_class="awk_src_large" id="exercise_15" filename="exercise_15" soln="exercise_15" init="END {
     arr[0] = 0
     arr[1] = 1
     for (i = 2 ; i < 100; i++) {        
@@ -368,19 +407,17 @@ Next up, I'm going to give you an array. Your job is to loop through it and at e
 
 ----
 
+### Zadanie 16
+
 There are two more important things we can do with arrays in `awk`. Ask if they contain a key `if (key in arr) {} else {}` and delete a key/value &nbsp; `delete arr[key]`.
 
 Let's use `delete` and `in` to calculate the primes from 1 to 100. We'll use the [prime sieve method](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes). 
 If you don't know what that is go read the wikipedia page and come back. 
 
-----
-
-### Zadanie 15
-
 Okay welcome back. Use `delete` to remove every non-prime. After removing all the non-primes loop from 0 to 100 and use something like `if (number in primes)` to print
 only the remaining numbers.
 
-{% include awk_file_nostdin.html awk_src_class="awk_src_large" id="exercise_15" filename="exercise_15" soln="exercise_15" init="END {
+{% include awk_file_nostdin.html awk_src_class="awk_src_large" id="exercise_16" filename="exercise_16" soln="exercise_16" init="END {
     for ( i = 1; i < 100; i++) {
         arr[i] = i
     }
@@ -394,7 +431,7 @@ Though it definitely shines on tabular data and I don't suggest writing too comp
 
 ----
 
-Licensing notes: 
+Autorem samouczka jest [Nathaniel Tracy-Amoroso](https://github.com/n8ta).
 
 Some examples are pulled from the [GNU awk users guide](https://www.gnu.org/software/gawk/manual/gawk.html) under the [GNU Free Documentation License](https://www.gnu.org/software/gawk/manual/gawk.html#GNU-Free-Documentation-License)
 

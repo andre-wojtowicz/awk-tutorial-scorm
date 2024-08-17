@@ -16,7 +16,7 @@ const SOLUTIONS_A = {
     'column_1': 'awk \'$1 == "Bill" { print $2 }\' mail_list',
     'vars1': 'awk \'{ s += length($1) } END { print s } \' mail_list',
     'regex': 'awk \'$1 ~ /^[AEIOUYaeiouy]+$/ { print $1 }\' mail_list',
-    'ifelse' : 'awk \'{if ($2 > 64) { print "(senior) " $1 } else {print $1}}\' people',
+    'ifelse' : 'awk \'{if ($2 >= 65) { print "(senior) " $1 } else {print $1}}\' people',
     'ifelseUSA': 'awk \' {  if ( $1 == "Bill" ) { print $1 } else { } }\' people',
     'logical1': 'awk \'$2 >= 65 && $3 == "USA" {print $1}\' people',
     'logical2': 'awk \'$2 >= 65 || $3 == "NG" {print $1}\' people',
@@ -29,10 +29,10 @@ const SOLUTIONS_A = {
 }
 
 const SOLUTIONS_B = { 
-    'exercise_10': '$1 == "Frances-Spence" { print $0 }',
-    'exercise_11': '{ arr[$1] += $2 } END { print arr["Moondog"] }',
-    'exercise_12': '{ arr[$1] += $2 } \nEND { \n    for (key in arr) {\n         print key " " arr[key]\n     }\n }',
-    'exercise_13': '{ arr[$1] += $2 } \n' +
+    'exercise_11': '$1 == "Frances-Spence" { print $0 }',
+    'exercise_12': '{ arr[$1] += $2 } END { print arr["Moondog"] }',
+    'exercise_13': '{ arr[$1] += $2 } \nEND { \n    for (key in arr) {\n         print key " " arr[key]\n     }\n }',
+    'exercise_14': '{ arr[$1] += $2 } \n' +
         'END { \n' +
         '    max = "not_set"\n' +
         '    max_person = "not_set"\n' +
@@ -44,7 +44,7 @@ const SOLUTIONS_B = {
         '    }\n' +
         '    print max_person\n' +
         ' }',
-    'exercise_14': 'END { \n' +
+    'exercise_15': 'END { \n' +
         '    arr[0] = 0\n' +
         '    arr[1] = 1\n' +
         '    for (i = 2 ; i < 100; i++) {\n' +
@@ -61,7 +61,7 @@ const SOLUTIONS_B = {
         '        print i \" => \" arr[i]\n' +
         '    }\n' +
         '}',
-    'exercise_15': 'END {\n' +
+    'exercise_16': 'END {\n' +
         '    for ( i = 1; i < 100; i++) {\n' +
         '        arr[i] = i\n' +
         '    }\n' +
@@ -78,10 +78,10 @@ const SOLUTIONS_B = {
 
 async function handle_enter(input) {
 
-    const filename = input.parentElement.dataset['awk_file']
-    const soln = input.parentElement.dataset['awk_soln']
+    const filename = input.parentElement.parentElement.dataset['awk_file']
+    const soln = input.parentElement.parentElement.dataset['awk_soln']
 
-    const sourceText = text_editors[input.parentElement.dataset['awk_file']].getValue();
+    const sourceText = text_editors[input.parentElement.parentElement.dataset['awk_file']].getValue();
     const awkStr = editors[input.id].getValue().replace("\n", "");
     if (!awkStr.startsWith(CMD_START)) {
         alert("Twoje polecenie musi zaczynać się od `awk '`");
@@ -93,7 +93,7 @@ async function handle_enter(input) {
     }
     let awkStrParsed = trim(awkStr, filename);
     let output;
-    const outputNode = input.parentElement.querySelector(".awk_output");
+    const outputNode = input.parentElement.parentElement.querySelector(".awk_output");
     outputNode.style.display = "block";
 
     outputNode.classList.remove("incorrect")

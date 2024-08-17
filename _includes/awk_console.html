@@ -1,22 +1,25 @@
-<div class="awk" data-awk_file="{{ include.awk_file }}" data-awk_soln="{{ include.awk_soln }}">
-    <div spellcheck="false" contenteditable="true" role='textbox' id="{{include.awk_soln}}" class="{{ include.consoleClass}} awk_input language-bash">{{ include.awk_init }}</div>
+<div class="awk" data-awk_file="{{ include.awk_file }}" data-awk_soln="{{ include.awk_soln }}" style="width: 100%;">
+    <div style="display: flex;">
+        <div spellcheck="false" contenteditable="true" role='textbox' id="{{include.awk_soln}}" class="{{ include.consoleClass}} awk_input language-bash" style="float: left;">{{ include.awk_init }}</div>
+        <button class="awk_run" onClick="awk_run(this)">▶ Uruchom</button>
+    </div>
     <samp class="awk_output"></samp>
-    <button class="awk_run" onClick="awk_run(this)">▶ Uruchom</button>
 </div>
 <script>
     var editor = ace.edit("{{include.awk_soln}}", {
         minLines: 1,
-        maxLines: 1,
+        maxLines: 2,
         showLineNumbers: false,
         readOnly: false,
         newLineMode: 'auto',
     });
     editor.setHighlightActiveLine(false);
     editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
     editor.renderer.setShowGutter(false);
     editor.renderer.setPadding(20);
     editor.renderer.setScrollMargin(5, 5);
-    editor.setTheme("ace/theme/monokai");
+    editor.setTheme("ace/theme/cobalt");
     editor.session.setMode("ace/mode/sh");
     
     row = editor.session.getLength() - 1;

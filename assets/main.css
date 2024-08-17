@@ -79,7 +79,7 @@ pre {
 	font-size: .8rem;
 	margin-bottom: 0rem;
 	padding: 0.5rem;
-	width: 100%;
+	width: 85%;
 }
 
 .awk samp.awk_output {
@@ -199,5 +199,5 @@ pre {
 }
 
 .awk_run {
-	margin-top: 5px;
+	width: 15%;
 }

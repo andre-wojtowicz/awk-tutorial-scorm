@@ -9,30 +9,25 @@ async function call_awk(sourceText, awkStrParsed) {
     return awk.awk(sourceText, awkStrParsed, [])
 }
 
-const SOLUTIONS_A = {
-    'hello_world0': 'awk \'{ print $0 }\' mail_list',
-    'hello_world': 'awk \'{ print $1 }\' mail_list',
-    'hello_world2': 'awk \'{ print $1 " " $2  }\' mail_list',
-    'column_1': 'awk \'$1 == "Bill" { print $2 }\' mail_list',
-    'vars1': 'awk \'{ s += length($1) } END { print s } \' mail_list',
-    'regex': 'awk \'$1 ~ /^[AEIOUYaeiouy]+$/ { print $1 }\' mail_list',
-    'ifelse' : 'awk \'{if ($2 >= 65) { print "(senior) " $1 } else {print $1}}\' people',
-    'ifelseUSA': 'awk \' {  if ( $1 == "Bill" ) { print $1 } else { } }\' people',
-    'logical1': 'awk \'$2 >= 65 && $3 == "USA" {print $1}\' people',
-    'logical2': 'awk \'$2 >= 65 || $3 == "NG" {print $1}\' people',
-    'multPatt': 'awk \'$3 == "USA" && $2 >= 65 { usa += 1 } $3 != "USA" && $2 >= 65 { non_usa += 1 } END { print usa " " non_usa }\' people',
-    'odd': 'awk \'NR % 2 == 1 { print $0 }\' people',
-    'column_2': 'awk \'$1 == "Bill" { print $2 } $2 == "555-3430" { print $1 }\' mail_list',
-    'phonenum': 'awk \'$1 == "Bill" { print $2 } $2 == "555-3430" { print $1 }\' mail_list',
-    'beginend': 'awk \'BEGIN { print "start" } { print "dla każdej linii" } END { print "koniec" }\' mail_list',
-    'beginend2': 'awk \'BEGIN { x = 1000 } { x += 1 } END { print x }\' mail_list',
-}
-
-const SOLUTIONS_B = { 
-    'exercise_11': '$1 == "Frances-Spence" { print $0 }',
-    'exercise_12': '{ arr[$1] += $2 } END { print arr["Moondog"] }',
-    'exercise_13': '{ arr[$1] += $2 } \nEND { \n    for (key in arr) {\n         print key " " arr[key]\n     }\n }',
-    'exercise_14': '{ arr[$1] += $2 } \n' +
+const SOLUTIONS = {
+    'example_1a': 'awk \'{ print $0 }\' mail_list',
+    'example_1b': 'awk \'{ print $1 }\' mail_list',
+    'task_1':     'awk \'{ print $1 " " $2  }\' mail_list',
+    'task_2':     'awk \'$1 == "Bill" { print $2 }\' mail_list',
+    'task_3':     'awk \'$1 == "Bill" { print $2 } $2 == "555-3430" { print $1 }\' mail_list',
+    'example_2a': 'awk \'BEGIN { print "start" } { print "dla każdej linii" } END { print "koniec" }\' mail_list',
+    'example_2b': 'awk \'BEGIN { x = 1000 } { x += 1 } END { print x }\' mail_list',
+    'task_4':     'awk \'{ s += length($1) } END { print s } \' mail_list',
+    'task_5':     'awk \'$1 ~ /^[AEIOUYaeiouy]+$/ { print $1 }\' mail_list',
+    'task_6' :    'awk \'{if ($2 >= 65) { print "(senior) " $1 } else {print $1}}\' people',
+    'task_7':     'awk \'$2 >= 65 && $3 == "USA" {print $1}\' people',
+    'task_8':     'awk \'$2 >= 65 || $3 == "NG" {print $1}\' people',
+    'task_9':     'awk \'$3 == "USA" && $2 >= 65 { usa += 1 } $3 != "USA" && $2 >= 65 { non_usa += 1 } END { print usa " " non_usa }\' people',
+    'task_10':    'awk \'NR % 2 == 1 { print $0 }\' people',
+    'task_11': '$1 == "Frances-Spence" { print $0 }',
+    'task_12': '{ arr[$1] += $2 } END { print arr["Moondog"] }',
+    'task_13': '{ arr[$1] += $2 } \nEND { \n    for (key in arr) {\n         print key " " arr[key]\n     }\n }',
+    'task_14': '{ arr[$1] += $2 } \n' +
         'END { \n' +
         '    max = "not_set"\n' +
         '    max_person = "not_set"\n' +
@@ -44,7 +39,13 @@ const SOLUTIONS_B = {
         '    }\n' +
         '    print max_person " " max\n' +
         ' }',
-    'exercise_15': 'END { \n' +
+    'example_3': 'END {\n' +
+        '    for (i = 0; i < 10; i++) {\n' +
+        '        arr[i] = i*i;\n' +
+        '        print i \" => \" arr[i]\n' +
+        '    }\n' +
+        '}',
+    'task_15': 'END { \n' +
         '    arr[0] = 0\n' +
         '    arr[1] = 1\n' +
         '    for (i = 2 ; i < 10; i++) {\n' +
@@ -55,13 +56,7 @@ const SOLUTIONS_B = {
         '        print i " " total\n' +
         '    } \n' +
         '}\n',
-    'loop_example': 'END {\n' +
-        '    for (i = 0; i < 10; i++) {\n' +
-        '        arr[i] = i*i;\n' +
-        '        print i \" => \" arr[i]\n' +
-        '    }\n' +
-        '}',
-    'exercise_16': 'END {\n' +
+    'task_16': 'END {\n' +
         '    for ( i = 2; i < 100; i++) {\n' +
         '        arr[i] = i\n' +
         '    }\n' +
@@ -100,6 +95,8 @@ async function handle_enter(input) {
     outputNode.classList.remove("exception")
     outputNode.classList.remove("correct")
 
+    var task_id = input.id;
+    var student_response = awkStr;
 
     try {
         output = await call_awk(sourceText, awkStrParsed);
@@ -107,6 +104,8 @@ async function handle_enter(input) {
         console.info("adding exception", error);
         outputNode.classList.add('exception')
         outputNode.innerText = ">>> Wyjątek: Wystąpił nieznany błąd...\n>>> Upewnij się, że wyrażenia są pomiędzy nawiasami klamrowymi { i }.";
+        ScormSaveAnswer(task_id, student_response, "unanticipated");
+        ScormSaveScore();
         return
     }
 
@@ -114,20 +113,26 @@ async function handle_enter(input) {
         console.info("adding exception");
         outputNode.classList.add('exception')
         outputNode.innerText = ">>> Wyjątek: " + output.stderr;
+        ScormSaveAnswer(task_id, student_response, "unanticipated");
+        ScormSaveScore();
         return
     }
     outputNode.classList.remove('exception')
 
 
-    const oracle_output = await call_awk(sourceText, trim(SOLUTIONS_A[soln], filename))
+    const oracle_output = await call_awk(sourceText, trim(SOLUTIONS[soln], filename))
 
     if (oracle_output.stdout === output.stdout) {
         outputNode.classList.add("correct")
         outputNode.innerText = output.stdout;
+        ScormSaveAnswer(task_id, student_response, "correct");
+        ScormSaveScore();
     } else {
         //console.info(oracle_output.output, output.stdout)
         outputNode.classList.add("incorrect")
         outputNode.innerText = ">>> Otrzymany wynik nie pasuje do oczekiwanego rozwiązania.\n>>> Spróbuj ponownie.\n" + output.stdout
+        ScormSaveAnswer(task_id, student_response, "wrong");
+        ScormSaveScore();
     }
 
 }
@@ -140,6 +145,9 @@ async function run_awk_input(root) {
     output_node.classList.remove("correct")
     output_node.classList.remove("incorrect")
 
+    var task_id = root.getAttribute("data-soln");
+    var student_response = root_metadata.awk_source_content;
+
 
     let output = null;
     try {
@@ -147,12 +155,16 @@ async function run_awk_input(root) {
     } catch {
         output_node.classList.add('exception')
         output_node.innerText = ">>> Wyjątek: Wystąpił nieznany błąd...\nUpewnij się, że wyrażenia są pomiędzy nawiasami klamrowymi { i }.";
+        ScormSaveAnswer(task_id, student_response, "unanticipated");
+        ScormSaveScore();
         return
     }
 
     if (output.stderr !== "") {
         output_node.classList.add('exception')
         output_node.innerText = ">>> Wyjątek: " + output.stderr;
+        ScormSaveAnswer(task_id, student_response, "unanticipated");
+        ScormSaveScore();
         return
     }
 
@@ -164,9 +176,13 @@ async function run_awk_input(root) {
     if (oracle_output.stdout === output.stdout) {
         output_node.classList.add("correct")
         output_node.innerText = output.stdout;
+        ScormSaveAnswer(task_id, student_response, "correct");
+        ScormSaveScore();
     } else {
         output_node.classList.add("incorrect")
         output_node.innerText = ">>> Otrzymany wynik nie pasuje do oczekiwanego rozwiązania.\n>>> Spróbuj ponownie.\n" + output.stdout
+        ScormSaveAnswer(task_id, student_response, "wrong");
+        ScormSaveScore();
     }
 
 }
@@ -176,14 +192,18 @@ function awk_run(button) {
 }
 
 function awk_reset(button) {
-    samp = button.parentElement.parentElement.children[1];
+    var samp = button.parentElement.parentElement.children[1];
     samp.textContent = '';
     samp.classList.remove("correct");
     samp.classList.remove("incorrect");
     samp.style.display = null;
-    reset_code = button.parentElement.children[0].getAttribute("data-reset");
-    editor = editors[button.parentElement.parentElement.getAttribute("data-awk_soln")];
+    var reset_code = button.parentElement.children[0].getAttribute("data-reset");
+    var editor = editors[button.parentElement.parentElement.getAttribute("data-awk_soln")];
     editor.setValue(reset_code, 1);
+
+    var task_id = button.id.split("button_reset_")[1];
+    ScormResetAnswer(task_id);
+    ScormSaveScore();
 }
 
 function run(button) {
@@ -191,16 +211,19 @@ function run(button) {
 }
 
 function awk_script_reset(button) {    
-    xxx = button;
-    samp = button.parentElement.parentElement.children[3];
+    var samp = button.parentElement.parentElement.children[3];
     samp.textContent = '';
     samp.classList.remove("correct");
     samp.classList.remove("incorrect");
     samp.style.display = null;
-    reset_code = button.parentElement.parentElement.children[1].getAttribute("data-reset").replaceAll("<br />", "\n");
-    editor = editors[button.parentElement.parentElement.parentElement.getAttribute("data-soln")];
+    var reset_code = button.parentElement.parentElement.children[1].getAttribute("data-reset").replaceAll("<br />", "\n");
+    var editor = editors[button.parentElement.parentElement.parentElement.getAttribute("data-soln")];
     editor.setValue(reset_code, 1);
     editor.selection.moveTo(0, 0);
+
+    var task_id = button.id.split("button_reset_")[1];
+    ScormResetAnswer(task_id);
+    ScormSaveScore();
 }
 
 function metadata_from_root(root) {
@@ -212,7 +235,7 @@ function metadata_from_root(root) {
     const output_node = root.querySelector('.awk_output');
 
     return {
-        'soln': SOLUTIONS_B[root.dataset['soln']],
+        'soln': SOLUTIONS[root.dataset['soln']],
         text_source_id,
         text_source_node,
         text_source_content,

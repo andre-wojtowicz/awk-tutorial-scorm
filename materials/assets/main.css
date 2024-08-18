@@ -3,9 +3,13 @@ body>div.container {
 }
 
 .masthead {
-	text-align: center;
+	display: none;
 	padding-bottom: 0px !important;
 	margin-bottom: 0px !important;
+}
+
+h1 {
+	text-align: center;
 }
 
 blockquote {

@@ -131,7 +131,7 @@ function ScormProcessInitialize(){
 
         for (const task_key in cmi_obj) {
 
-            editors[task_key].setValue(cmi_obj[task_key], 1);
+            editors[task_key].setValue(decode(cmi_obj[task_key]), 1);
             var run_btn = document.getElementById("button_run_"+task_key);
 
             var task_id = parseInt(task_key.split("_")[1])
@@ -303,7 +303,7 @@ function ScormSaveAnswer(task_id, student_response, result)
     if (cmi_str === "")
         cmi_str = "{}";
     var cmi_obj = JSON.parse(cmi_str);
-    cmi_obj[task_id] = student_response;
+    cmi_obj[task_id] = encode(student_response);
     cmi_str = JSON.stringify(cmi_obj);
     ScormProcessSetValue("cmi.suspend_data", cmi_str);
 

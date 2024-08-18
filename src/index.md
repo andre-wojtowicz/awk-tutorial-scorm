@@ -44,7 +44,7 @@ Poniżej znajduje się przykład polecenia `awk`, które po prostu wyświetla da
 
 > 💡 Aby uruchomić kod, możesz kliknąć w poniższy terminal i nacisnąć klawisz `<Enter>`; możesz też nacisnąć przycisk `[▶ Uruchom]`. Jeśli chcesz zresetować terminal do stanu początkowego, naciśnij przycisk `[↺]`.
 
-{% include awk_console.html awk_file="mail_list" awk_soln="hello_world0" awk_init="awk '{ print $0 }' mail_list" awk_reset="awk '{ print $0 }' mail_list" %}
+{% include awk_console.html awk_file="mail_list" awk_soln="example_1a" awk_init="awk '{ print $0 }' mail_list" awk_reset="awk '{ print $0 }' mail_list" %}
 
 Poniżej znajduje się przykładowa zawartość pliku `mail_list`, która jest przetwarzana przez `awk`:
 
@@ -86,7 +86,7 @@ Jak widać, dane w pliku `mail_list` są zapisane w sposób kolumnowy, w tym wyp
 
 Spójrzmy na kolejny prosty przykład, który nie stosuje warunków przetwarzania. Poniższy skrypt wyświetli pierwszą kolumnę (`$1`):
 
-{% include awk_console.html awk_file="mail_list" awk_soln="hello_world" awk_init="awk '{ print $1 }' mail_list" %}
+{% include awk_console.html awk_file="mail_list" awk_soln="example_1b" awk_init="awk '{ print $1 }' mail_list" %}
 
 ----
 
@@ -96,7 +96,7 @@ Spróbujemy wyświetlić kolumny `$1` i `$2` oddzielone spacją `" "`. W skrypci
 
 Zmodyfikuj poniższy kod, dodając `" "`.
 
-{% include awk_console.html awk_file="mail_list" awk_soln="hello_world2" awk_init="awk '{ print $1 $2 }' mail_list" %}
+{% include awk_console.html awk_file="mail_list" awk_soln="task_1" awk_init="awk '{ print $1 $2 }' mail_list" %}
 
 ----
 
@@ -104,7 +104,7 @@ Zmodyfikuj poniższy kod, dodając `" "`.
 
 No dobra, a co z warunkami przetwarzania? Widzieliśmy wcześniej, że `$1` oznacza pierwszą kolumnę. Uzupełnij poniższy kod tak, aby dla każdego Billa wyświetlił się jego numer telefonu.
 
-{% include awk_console.html awk_file="mail_list" awk_soln="column_1" awk_init="awk '$1 == \"Bill\" { }' mail_list" %}
+{% include awk_console.html awk_file="mail_list" awk_soln="task_2" awk_init="awk '$1 == \"Bill\" { }' mail_list" %}
 
 ----
 
@@ -118,7 +118,7 @@ warunek1 { kod1 } warunek2 { kod2 }
 
 Popraw i uzupełnij poniższy skrypt tak, aby oprócz wyświetlenia wszystkich numerów telefonów osób o imieniu Bill, program wypisał również imię osoby z numerem telefonu `555-3430`.
 
-{% include awk_console.html awk_file="mail_list" awk_soln="phonenum" awk_init="awk '$1 == \"Bill\" { print $1 }' mail_list" %}
+{% include awk_console.html awk_file="mail_list" awk_soln="task_3" awk_init="awk '$1 == \"Bill\" { print $1 }' mail_list" %}
 
 ----
 
@@ -130,9 +130,9 @@ Dotychczas używaliśmy prostych skryptów `{ kod }` i `warunek { kod }`, bez po
 
 Spróbuj uruchomić poniższe dwa przykłady, tak aby zobaczyć, jak działają warunki `BEGIN` i `END`. 
 
-{% include awk_console.html awk_file="mail_list" awk_soln="beginend" awk_init="awk 'BEGIN { print \"start\" } { print \"dla każdej linii\" } END { print \"koniec\" }' mail_list"%}
+{% include awk_console.html awk_file="mail_list" awk_soln="example_2a" awk_init="awk 'BEGIN { print \"start\" } { print \"dla każdej linii\" } END { print \"koniec\" }' mail_list"%}
 
-{% include awk_console.html awk_file="mail_list" awk_soln="beginend2" awk_init="awk 'BEGIN { x = 1000 } { x += 1 } END { print x }' mail_list" %}
+{% include awk_console.html awk_file="mail_list" awk_soln="example_2b" awk_init="awk 'BEGIN { x = 1000 } { x += 1 } END { print x }' mail_list" %}
 
 ----
 
@@ -142,7 +142,7 @@ W poniższym skrypcie każda przetwarzana linia oznacza zwiększenie wartości z
 
 *AWK* posiada funkcję [`length()`](https://www.gnu.org/software/gawk/manual/gawk.html#index-length_0028_0029-function), która jako argument przyjmuje kolumnę i zwraca liczbę znaków przetwarzanego ciągu tekstowego. Zmień poniższy kod tak, aby wyświetlić łączną liczbę znaków wszystkich imion.
 
-{% include awk_console.html awk_file="mail_list" awk_soln="vars1" awk_init="awk '{ s += 5 } END { print s } ' mail_list"%}
+{% include awk_console.html awk_file="mail_list" awk_soln="task_4" awk_init="awk '{ s += 5 } END { print s } ' mail_list"%}
 
 ----
 
@@ -162,7 +162,7 @@ $3 ~ /regex/ { kod }
 
 Następujący regex dopasowuje słowa, które zawierają wyłącznie samogłoski: `/^[AEIOUYaeiouy]+$/`. Użyj go do wyświetlenia imion składających się z samych samogłosek.
 
-{% include awk_console.html awk_file="mail_list" awk_soln="regex" awk_init="awk '/^[AEIOUYaeiouy]+$/ {}' mail_list" %}
+{% include awk_console.html awk_file="mail_list" awk_soln="task_5" awk_init="awk '/^[AEIOUYaeiouy]+$/ {}' mail_list" %}
 
 ----
 
@@ -221,7 +221,7 @@ Bolade-Ibrahim
 (senior) Leslie-Lamport
 ```
 
-{% include awk_console.html awk_file="people" awk_soln="ifelse" awk_init="awk '{}' people" %}
+{% include awk_console.html awk_file="people" awk_soln="task_6" awk_init="awk '{}' people" %}
 
 ----
 
@@ -231,7 +231,7 @@ Czas na wyrażenia logiczne! *AWK* wspiera wyrażenia zawierające koniunkcję `
 
 Wyświetl imiona osób, które mają co najmniej 65 lat **oraz** pochodzą ze Stanów Zjednoczonych.
 
-{% include awk_console.html awk_file="people" awk_soln="logical1" awk_init="awk '$2 >= 65 {print $1}' people" %}
+{% include awk_console.html awk_file="people" awk_soln="task_7" awk_init="awk '$2 >= 65 {print $1}' people" %}
 
 ----
 
@@ -239,7 +239,7 @@ Wyświetl imiona osób, które mają co najmniej 65 lat **oraz** pochodzą ze St
 
 Wyświetl imiona osób, które mają co najmniej 65 lat **lub** pochodzą z Nigerii.
 
-{% include awk_console.html awk_file="people" awk_soln="logical2" awk_init="awk '$2 >= 65 {print $1}' people" %}
+{% include awk_console.html awk_file="people" awk_soln="task_8" awk_init="awk '$2 >= 65 {print $1}' people" %}
 
 ----
 
@@ -260,7 +260,7 @@ $ awk 'warunek1 { kod1 } warunek2 { kod2 } END { kod_na_koniec }' plik
 
 Twoje rozwiązanie powinno zawierać dwie liczby oddzielone spacją, tj. `4 2`.
 
-{% include awk_console.html awk_file="people" awk_soln="multPatt" awk_init="awk '{}' people" consoleClass="consoleH2" %}
+{% include awk_console.html awk_file="people" awk_soln="task_9" awk_init="awk '{}' people" consoleClass="consoleH2" %}
 
 ----
 
@@ -278,7 +278,7 @@ Twoje rozwiązanie powinno zawierać dwie liczby oddzielone spacją, tj. `4 2`.
 
 Spróbuj użyć którychś z powyższych zmiennych tak, aby wyświetlić tylko nieparzyste wiersze pliku `people` (operator modulo to `%`).
 
-{% include awk_console.html awk_file="people" awk_soln="odd" awk_init="awk '{}' people" %}
+{% include awk_console.html awk_file="people" awk_soln="task_10" awk_init="awk '{}' people" %}
 
 ----
 
@@ -345,7 +345,7 @@ Rozpocznijmy od małej powtórki. Wyświetl cały wiersz `$0` jeśli imię to Fr
 
 > 💡 Zmień poniższy skrypt `.awk` w interaktywnym edytorze, a następnie uruchom go używając kombinacji klawiszy `<Ctrl+Enter>` lub `<⌘+Enter>`; możesz też nacisnąć przycisk `[▶ Uruchom]`. Jeśli chcesz zresetować edytor do stanu początkowego, naciśnij przycisk `[↺]`. Polecenie w terminalu jest ustawione na stałe, bez możliwości edycji.
 
-{% include awk_file.html id="exercise_11" filename="exercise_11" soln="exercise_11" txt_source="earnings" init="{ print $0 }" %} 
+{% include awk_file.html id="task_11" filename="task_11" soln="task_11" txt_source="earnings" init="{ print $0 }" %} 
 
 ----
 
@@ -357,7 +357,7 @@ Np. jeśli chcesz w tablicy dodać liczbę z kolumny 2 do wartości klucza o naz
 
 Sprawdźmy to. Zsumuj zarobki (kolumna 2) każdej osoby, a na końcu wypisz całkowite zarobki osoby o imieniu Moondog używając `arr["Moondog"]` (przydatny będzie warunek `END`; możesz go umieścić w nowej linii). W dalszej części materiałów omówimy jak przejść przez zarobki wszystkich osób.
 
-{% include awk_file.html id="exercise_12" filename="exercise_12" soln="exercise_12" txt_source="earnings" init="{ print $0 }" %} 
+{% include awk_file.html id="task_12" filename="task_12" soln="task_12" txt_source="earnings" init="{ print $0 }" %} 
 
 ----
 
@@ -373,7 +373,7 @@ for (klucz in tablica) {
 
 Wyświetl wszystkie imiona i odpowiadające im łączne zarobki (imię i łączne zarobki oddziel pojedynczą spacją).
 
-{% include awk_file.html awk_src_class="awk_src_medium" id="exercise_13" filename="exercise_13" soln="exercise_13" txt_source="earnings" init="{ print $0 }" %}
+{% include awk_file.html awk_src_class="awk_src_medium" id="task_13" filename="task_13" soln="task_13" txt_source="earnings" init="{ print $0 }" %}
 
 ----
 
@@ -388,7 +388,7 @@ if (val > max) {
 }
 ```
 
-{% include awk_file.html awk_src_class="awk_src_medium" id="exercise_14" filename="exercise_14" soln="exercise_14" txt_source="earnings" init="{ print $0 }" %}
+{% include awk_file.html awk_src_class="awk_src_medium" id="task_14" filename="task_14" soln="task_14" txt_source="earnings" init="{ print $0 }" %}
 
 ----
 
@@ -410,7 +410,7 @@ $ awk -f script.awk <<< ''
 
 W poniższym przykładzie możemy zobaczyć, że pomijamy dane wejściowe oraz przy pomocy warunku `END` iterujemy po tablicy `arr`, której kluczami są liczby całkowite od 0 do 9:
 
-{% include awk_file_nostdin.html awk_src_class="awk_src_medium" id="loop_example" filename="loop_example" soln="loop_example"
+{% include awk_file_nostdin.html awk_src_class="awk_src_medium" id="example_3" filename="example_3" soln="example_3"
 init="END {
     for (i = 0; i < 10; i++) {
         arr[i] = i*i;
@@ -424,7 +424,7 @@ init="END {
 
 Twoim zadaniem jest przejść w pętli po przygotowanej wcześniej tablicy `arr` tak, aby dla każdego indeksu (klucza) wypisać indeks, spację i sumę bieżącą wartości tablicy.
 
-{% include awk_file_nostdin.html awk_src_class="awk_src_large" id="exercise_15" filename="exercise_15" soln="exercise_15" init="END {
+{% include awk_file_nostdin.html awk_src_class="awk_src_large" id="task_15" filename="task_15" soln="task_15" init="END {
     arr[0] = 0
     arr[1] = 1
     for (i = 2 ; i < 10; i++) {        
@@ -459,7 +459,7 @@ Twoim ostatnim zadaniem jest zaimplementowanie metody [sita Eratostenesa](https:
 
 Skorzystaj z tablicy i użyj `delete` oraz `in` tak, aby usunąć wszystkie liczby, które nie są pierwsze. Po usunięciu wszystkich liczb niebędących liczbami pierwszymi, przejdź w pętli od 2 do 100 i wypisz pozostałe w tablicy liczby używając czegoś w stylu `if (number in arr)`.
 
-{% include awk_file_nostdin.html awk_src_class="awk_src_large" id="exercise_16" filename="exercise_16" soln="exercise_16" init="END {
+{% include awk_file_nostdin.html awk_src_class="awk_src_large" id="task_16" filename="task_16" soln="task_16" init="END {
     for (i = 2; i < 100; i++) {
         arr[i] = i
     }

@@ -9,14 +9,35 @@ awk_src_class - applied to text area to set height
     <div class="awk_source_container">
         <span class="awk_source_filename">📋 {{ include.filename }}.awk</span>
         <div spellcheck="false" class="awk_source {{include.awk_src_class}} language-awk" aria-label="Umieść tutaj swój kod awk" id="{{include.id}}" data-reset="">{{ include.init }}</div>
-        <div class="buttons">
-            <button onClick="run(this)" title="Możesz również użyć kombinacji klawiszy &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;">$ awk -f {{include.filename}}.awk {{include.txt_source}}.txt</button>
-            <button class="awk_script_reset" title="Reset" onClick="awk_script_reset(this)">↺</button>
+
+        <div style="display: flex;">
+            <div spellcheck="false" contenteditable="false" role='textbox' class="awk_input language-bash" style="float: left;" id="console_{{include.id}}">awk -f {{include.filename}}.awk {{include.txt_source}}.txt</div>
+            <button class="awk_run" title="Możesz również nacisnąć klawisz &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;" onClick="run(this)">▶ Uruchom</button>
+            <button class="awk_reset" title="Reset" onClick="awk_script_reset(this)">↺</button>
         </div>
+        <samp class="awk_output"></samp>
     </div>
-    <samp class="awk_output"></samp>
 </div>
 <script>
+    var editor = ace.edit("console_{{include.id}}", {
+        minLines: 1,
+        maxLines: 1,
+        showLineNumbers: false,
+        readOnly: true
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+    editor.renderer.$cursorLayer.element.style.display = "none";
+
     document.getElementById("{{include.id}}").setAttribute("data-reset", "{{ include.init | replace: '"', '\"' | newline_to_br | strip_newlines }}");
 
     var editor = ace.edit("{{include.id}}");

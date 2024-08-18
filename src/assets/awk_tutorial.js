@@ -192,7 +192,7 @@ function run(button) {
 
 function awk_script_reset(button) {    
     xxx = button;
-    samp = button.parentElement.parentElement.parentElement.children[1];
+    samp = button.parentElement.parentElement.children[3];
     samp.textContent = '';
     samp.classList.remove("correct");
     samp.classList.remove("incorrect");

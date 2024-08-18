@@ -343,7 +343,7 @@ Leslie-Lamport          80     USA</div>
 
 Rozpocznijmy od małej powtórki. Wyświetl cały wiersz `$0` jeśli imię to Frances-Spence.
 
-> 💡 Zmień poniższy skrypt `.awk` w interaktywnym edytorze, a następnie uruchom go klikając w prawym dolnym rogu edytora na przycisk `[$ awk -f exercise_11.awk earnings.txt]`, który zasymuluje uruchomienie programu `awk` w terminalu. Możesz również użyć kombinacji klawiszy `<Ctrl+Enter>` lub `<⌘+Enter>`. Jeśli chcesz zresetować edytor do stanu początkowego, naciśnij przycisk `[↺]`.
+> 💡 Zmień poniższy skrypt `.awk` w interaktywnym edytorze, a następnie uruchom go używając kombinacji klawiszy `<Ctrl+Enter>` lub `<⌘+Enter>`; możesz też nacisnąć przycisk `[▶ Uruchom]`. Jeśli chcesz zresetować edytor do stanu początkowego, naciśnij przycisk `[↺]`. Polecenie w terminalu jest ustawione na stałe, bez możliwości edycji.
 
 {% include awk_file.html id="exercise_11" filename="exercise_11" soln="exercise_11" txt_source="earnings" init="{ print $0 }" %} 
 

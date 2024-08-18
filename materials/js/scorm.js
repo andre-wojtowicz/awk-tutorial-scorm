@@ -119,11 +119,11 @@ function ScormProcessInitialize(){
         var no_tasks = document.querySelectorAll('[id^="task_"]').length;
         for (n = 0; n < no_tasks; n++) {
             var task_id = "task_" + n.toString();
-            ScormProcessSetValue("cmi.interactions."+n+".id", task_id);
-            ScormProcessSetValue("cmi.interactions."+n+".type", "fill-in");
-            ScormProcessSetValue("cmi.interactions."+n+".student_response", "");
-            ScormProcessSetValue("cmi.interactions."+n+".result", "neutral");
-            ScormProcessSetValue("cmi.interactions."+n+".correct_responses.0.pattern", SOLUTIONS[task_id]);
+            ScormProcessSetValue("cmi.interactions."+n.toString()+".id", task_id);
+            ScormProcessSetValue("cmi.interactions."+n.toString()+".type", "fill-in");
+            ScormProcessSetValue("cmi.interactions."+n.toString()+".student_response", "");
+            ScormProcessSetValue("cmi.interactions."+n.toString()+".result", "neutral");
+            ScormProcessSetValue("cmi.interactions."+n.toString()+".correct_responses.0.pattern", SOLUTIONS[task_id]);
         }
         ScormCommitChanges();
     } else {
@@ -308,8 +308,8 @@ function ScormSaveAnswer(task_id, student_response, result)
     ScormProcessSetValue("cmi.suspend_data", cmi_str);
 
     var n = parseInt(task_id.split("_")[1]) - 1;
-    ScormProcessSetValue("cmi.interactions."+n+".student_response", student_response);
-    ScormProcessSetValue("cmi.interactions."+n+".result", result);
+    ScormProcessSetValue("cmi.interactions."+n.toString()+".student_response", student_response);
+    ScormProcessSetValue("cmi.interactions."+n.toString()+".result", result);
 
     ScormCommitChanges();
 }
@@ -325,8 +325,8 @@ function ScormResetAnswer(task_id)
     ScormProcessSetValue("cmi.suspend_data", cmi_str);
 
     var n = parseInt(task_id.split("_")[1]) - 1;
-    ScormProcessSetValue("cmi.interactions."+n+".student_response", "");
-    ScormProcessSetValue("cmi.interactions."+n+".result", "neutral");
+    ScormProcessSetValue("cmi.interactions."+n.toString()+".student_response", "");
+    ScormProcessSetValue("cmi.interactions."+n.toString()+".result", "neutral");
 
     ScormCommitChanges();
 }

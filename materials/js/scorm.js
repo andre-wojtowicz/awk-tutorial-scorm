@@ -115,37 +115,32 @@ function ScormProcessInitialize(){
     initialized = true;
 
     var cmi_str = ScormProcessGetValue("cmi.suspend_data");
-    if (cmi_str === "")
-        return;
-    else {
-        cmi_obj = JSON.parse(cmi_str);
-        cmi_lastStep = parseInt(cmi_obj['value']['lastStep']);
-        cmi_currentStep = parseInt(cmi_obj['value']['currentStep']);
-
-        var ls_str = localStorage.getItem("lesson.regex101");
-        if (ls_str === null)
-        {
-            localStorage.setItem("lesson.regex101", cmi_str);
-            location.reload();
+    if (cmi_str === "") {
+        var no_tasks = document.querySelectorAll('[id^="task_"]').length;
+        for (n = 0; n < no_tasks; n++) {
+            var task_id = "task_" + n.toString();
+            ScormProcessSetValue("cmi.interactions."+n+".id", task_id);
+            ScormProcessSetValue("cmi.interactions."+n+".type", "fill-in");
+            ScormProcessSetValue("cmi.interactions."+n+".student_response", "");
+            ScormProcessSetValue("cmi.interactions."+n+".result", "neutral");
+            ScormProcessSetValue("cmi.interactions."+n+".correct_responses.0.pattern", SOLUTIONS[task_id]);
+            ScormCommitChanges();
         }
-        ls_obj = JSON.parse(ls_str);
-        ls_lastStep = parseInt(ls_obj['value']['lastStep']);
-        ls_currentStep = parseInt(ls_obj['value']['currentStep']);
+    } else {
+        var cmi_obj = JSON.parse(cmi_str);
 
-        var update_ls = false;
-        if (cmi_lastStep > 0 && cmi_lastStep > ls_lastStep) {
-            ls_obj['value']['lastStep'] = cmi_lastStep;
-            update_ls = true;
-        }
-        if (cmi_currentStep > 0 && cmi_currentStep > ls_currentStep) {
-            ls_obj['value']['currentStep'] = cmi_currentStep;
-            update_ls = true;
-        }
+        for (const task_key in cmi_obj) {
 
-        if (update_ls) {
-            new_ls_str = JSON.stringify(ls_obj);
-            localStorage.setItem("lesson.regex101", new_ls_str);
-            location.reload();
+            editors[task_key].setValue(cmi_obj[task_key], 1);
+            var run_btn = document.getElementById("button_run_"+task_key);
+
+            var task_id = parseInt(task_key.split("_")[1])
+            if (task_id <= 10) {
+                handle_enter(awk_run(run_btn));
+            } else {
+                editors[task_key].selection.moveTo(0, 0);
+                run_awk_input(run(run_btn));
+            }
         }
     }
 }
@@ -302,42 +297,45 @@ function ScormMarkAsBrowsed()
     ScormProcessSetValue("cmi.core.lesson_status", "browsed");
 }
 
-document.addEventListener("lsupdated", function(e) {ScormSaveAnswer(56);}, false);
-
-function ScormSaveAnswer(total)
+function ScormSaveAnswer(task_id, student_response, result)
 {   
-    var ls_str = localStorage.getItem("lesson.regex101");
-    ls_obj = JSON.parse(ls_str);
-    ls_lastStep = parseInt(ls_obj['value']['lastStep']);
-    ls_currentStep = parseInt(ls_obj['value']['currentStep']);
-
-    if (ls_lastStep == 0)
-        return;
-
-    var save_score = false;
-
     var cmi_str = ScormProcessGetValue("cmi.suspend_data");
-    if (!cmi_str)
-    {
-        ScormProcessSetValue("cmi.suspend_data", ls_str);
-        save_score = true;
-    } else {
-        cmi_obj = JSON.parse(cmi_str);
-        cmi_lastStep = parseInt(cmi_obj['value']['lastStep']);
-        if (ls_lastStep > cmi_lastStep) {
-            cmi_obj['value']['lastStep'] = ls_lastStep;
-            save_score = true;
-        }
-        cmi_obj['value']['currentStep'] = ls_currentStep;
-        ScormProcessSetValue("cmi.suspend_data", JSON.stringify(cmi_obj));
-    }
-    if (save_score)
-        ScormSaveScore(ls_lastStep+1, total);
+    if (cmi_str === "")
+        cmi_str = "{}";
+    var cmi_obj = JSON.parse(cmi_str);
+    cmi_obj[task_id] = student_response;
+    cmi_str = JSON.stringify(cmi_obj);
+    ScormProcessSetValue("cmi.suspend_data", cmi_str);
+
+    var n = parseInt(task_id.split("_")[1]) - 1;
+    ScormProcessSetValue("cmi.interactions."+n+".student_response", student_response);
+    ScormProcessSetValue("cmi.interactions."+n+".result", result);
+
     ScormCommitChanges();
 }
 
-function ScormSaveScore(score, total)
+function ScormResetAnswer(task_id)
 {
+    var cmi_str = ScormProcessGetValue("cmi.suspend_data");
+    if (cmi_str === "")
+        return;
+    var cmi_obj = JSON.parse(cmi_str);
+    delete cmi_obj[task_id];
+    cmi_str = JSON.stringify(cmi_obj);
+    ScormProcessSetValue("cmi.suspend_data", cmi_str);
+
+    var n = parseInt(task_id.split("_")[1]) - 1;
+    ScormProcessSetValue("cmi.interactions."+n+".student_response", "");
+    ScormProcessSetValue("cmi.interactions."+n+".result", "neutral");
+
+    ScormCommitChanges();
+}
+
+function ScormSaveScore()
+{
+    var score = document.querySelectorAll('[id^="output_task_"].correct').length;
+    var total = document.querySelectorAll('[id^="task_"]').length;
+
     ScormProcessSetValue("cmi.core.score.raw", score/total);
     ScormProcessSetValue("cmi.core.score.min", 0);
     ScormProcessSetValue("cmi.core.score.max", 1);
@@ -345,4 +343,6 @@ function ScormSaveScore(score, total)
         ScormProcessSetValue("cmi.core.lesson_status", "completed");
     else
         ScormProcessSetValue("cmi.core.lesson_status", "incomplete");
+
+    ScormCommitChanges();
 }

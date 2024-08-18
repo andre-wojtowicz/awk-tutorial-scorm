@@ -118,12 +118,11 @@ function ScormProcessInitialize(){
     if (cmi_str === "") {
         var no_tasks = document.querySelectorAll('[id^="task_"]').length;
         for (n = 0; n < no_tasks; n++) {
-            var task_id = "task_" + n.toString();
+            var task_id = "task_" + (n+1).toString();
             ScormProcessSetValue("cmi.interactions."+n.toString()+".id", task_id);
             ScormProcessSetValue("cmi.interactions."+n.toString()+".type", "fill-in");
             ScormProcessSetValue("cmi.interactions."+n.toString()+".student_response", "");
             ScormProcessSetValue("cmi.interactions."+n.toString()+".result", "neutral");
-            //ScormProcessSetValue("cmi.interactions."+n.toString()+".correct_responses.0.pattern", SOLUTIONS[task_id]);
         }
         ScormCommitChanges();
     } else {

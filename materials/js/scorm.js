@@ -303,7 +303,9 @@ function ScormSaveAnswer(task_id, student_response, result)
         cmi_str = "{}";
     var cmi_obj = JSON.parse(cmi_str);
     cmi_obj[task_id] = student_response;
+    console.log(cmi_obj)
     cmi_str = JSON.stringify(cmi_obj);
+    console.log(cmi_str)
     ScormProcessSetValue("cmi.suspend_data", cmi_str);
 
     var n = parseInt(task_id.split("_")[1]) - 1;

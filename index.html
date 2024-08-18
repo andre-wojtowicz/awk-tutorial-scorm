@@ -239,12 +239,16 @@
 			var value = unescape(this.api.LMSGetValue(name));
 			this.lastCmd = "LMSGetValue('" + name + "') = " + value;
 			this.logCommand();
+			console.log(value);
+			console.log(typeof value);
 			return value.replace(/&quot;/g, '"').replace(/&apos;/g, "'");
 		};
 
 		// LMSSetValue
 		this.LMSSetValue=function(name, value)
 		{
+			console.log(value);
+			console.log(typeof value);
 			value = value.replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 			var success = this.api.LMSSetValue(name, escape(value));
 			this.lastCmd = "LMSSetValue('" + name + "','" + value + "') = " + success;
@@ -1815,7 +1819,6 @@ function dealWithSettingInteractions(element, value){
                     if (res == "true"){
                         // correct datatype...
   			            // WE CAN NOW TRY TO SET THE FULL OBJECT REFERENCE
-			    		    console.log(value);
 					    var strleafval = "doesLeafExist.cmivalue =\"" + value + "\";";
 					    var leafVal = eval(strleafval);
 					    if (leafVal == null){

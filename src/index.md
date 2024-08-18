@@ -140,7 +140,7 @@ Spróbuj uruchomić poniższe dwa przykłady, tak aby zobaczyć, jak działają 
 
 W poniższym skrypcie każda przetwarzana linia oznacza zwiększenie wartości zmiennej `s` o 5.
 
-*AWK* posiada funkcję `length()`, która jako argument przyjmuje kolumnę i zwraca liczbę znaków przetwarzanego ciągu tekstowego. Zmień poniższy kod tak, aby wyświetlić łączną liczbę znaków wszystkich imion.
+*AWK* posiada funkcję [`length()`](https://www.gnu.org/software/gawk/manual/gawk.html#index-length_0028_0029-function), która jako argument przyjmuje kolumnę i zwraca liczbę znaków przetwarzanego ciągu tekstowego. Zmień poniższy kod tak, aby wyświetlić łączną liczbę znaków wszystkich imion.
 
 {% include awk_console.html awk_file="mail_list" awk_soln="vars1" awk_init="awk '{ s += 5 } END { print s } ' mail_list"%}
 
@@ -470,6 +470,8 @@ Skorzystaj z tablicy i użyj `delete` oraz `in` tak, aby usunąć wszystkie licz
 ## Podsumowanie
 
 Jak widać, w ostatnich zadaniach nie używaliśmy już plików z danymi wejściowymi. *AWK* jest językiem, który możemy używać w oderwaniu od danych tabelarycznych, jednakże to właśnie podczas pracy z tego typu danymi sprawdza się on najlepiej. Co do zasady nie zaleca się pisania zbyt skomplikowanych programów w *AWK*.
+
+W powyższym samouczku poznaliśmy podstawy *AWK*. W celu dalszego poszerzenia wiedzy, można skorzystać z obszernego podręcznika użytkownika [The GNU Awk User's Guide](https://www.gnu.org/software/gawk/manual/gawk.html).
 
 ----
 

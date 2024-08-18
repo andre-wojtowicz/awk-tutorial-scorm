@@ -97,6 +97,17 @@ pre {
 	width: 85%;
 }
 
+.awk2 div.awk_input {
+	background-color: black;
+	color: white;
+	border: 0;
+	outline: none;
+	font-size: .8rem;
+	margin-bottom: 0rem;
+	padding: 0.5rem;
+	width: 85%;
+}
+
 .awk samp.awk_output {
 	width: 100%;
 	display: none;
@@ -139,6 +150,7 @@ pre {
 
 .awk_source {
 	white-space: pre-wrap;
+	margin-bottom: 10px;
 }
 
 .awk2 .awk_source_container {

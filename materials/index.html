@@ -878,7 +878,7 @@ Leslie-Lamport          80     USA</div>
 <p>Rozpocznijmy od małej powtórki. Wyświetl cały wiersz <code class="language-plaintext highlighter-rouge">$0</code> jeśli imię to Frances-Spence.</p>
 
 <blockquote>
-  <p>💡 Zmień poniższy skrypt <code class="language-plaintext highlighter-rouge">.awk</code> w interaktywnym edytorze, a następnie uruchom go klikając w prawym dolnym rogu edytora na przycisk <code class="language-plaintext highlighter-rouge">[$ awk -f exercise_11.awk earnings.txt]</code>, który zasymuluje uruchomienie programu <code class="language-plaintext highlighter-rouge">awk</code> w terminalu. Możesz również użyć kombinacji klawiszy <code class="language-plaintext highlighter-rouge">&lt;Ctrl+Enter&gt;</code> lub <code class="language-plaintext highlighter-rouge">&lt;⌘+Enter&gt;</code>. Jeśli chcesz zresetować edytor do stanu początkowego, naciśnij przycisk <code class="language-plaintext highlighter-rouge">[↺]</code>.</p>
+  <p>💡 Zmień poniższy skrypt <code class="language-plaintext highlighter-rouge">.awk</code> w interaktywnym edytorze, a następnie uruchom go używając kombinacji klawiszy <code class="language-plaintext highlighter-rouge">&lt;Ctrl+Enter&gt;</code> lub <code class="language-plaintext highlighter-rouge">&lt;⌘+Enter&gt;</code>; możesz też nacisnąć przycisk <code class="language-plaintext highlighter-rouge">[▶ Uruchom]</code>. Jeśli chcesz zresetować edytor do stanu początkowego, naciśnij przycisk <code class="language-plaintext highlighter-rouge">[↺]</code>. Polecenie w terminalu jest ustawione na stałe, bez możliwości edycji.</p>
 </blockquote>
 
 <!--
@@ -892,14 +892,35 @@ awk_src_class - applied to text area to set height
     <div class="awk_source_container">
         <span class="awk_source_filename">📋 exercise_11.awk</span>
         <div spellcheck="false" class="awk_source  language-awk" aria-label="Umieść tutaj swój kod awk" id="exercise_11" data-reset="">{ print $0 }</div>
-        <div class="buttons">
-            <button onclick="run(this)" title="Możesz również użyć kombinacji klawiszy &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;">$ awk -f exercise_11.awk earnings.txt</button>
-            <button class="awk_script_reset" title="Reset" onclick="awk_script_reset(this)">↺</button>
+
+        <div style="display: flex;">
+            <div spellcheck="false" contenteditable="false" role="textbox" class="awk_input language-bash" style="float: left;" id="console_exercise_11">awk -f exercise_11.awk earnings.txt</div>
+            <button class="awk_run" title="Możesz również nacisnąć klawisz &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;" onclick="run(this)">▶ Uruchom</button>
+            <button class="awk_reset" title="Reset" onclick="awk_script_reset(this)">↺</button>
         </div>
+        <samp class="awk_output"></samp>
     </div>
-    <samp class="awk_output"></samp>
 </div>
 <script>
+    var editor = ace.edit("console_exercise_11", {
+        minLines: 1,
+        maxLines: 1,
+        showLineNumbers: false,
+        readOnly: true
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+    editor.renderer.$cursorLayer.element.style.display = "none";
+
     document.getElementById("exercise_11").setAttribute("data-reset", "{ print $0 }");
 
     var editor = ace.edit("exercise_11");
@@ -930,14 +951,35 @@ awk_src_class - applied to text area to set height
     <div class="awk_source_container">
         <span class="awk_source_filename">📋 exercise_12.awk</span>
         <div spellcheck="false" class="awk_source  language-awk" aria-label="Umieść tutaj swój kod awk" id="exercise_12" data-reset="">{ print $0 }</div>
-        <div class="buttons">
-            <button onclick="run(this)" title="Możesz również użyć kombinacji klawiszy &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;">$ awk -f exercise_12.awk earnings.txt</button>
-            <button class="awk_script_reset" title="Reset" onclick="awk_script_reset(this)">↺</button>
+
+        <div style="display: flex;">
+            <div spellcheck="false" contenteditable="false" role="textbox" class="awk_input language-bash" style="float: left;" id="console_exercise_12">awk -f exercise_12.awk earnings.txt</div>
+            <button class="awk_run" title="Możesz również nacisnąć klawisz &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;" onclick="run(this)">▶ Uruchom</button>
+            <button class="awk_reset" title="Reset" onclick="awk_script_reset(this)">↺</button>
         </div>
+        <samp class="awk_output"></samp>
     </div>
-    <samp class="awk_output"></samp>
 </div>
 <script>
+    var editor = ace.edit("console_exercise_12", {
+        minLines: 1,
+        maxLines: 1,
+        showLineNumbers: false,
+        readOnly: true
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+    editor.renderer.$cursorLayer.element.style.display = "none";
+
     document.getElementById("exercise_12").setAttribute("data-reset", "{ print $0 }");
 
     var editor = ace.edit("exercise_12");
@@ -971,14 +1013,35 @@ awk_src_class - applied to text area to set height
     <div class="awk_source_container">
         <span class="awk_source_filename">📋 exercise_13.awk</span>
         <div spellcheck="false" class="awk_source awk_src_medium language-awk" aria-label="Umieść tutaj swój kod awk" id="exercise_13" data-reset="">{ print $0 }</div>
-        <div class="buttons">
-            <button onclick="run(this)" title="Możesz również użyć kombinacji klawiszy &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;">$ awk -f exercise_13.awk earnings.txt</button>
-            <button class="awk_script_reset" title="Reset" onclick="awk_script_reset(this)">↺</button>
+
+        <div style="display: flex;">
+            <div spellcheck="false" contenteditable="false" role="textbox" class="awk_input language-bash" style="float: left;" id="console_exercise_13">awk -f exercise_13.awk earnings.txt</div>
+            <button class="awk_run" title="Możesz również nacisnąć klawisz &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;" onclick="run(this)">▶ Uruchom</button>
+            <button class="awk_reset" title="Reset" onclick="awk_script_reset(this)">↺</button>
         </div>
+        <samp class="awk_output"></samp>
     </div>
-    <samp class="awk_output"></samp>
 </div>
 <script>
+    var editor = ace.edit("console_exercise_13", {
+        minLines: 1,
+        maxLines: 1,
+        showLineNumbers: false,
+        readOnly: true
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+    editor.renderer.$cursorLayer.element.style.display = "none";
+
     document.getElementById("exercise_13").setAttribute("data-reset", "{ print $0 }");
 
     var editor = ace.edit("exercise_13");
@@ -1011,14 +1074,35 @@ awk_src_class - applied to text area to set height
     <div class="awk_source_container">
         <span class="awk_source_filename">📋 exercise_14.awk</span>
         <div spellcheck="false" class="awk_source awk_src_medium language-awk" aria-label="Umieść tutaj swój kod awk" id="exercise_14" data-reset="">{ print $0 }</div>
-        <div class="buttons">
-            <button onclick="run(this)" title="Możesz również użyć kombinacji klawiszy &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;">$ awk -f exercise_14.awk earnings.txt</button>
-            <button class="awk_script_reset" title="Reset" onclick="awk_script_reset(this)">↺</button>
+
+        <div style="display: flex;">
+            <div spellcheck="false" contenteditable="false" role="textbox" class="awk_input language-bash" style="float: left;" id="console_exercise_14">awk -f exercise_14.awk earnings.txt</div>
+            <button class="awk_run" title="Możesz również nacisnąć klawisz &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;" onclick="run(this)">▶ Uruchom</button>
+            <button class="awk_reset" title="Reset" onclick="awk_script_reset(this)">↺</button>
         </div>
+        <samp class="awk_output"></samp>
     </div>
-    <samp class="awk_output"></samp>
 </div>
 <script>
+    var editor = ace.edit("console_exercise_14", {
+        minLines: 1,
+        maxLines: 1,
+        showLineNumbers: false,
+        readOnly: true
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+    editor.renderer.$cursorLayer.element.style.display = "none";
+
     document.getElementById("exercise_14").setAttribute("data-reset", "{ print $0 }");
 
     var editor = ace.edit("exercise_14");
@@ -1063,14 +1147,35 @@ awk_src_class - applied to text area to set height
         print i " =&gt; " arr[i]
     }
 }</div>
-        <div class="buttons">
-            <button onclick="run(this)" title="Możesz również użyć kombinacji klawiszy &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;">$ awk -f loop_example.awk &lt;&lt;&lt; ''</button>
-            <button class="awk_script_reset" title="Reset" onclick="awk_script_reset(this)">↺</button>
+
+        <div style="display: flex;">
+            <div spellcheck="false" contenteditable="false" role="textbox" class="awk_input language-bash" style="float: left;" id="console_loop_example">awk -f loop_example.awk &lt;&lt;&lt; ''</div>
+            <button class="awk_run" title="Możesz również nacisnąć klawisz &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;" onclick="run(this)">▶ Uruchom</button>
+            <button class="awk_reset" title="Reset" onclick="awk_script_reset(this)">↺</button>
         </div>
+        <samp class="awk_output"></samp>
     </div>
-    <samp class="awk_output"></samp>
 </div>
 <script>
+    var editor = ace.edit("console_loop_example", {
+        minLines: 1,
+        maxLines: 1,
+        showLineNumbers: false,
+        readOnly: true
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+    editor.renderer.$cursorLayer.element.style.display = "none";
+
     document.getElementById("loop_example").setAttribute("data-reset", "END {<br />    for (i = 0; i < 10; i++) {<br />        arr[i] = i*i;<br />        print i \" => \" arr[i]<br />    }<br />}");
 
     var editor = ace.edit("loop_example");
@@ -1106,14 +1211,35 @@ awk_src_class - applied to text area to set height
     # Wyświetl indeks i sumę bieżącą od 0 do 9
     
 }</div>
-        <div class="buttons">
-            <button onclick="run(this)" title="Możesz również użyć kombinacji klawiszy &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;">$ awk -f exercise_15.awk &lt;&lt;&lt; ''</button>
-            <button class="awk_script_reset" title="Reset" onclick="awk_script_reset(this)">↺</button>
+
+        <div style="display: flex;">
+            <div spellcheck="false" contenteditable="false" role="textbox" class="awk_input language-bash" style="float: left;" id="console_exercise_15">awk -f exercise_15.awk &lt;&lt;&lt; ''</div>
+            <button class="awk_run" title="Możesz również nacisnąć klawisz &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;" onclick="run(this)">▶ Uruchom</button>
+            <button class="awk_reset" title="Reset" onclick="awk_script_reset(this)">↺</button>
         </div>
+        <samp class="awk_output"></samp>
     </div>
-    <samp class="awk_output"></samp>
 </div>
 <script>
+    var editor = ace.edit("console_exercise_15", {
+        minLines: 1,
+        maxLines: 1,
+        showLineNumbers: false,
+        readOnly: true
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+    editor.renderer.$cursorLayer.element.style.display = "none";
+
     document.getElementById("exercise_15").setAttribute("data-reset", "END {<br />    arr[0] = 0<br />    arr[1] = 1<br />    for (i = 2 ; i < 10; i++) {        <br />        arr[i] += arr[i-1] + arr[i-2]<br />    }<br />    # Nie zmieniaj powyższego kodu ^<br />    # Wyświetl indeks i sumę bieżącą od 0 do 9<br />    <br />}");
 
     var editor = ace.edit("exercise_15");
@@ -1162,14 +1288,35 @@ awk_src_class - applied to text area to set height
     # Idź i odsiewaj!
     
 }</div>
-        <div class="buttons">
-            <button onclick="run(this)" title="Możesz również użyć kombinacji klawiszy &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;">$ awk -f exercise_16.awk &lt;&lt;&lt; ''</button>
-            <button class="awk_script_reset" title="Reset" onclick="awk_script_reset(this)">↺</button>
+
+        <div style="display: flex;">
+            <div spellcheck="false" contenteditable="false" role="textbox" class="awk_input language-bash" style="float: left;" id="console_exercise_16">awk -f exercise_16.awk &lt;&lt;&lt; ''</div>
+            <button class="awk_run" title="Możesz również nacisnąć klawisz &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;" onclick="run(this)">▶ Uruchom</button>
+            <button class="awk_reset" title="Reset" onclick="awk_script_reset(this)">↺</button>
         </div>
+        <samp class="awk_output"></samp>
     </div>
-    <samp class="awk_output"></samp>
 </div>
 <script>
+    var editor = ace.edit("console_exercise_16", {
+        minLines: 1,
+        maxLines: 1,
+        showLineNumbers: false,
+        readOnly: true
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+    editor.renderer.$cursorLayer.element.style.display = "none";
+
     document.getElementById("exercise_16").setAttribute("data-reset", "END {<br />    for (i = 2; i < 100; i++) {<br />        arr[i] = i<br />    }<br />    # Idź i odsiewaj!<br />    <br />}");
 
     var editor = ace.edit("exercise_16");
@@ -1195,7 +1342,7 @@ awk_src_class - applied to text area to set height
   <div class="footer-column">
     <p>
       <small>
-        &copy;&nbsp;<time datetime="2024-08-18T12:44:15+00:00">2024</time>. All right reserved.
+        &copy;&nbsp;<time datetime="2024-08-18T13:33:20+00:00">2024</time>. All right reserved.
       </small>
     </p>
     <p>

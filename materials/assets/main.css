@@ -1,5 +1,5 @@
 body>div.container {
-	max-width: 54rem !important;
+	max-width: 57rem !important;
 }
 
 .masthead {
@@ -13,7 +13,7 @@ h1 {
 }
 
 blockquote {
-	opacity: .85 !important;
+	opacity: .80 !important;
 	background-color: #0D1117;
 	padding: 5px 5px 5px 5px !important;
   	margin: 5px 5px 15px 5px !important;
@@ -215,4 +215,8 @@ pre {
 
 .awk_run {
 	width: 15%;
+}
+
+.awk_reset {
+	width: 5%;
 }

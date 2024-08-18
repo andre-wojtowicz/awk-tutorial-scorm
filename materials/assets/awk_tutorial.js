@@ -175,8 +175,32 @@ function awk_run(button) {
     handle_enter(button.parentElement.querySelector('.awk_input'))
 }
 
+function awk_reset(button) {
+    samp = button.parentElement.parentElement.children[1];
+    samp.textContent = '';
+    samp.classList.remove("correct");
+    samp.classList.remove("incorrect");
+    samp.style.display = null;
+    reset_code = button.parentElement.children[0].getAttribute("data-reset");
+    editor = editors[button.parentElement.parentElement.getAttribute("data-awk_soln")];
+    editor.setValue(reset_code, 1);
+}
+
 function run(button) {
     run_awk_input(button.parentElement.parentElement.parentElement);
+}
+
+function awk_script_reset(button) {    
+    xxx = button;
+    samp = button.parentElement.parentElement.parentElement.children[1];
+    samp.textContent = '';
+    samp.classList.remove("correct");
+    samp.classList.remove("incorrect");
+    samp.style.display = null;
+    reset_code = button.parentElement.parentElement.children[1].getAttribute("data-reset").replaceAll("<br />", "\n");
+    editor = editors[button.parentElement.parentElement.parentElement.getAttribute("data-soln")];
+    editor.setValue(reset_code, 1);
+    editor.selection.moveTo(0, 0);
 }
 
 function metadata_from_root(root) {

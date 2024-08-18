@@ -2081,11 +2081,11 @@ function LMSGetValueMethod(element){
 					teststring = teststring + "." + cmiArray[i];
 					// WE NEED TO TRAP THE OBJECTIVES...
 					if (teststring=="this.cmi.objectives"){
-						return dealWithGettingObjectives(element);
+						return dealWithGettingObjectives(element).replace(/&quot;/g, '"');
 					}
 					// WE NEED TO TRAP THE INTERACTIONS...
 					if (teststring=="this.cmi.interactions"){
-						return dealWithGettingInteractions(element);
+						return dealWithGettingInteractions(element).replace(/&quot;/g, '"');
 					}
 				}
 			}
@@ -2121,7 +2121,7 @@ function LMSGetValueMethod(element){
 		else{
 			// its okay and user can read it...
 			this.ServerSco.lastError = "0";
-			return elementObj.cmivalue;
+			return elementObj.cmivalue.replace(/&quot;/g, '"');
 		}
 	}
 	else{
@@ -2138,6 +2138,7 @@ function LMSGetValueMethod(element){
 */
 function LMSSetValueMethod(element, value){
 	 value = unescape(value)  ;
+	value = value.replace(/"/g, '&quot;')
      if (this.ServerSco.isInitialized == "true"){
 		var invalid = "false";
 		var cannotHaveChildren = "false";
@@ -2225,12 +2226,11 @@ function LMSSetValueMethod(element, value){
 					// cmi.comments need to be appended...
 					if (element == "cmi.comments"){
 						pre = this.LMSGetValue("cmi.comments");
-						setString = "this." + element + ".cmivalue =\"" + pre + value.replaceAll('"', '\\"') + "\";";
+						setString = "this." + element + ".cmivalue =\"" + pre + value + "\";";
 					}
 					else{
-						setString = "this." + element + ".cmivalue =\"" + value.replaceAll('"', '\\"') + "\";";
+						setString = "this." + element + ".cmivalue =\"" + value + "\";";
 					}
-					console.log(setString);
 					var result = eval(setString);
 					this.ServerSco.lastError = "0";
 					return "true";

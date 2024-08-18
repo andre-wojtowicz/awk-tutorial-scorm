@@ -2,11 +2,6 @@ name: Build and release
 
 on:
   workflow_dispatch:
-    
-permissions:
-    contents: read
-    pages: write
-    id-token: write
 
 jobs:
   build:
@@ -35,7 +30,7 @@ jobs:
       with:
         ref: gh-pages
     - name: download artifact
-      uses: actions/download-artifact@master
+      uses: actions/download-artifact@v4
       with:
         name: scorm_zip
         path: ./dist/
@@ -79,7 +74,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
     - name: download artifact
-      uses: actions/download-artifact@master
+      uses: actions/download-artifact@v4
       with:
         name: scorm_zip
         path: ./dist/

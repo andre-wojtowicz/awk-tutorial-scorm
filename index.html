@@ -2081,11 +2081,13 @@ function LMSGetValueMethod(element){
 					teststring = teststring + "." + cmiArray[i];
 					// WE NEED TO TRAP THE OBJECTIVES...
 					if (teststring=="this.cmi.objectives"){
-						return dealWithGettingObjectives(element).replace(/&quot;/g, '"');
+						var ret = dealWithGettingObjectives(element);
+						return ret.replace(/&quot;/g, '"');
 					}
 					// WE NEED TO TRAP THE INTERACTIONS...
 					if (teststring=="this.cmi.interactions"){
-						return dealWithGettingInteractions(element).replace(/&quot;/g, '"');
+						var ret = dealWithGettingInteractions(element);
+						return ret.replace(/&quot;/g, '"');
 					}
 				}
 			}

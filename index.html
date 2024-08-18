@@ -239,7 +239,7 @@
 			var value = unescape(this.api.LMSGetValue(name));
 			this.lastCmd = "LMSGetValue('" + name + "') = " + value;
 			this.logCommand();
-			return value;
+			return value.replace(/&quot;/g, '"');
 		};
 
 		// LMSSetValue
@@ -2081,13 +2081,11 @@ function LMSGetValueMethod(element){
 					teststring = teststring + "." + cmiArray[i];
 					// WE NEED TO TRAP THE OBJECTIVES...
 					if (teststring=="this.cmi.objectives"){
-						var ret = dealWithGettingObjectives(element);
-						return ret.replace(/&quot;/g, '"');
+						return dealWithGettingObjectives(element);
 					}
 					// WE NEED TO TRAP THE INTERACTIONS...
 					if (teststring=="this.cmi.interactions"){
-						var ret = dealWithGettingInteractions(element);
-						return ret.replace(/&quot;/g, '"');
+						return dealWithGettingInteractions(element);
 					}
 				}
 			}

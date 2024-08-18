@@ -2225,10 +2225,10 @@ function LMSSetValueMethod(element, value){
 					// cmi.comments need to be appended...
 					if (element == "cmi.comments"){
 						pre = this.LMSGetValue("cmi.comments");
-						setString = "this." + element + ".cmivalue =\"" + pre + value + "\";";
+						setString = "this." + element + ".cmivalue =\"" + pre + value.replaceAll('"', '\\"') + "\";";
 					}
 					else{
-						setString = "this." + element + ".cmivalue =\"" + value + "\";";
+						setString = "this." + element + ".cmivalue =\"" + value.replaceAll('"', '\\"') + "\";";
 					}
 					var result = eval(setString);
 					this.ServerSco.lastError = "0";

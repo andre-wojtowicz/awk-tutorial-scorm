@@ -239,7 +239,7 @@
 			var value = unescape(this.api.LMSGetValue(name));
 			this.lastCmd = "LMSGetValue('" + name + "') = " + value;
 			this.logCommand();
-			return value.replace(/&quot;/g, '"');
+			return value.replace(/&quot;/g, '"').replace(/&apos;/g, "'");
 		};
 
 		// LMSSetValue
@@ -2121,7 +2121,7 @@ function LMSGetValueMethod(element){
 		else{
 			// its okay and user can read it...
 			this.ServerSco.lastError = "0";
-			return elementObj.cmivalue.replace(/&quot;/g, '"');
+			return elementObj.cmivalue.replace(/&quot;/g, '"').replace(/&apos;/g, "'");
 		}
 	}
 	else{
@@ -2138,7 +2138,7 @@ function LMSGetValueMethod(element){
 */
 function LMSSetValueMethod(element, value){
 	 value = unescape(value)  ;
-	value = value.replace(/"/g, '&quot;')
+	value = value.replace(/"/g, '&quot;').replace(/'/g, '&apos;');
      if (this.ServerSco.isInitialized == "true"){
 		var invalid = "false";
 		var cannotHaveChildren = "false";

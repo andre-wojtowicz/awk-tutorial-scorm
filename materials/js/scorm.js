@@ -135,10 +135,10 @@ function ScormProcessInitialize(){
 
             var task_id = parseInt(task_key.split("_")[1])
             if (task_id <= 10) {
-                handle_enter(awk_run(run_btn));
+                awk_run(run_btn);
             } else {
                 editors[task_key].selection.moveTo(0, 0);
-                run_awk_input(run(run_btn));
+                run(run_btn);
             }
         }
     }

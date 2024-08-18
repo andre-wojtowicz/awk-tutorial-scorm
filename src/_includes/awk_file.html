@@ -8,14 +8,17 @@ awk_src_class - applied to text area to set height
 <div class="awk2" data-txt_source="{{include.txt_source}}" data-soln="{{include.soln}}">
     <div class="awk_source_container">
         <span class="awk_source_filename">📋 {{ include.filename }}.awk</span>
-        <div spellcheck="false" class="awk_source {{include.awk_src_class}} language-awk" aria-label="Umieść tutaj swój kod awk" id="{{include.id}}">{{ include.init }}</div>
+        <div spellcheck="false" class="awk_source {{include.awk_src_class}} language-awk" aria-label="Umieść tutaj swój kod awk" id="{{include.id}}" data-reset="">{{ include.init }}</div>
         <div class="buttons">
             <button onClick="run(this)" title="Możesz również użyć kombinacji klawiszy &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;">$ awk -f {{include.filename}}.awk {{include.txt_source}}.txt</button>
+            <button class="awk_script_reset" title="Reset" onClick="awk_script_reset(this)">↺</button>
         </div>
     </div>
-    <samp class="awk_output">BLAH</samp>
+    <samp class="awk_output"></samp>
 </div>
 <script>
+    document.getElementById("{{include.id}}").setAttribute("data-reset", "{{ include.init | replace: '"', '\"' | newline_to_br | strip_newlines }}");
+
     var editor = ace.edit("{{include.id}}");
     editor.setShowPrintMargin(false);
     editor.setTheme("ace/theme/monokai");

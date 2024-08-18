@@ -190,6 +190,19 @@ function run(button) {
     run_awk_input(button.parentElement.parentElement.parentElement);
 }
 
+function awk_script_reset(button) {    
+    xxx = button;
+    samp = button.parentElement.parentElement.parentElement.children[1];
+    samp.textContent = '';
+    samp.classList.remove("correct");
+    samp.classList.remove("incorrect");
+    samp.style.display = null;
+    reset_code = button.parentElement.parentElement.children[1].getAttribute("data-reset").replaceAll("<br />", "\n");
+    editor = editors[button.parentElement.parentElement.parentElement.getAttribute("data-soln")];
+    editor.setValue(reset_code, 1);
+    editor.selection.moveTo(0, 0);
+}
+
 function metadata_from_root(root) {
     const text_source_id = root.dataset['txt_source'];
     const text_source_node = text_editors[text_source_id];

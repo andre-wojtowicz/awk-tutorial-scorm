@@ -1,7 +1,7 @@
 deps:
 	@echo \* Installing dependencies...
-	sudo apt update
-	sudo apt install -y ruby-full build-essential zlib1g-dev
+	apt update
+	apt install -y ruby-full build-essential zlib1g-dev
 	cd src && \
 	gem install jekyll bundler && \
 	bundle install

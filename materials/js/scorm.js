@@ -15,6 +15,17 @@ a passing score rather than hard coding the passing score within the content.
 
 //Include the standard ADL-supplied API discovery algorithm
 
+//https://developer.mozilla.org/en-US/docs/Glossary/Base64
+function base64ToBytes(base64) {
+    const binString = atob(base64);
+    return Uint8Array.from(binString, (m) => m.codePointAt(0));
+  }
+function bytesToBase64(bytes) {
+    const binString = Array.from(bytes, (byte) =>
+      String.fromCodePoint(byte),
+    ).join("");
+    return btoa(binString);
+  }
 
 ///////////////////////////////////////////
 //Begin ADL-provided API discovery algorithm
@@ -114,7 +125,7 @@ function ScormProcessInitialize(){
     
     initialized = true;
 
-    var cmi_str = ScormProcessGetValue("cmi.suspend_data");
+    var cmi_str = new TextDecoder().decode(base64ToBytes(ScormProcessGetValue("cmi.suspend_data")));
     if (cmi_str === "") {
         var no_tasks = document.querySelectorAll('[id^="task_"]').length;
         for (n = 0; n < no_tasks; n++) {
@@ -131,7 +142,7 @@ function ScormProcessInitialize(){
 
         for (const task_key in cmi_obj) {
 
-            editors[task_key].setValue(unescape(cmi_obj[task_key]), 1);
+            editors[task_key].setValue(cmi_obj[task_key], 1);
             var run_btn = document.getElementById("button_run_"+task_key);
 
             var task_id = parseInt(task_key.split("_")[1])
@@ -299,13 +310,13 @@ function ScormMarkAsBrowsed()
 
 function ScormSaveAnswer(task_id, student_response, result)
 {   
-    var cmi_str = ScormProcessGetValue("cmi.suspend_data");
+    var cmi_str = new TextDecoder().decode(base64ToBytes(ScormProcessGetValue("cmi.suspend_data")));
     if (cmi_str === "")
         cmi_str = "{}";
     var cmi_obj = JSON.parse(cmi_str);
-    cmi_obj[task_id] = escape(student_response);
+    cmi_obj[task_id] = student_response;
     cmi_str = JSON.stringify(cmi_obj);
-    ScormProcessSetValue("cmi.suspend_data", cmi_str);
+    ScormProcessSetValue("cmi.suspend_data", bytesToBase64(new TextEncoder().encode(cmi_str)));
 
     var n = parseInt(task_id.split("_")[1]) - 1;
     ScormProcessSetValue("cmi.interactions."+n.toString()+".student_response", student_response);
@@ -316,13 +327,13 @@ function ScormSaveAnswer(task_id, student_response, result)
 
 function ScormResetAnswer(task_id)
 {
-    var cmi_str = ScormProcessGetValue("cmi.suspend_data");
+    var cmi_str = new TextDecoder().decode(base64ToBytes(ScormProcessGetValue("cmi.suspend_data")));
     if (cmi_str === "")
         return;
     var cmi_obj = JSON.parse(cmi_str);
     delete cmi_obj[task_id];
     cmi_str = JSON.stringify(cmi_obj);
-    ScormProcessSetValue("cmi.suspend_data", cmi_str);
+    ScormProcessSetValue("cmi.suspend_data", bytesToBase64(new TextEncoder().encode(cmi_str)));
 
     var n = parseInt(task_id.split("_")[1]) - 1;
     ScormProcessSetValue("cmi.interactions."+n.toString()+".student_response", "");

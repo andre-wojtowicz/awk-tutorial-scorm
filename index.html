@@ -239,17 +239,16 @@
 			var value = unescape(this.api.LMSGetValue(name));
 			this.lastCmd = "LMSGetValue('" + name + "') = " + value;
 			this.logCommand();
-			console.log(value);
-			console.log(typeof value);
-			return value.replace(/&quot;/g, '"').replace(/&apos;/g, "'");
+			if (typeof value === 'string' || value instanceof String)
+				return value.replace(/&quot;/g, '"').replace(/&apos;/g, "'");
+			return value;
 		};
 
 		// LMSSetValue
 		this.LMSSetValue=function(name, value)
 		{
-			console.log(value);
-			console.log(typeof value);
-			value = value.replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+			if (typeof value === 'string' || value instanceof String)
+				value = value.replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 			var success = this.api.LMSSetValue(name, escape(value));
 			this.lastCmd = "LMSSetValue('" + name + "','" + value + "') = " + success;
 			this.logCommand();

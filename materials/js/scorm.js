@@ -136,6 +136,7 @@ function ScormProcessInitialize(){
             ScormProcessSetValue("cmi.interactions."+n.toString()+".result", "neutral");
             ScormProcessSetValue("cmi.interactions."+n.toString()+".correct_responses.0.pattern", SOLUTIONS[task_id]);
         }
+        ScormProcessSetValue("cmi.suspend_data", bytesToBase64(new TextEncoder().encode("{}")));
         ScormCommitChanges();
     } else {
         var cmi_obj = JSON.parse(cmi_str);
@@ -311,8 +312,6 @@ function ScormMarkAsBrowsed()
 function ScormSaveAnswer(task_id, student_response, result)
 {   
     var cmi_str = new TextDecoder().decode(base64ToBytes(ScormProcessGetValue("cmi.suspend_data")));
-    if (cmi_str === "")
-        cmi_str = "{}";
     var cmi_obj = JSON.parse(cmi_str);
     cmi_obj[task_id] = student_response;
     cmi_str = JSON.stringify(cmi_obj);
@@ -328,8 +327,6 @@ function ScormSaveAnswer(task_id, student_response, result)
 function ScormResetAnswer(task_id)
 {
     var cmi_str = new TextDecoder().decode(base64ToBytes(ScormProcessGetValue("cmi.suspend_data")));
-    if (cmi_str === "")
-        return;
     var cmi_obj = JSON.parse(cmi_str);
     delete cmi_obj[task_id];
     cmi_str = JSON.stringify(cmi_obj);

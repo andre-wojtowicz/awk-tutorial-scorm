@@ -11,6 +11,7 @@ site:
 	@echo \* Preparing awk-tutorial website files...
 	cd src && \
 	bundle exec jekyll build && \
+	sed -i -E -e 's~/assets/~assets/~' -e '/.*atom\+xml.*/d' _site/index.html && \
 	rm -f _site/feed.xml
 	@echo \* ...done
 

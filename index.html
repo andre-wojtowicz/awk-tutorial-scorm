@@ -1814,6 +1814,7 @@ function dealWithSettingInteractions(element, value){
                     if (res == "true"){
                         // correct datatype...
   			            // WE CAN NOW TRY TO SET THE FULL OBJECT REFERENCE
+			    		    console.log(value);
 					    var strleafval = "doesLeafExist.cmivalue =\"" + value + "\";";
 					    var leafVal = eval(strleafval);
 					    if (leafVal == null){

@@ -2230,6 +2230,7 @@ function LMSSetValueMethod(element, value){
 					else{
 						setString = "this." + element + ".cmivalue =\"" + value.replaceAll('"', '\\"') + "\";";
 					}
+					console.log(setString);
 					var result = eval(setString);
 					this.ServerSco.lastError = "0";
 					return "true";

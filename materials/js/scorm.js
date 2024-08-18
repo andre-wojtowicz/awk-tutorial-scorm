@@ -124,8 +124,8 @@ function ScormProcessInitialize(){
             ScormProcessSetValue("cmi.interactions."+n+".student_response", "");
             ScormProcessSetValue("cmi.interactions."+n+".result", "neutral");
             ScormProcessSetValue("cmi.interactions."+n+".correct_responses.0.pattern", SOLUTIONS[task_id]);
-            ScormCommitChanges();
         }
+        ScormCommitChanges();
     } else {
         var cmi_obj = JSON.parse(cmi_str);
 

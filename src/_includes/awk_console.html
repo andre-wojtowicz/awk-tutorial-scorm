@@ -1,10 +1,10 @@
 <div class="awk" data-awk_file="{{ include.awk_file }}" data-awk_soln="{{ include.awk_soln }}" style="width: 100%;">
     <div style="display: flex;">
         <div spellcheck="false" contenteditable="true" role='textbox' id="{{include.awk_soln}}" class="{{ include.consoleClass}} awk_input language-bash" style="float: left;" data-reset="">{{ include.awk_init }}</div>
-        <button class="awk_run" title="Możesz również nacisnąć klawisz &lt;Enter&gt;" onClick="awk_run(this)">▶ Uruchom</button>
-        <button class="awk_reset" title="Reset" onClick="awk_reset(this)">↺</button>
+        <button class="awk_run" title="Możesz również nacisnąć klawisz &lt;Enter&gt;" id="button_run_{{include.awk_soln}}" onClick="awk_run(this)">▶ Uruchom</button>
+        <button class="awk_reset" title="Reset" id="button_reset_{{include.awk_soln}}" onClick="awk_reset(this)">↺</button>
     </div>
-    <samp class="awk_output"></samp>
+    <samp class="awk_output" id="output_{{include.awk_soln}}"></samp>
 </div>
 <script>
     document.getElementById("{{include.awk_soln}}").setAttribute("data-reset", "{{ include.awk_init | replace: '"', '\"' }}");

@@ -95,6 +95,8 @@ async function handle_enter(input) {
     outputNode.classList.remove("exception")
     outputNode.classList.remove("correct")
 
+    var task_id = input.id;
+    var student_response = awkStr;
 
     try {
         output = await call_awk(sourceText, awkStrParsed);
@@ -102,6 +104,8 @@ async function handle_enter(input) {
         console.info("adding exception", error);
         outputNode.classList.add('exception')
         outputNode.innerText = ">>> Wyjątek: Wystąpił nieznany błąd...\n>>> Upewnij się, że wyrażenia są pomiędzy nawiasami klamrowymi { i }.";
+        ScormSaveAnswer(task_id, student_response, "unanticipated");
+        ScormSaveScore();
         return
     }
 
@@ -109,6 +113,8 @@ async function handle_enter(input) {
         console.info("adding exception");
         outputNode.classList.add('exception')
         outputNode.innerText = ">>> Wyjątek: " + output.stderr;
+        ScormSaveAnswer(task_id, student_response, "unanticipated");
+        ScormSaveScore();
         return
     }
     outputNode.classList.remove('exception')
@@ -119,10 +125,14 @@ async function handle_enter(input) {
     if (oracle_output.stdout === output.stdout) {
         outputNode.classList.add("correct")
         outputNode.innerText = output.stdout;
+        ScormSaveAnswer(task_id, student_response, "correct");
+        ScormSaveScore();
     } else {
         //console.info(oracle_output.output, output.stdout)
         outputNode.classList.add("incorrect")
         outputNode.innerText = ">>> Otrzymany wynik nie pasuje do oczekiwanego rozwiązania.\n>>> Spróbuj ponownie.\n" + output.stdout
+        ScormSaveAnswer(task_id, student_response, "wrong");
+        ScormSaveScore();
     }
 
 }
@@ -135,6 +145,9 @@ async function run_awk_input(root) {
     output_node.classList.remove("correct")
     output_node.classList.remove("incorrect")
 
+    var task_id = root.getAttribute("data-soln");
+    var student_response = root_metadata.awk_source_content;
+
 
     let output = null;
     try {
@@ -142,12 +155,16 @@ async function run_awk_input(root) {
     } catch {
         output_node.classList.add('exception')
         output_node.innerText = ">>> Wyjątek: Wystąpił nieznany błąd...\nUpewnij się, że wyrażenia są pomiędzy nawiasami klamrowymi { i }.";
+        ScormSaveAnswer(task_id, student_response, "unanticipated");
+        ScormSaveScore();
         return
     }
 
     if (output.stderr !== "") {
         output_node.classList.add('exception')
         output_node.innerText = ">>> Wyjątek: " + output.stderr;
+        ScormSaveAnswer(task_id, student_response, "unanticipated");
+        ScormSaveScore();
         return
     }
 
@@ -159,9 +176,13 @@ async function run_awk_input(root) {
     if (oracle_output.stdout === output.stdout) {
         output_node.classList.add("correct")
         output_node.innerText = output.stdout;
+        ScormSaveAnswer(task_id, student_response, "correct");
+        ScormSaveScore();
     } else {
         output_node.classList.add("incorrect")
         output_node.innerText = ">>> Otrzymany wynik nie pasuje do oczekiwanego rozwiązania.\n>>> Spróbuj ponownie.\n" + output.stdout
+        ScormSaveAnswer(task_id, student_response, "wrong");
+        ScormSaveScore();
     }
 
 }
@@ -171,14 +192,18 @@ function awk_run(button) {
 }
 
 function awk_reset(button) {
-    samp = button.parentElement.parentElement.children[1];
+    var samp = button.parentElement.parentElement.children[1];
     samp.textContent = '';
     samp.classList.remove("correct");
     samp.classList.remove("incorrect");
     samp.style.display = null;
-    reset_code = button.parentElement.children[0].getAttribute("data-reset");
-    editor = editors[button.parentElement.parentElement.getAttribute("data-awk_soln")];
+    var reset_code = button.parentElement.children[0].getAttribute("data-reset");
+    var editor = editors[button.parentElement.parentElement.getAttribute("data-awk_soln")];
     editor.setValue(reset_code, 1);
+
+    var task_id = button.id.split("button_reset_")[1];
+    ScormResetAnswer(task_id);
+    ScormSaveScore();
 }
 
 function run(button) {
@@ -186,16 +211,19 @@ function run(button) {
 }
 
 function awk_script_reset(button) {    
-    xxx = button;
-    samp = button.parentElement.parentElement.children[3];
+    var samp = button.parentElement.parentElement.children[3];
     samp.textContent = '';
     samp.classList.remove("correct");
     samp.classList.remove("incorrect");
     samp.style.display = null;
-    reset_code = button.parentElement.parentElement.children[1].getAttribute("data-reset").replaceAll("<br />", "\n");
-    editor = editors[button.parentElement.parentElement.parentElement.getAttribute("data-soln")];
+    var reset_code = button.parentElement.parentElement.children[1].getAttribute("data-reset").replaceAll("<br />", "\n");
+    var editor = editors[button.parentElement.parentElement.parentElement.getAttribute("data-soln")];
     editor.setValue(reset_code, 1);
     editor.selection.moveTo(0, 0);
+
+    var task_id = button.id.split("button_reset_")[1];
+    ScormResetAnswer(task_id);
+    ScormSaveScore();
 }
 
 function metadata_from_root(root) {

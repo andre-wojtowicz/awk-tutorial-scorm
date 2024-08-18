@@ -12,10 +12,10 @@ awk_src_class - applied to text area to set height
 
         <div style="display: flex;">
             <div spellcheck="false" contenteditable="false" role='textbox' class="awk_input language-bash" style="float: left;" id="console_{{include.id}}">awk -f {{include.filename}}.awk &lt;&lt;&lt; ''</div>
-            <button class="awk_run" title="Możesz również nacisnąć klawisz &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;" onClick="run(this)">▶ Uruchom</button>
-            <button class="awk_reset" title="Reset" onClick="awk_script_reset(this)">↺</button>
+            <button class="awk_run" title="Możesz również nacisnąć klawisz &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;" id="button_run_{{include.id}}" onClick="run(this)">▶ Uruchom</button>
+            <button class="awk_reset" title="Reset" id="button_reset_{{include.id}}" onClick="awk_script_reset(this)">↺</button>
         </div>
-        <samp class="awk_output"></samp>
+        <samp class="awk_output" id="output_{{include.id}}"></samp>
     </div>
 </div>
 <script>

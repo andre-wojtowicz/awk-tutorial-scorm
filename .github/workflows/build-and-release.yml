@@ -2,6 +2,8 @@ name: Build and release
 
 on:
   workflow_dispatch:
+  push:
+    branches: ["main"]
 
 jobs:
   build:
@@ -57,7 +59,7 @@ jobs:
     - name: checkout repository
       uses: actions/checkout@v4
     - name: get release version
-      run: echo "::set-output name=version::$(date '+%Y-%m-%d')"
+      run: echo "::set-output name=version::$(date '+%Y-%m-%d_%H%M')"
       id: var1
     - name: get release message
       run: echo "::set-output name=message::$(git log -1 --pretty=%B | head -1)"

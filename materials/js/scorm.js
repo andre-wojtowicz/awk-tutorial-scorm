@@ -123,6 +123,7 @@ function ScormProcessInitialize(){
             ScormProcessSetValue("cmi.interactions."+n.toString()+".type", "fill-in");
             ScormProcessSetValue("cmi.interactions."+n.toString()+".student_response", "");
             ScormProcessSetValue("cmi.interactions."+n.toString()+".result", "neutral");
+            ScormProcessSetValue("cmi.interactions."+n.toString()+".correct_responses.0.pattern", SOLUTIONS[task_id]);
         }
         ScormCommitChanges();
     } else {

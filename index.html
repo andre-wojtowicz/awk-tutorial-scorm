@@ -240,7 +240,7 @@
 			this.lastCmd = "LMSGetValue('" + name + "') = " + value;
 			this.logCommand();
 			if (typeof value === 'string' || value instanceof String)
-				return value.replace(/&quot;/g, '"').replace(/&apos;/g, "'");
+				return value.replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/%0D%0A/g, "\n");
 			return value;
 		};
 
@@ -248,7 +248,7 @@
 		this.LMSSetValue=function(name, value)
 		{
 			if (typeof value === 'string' || value instanceof String)
-				value = value.replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+				value = value.replace(/"/g, '&quot;').replace(/'/g, '&apos;').replace(/\n/g, '%0D%0A');
 			var success = this.api.LMSSetValue(name, escape(value));
 			this.lastCmd = "LMSSetValue('" + name + "','" + value + "') = " + success;
 			this.logCommand();

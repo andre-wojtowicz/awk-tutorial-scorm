@@ -1,0 +1,93 @@
+name: Build and release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v4
+    - name: make SCORM zip
+      run: |
+        make deps
+        make site
+        make scorm
+    - name: upload artifact
+      uses: actions/upload-artifact@v4
+      if: ${{ !env.ACT }}
+      with:
+        name: scorm_zip
+        path: ./dist/
+
+  pages:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repository gh-pages
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+    - name: download artifact
+      uses: actions/download-artifact@master
+      with:
+        name: scorm_zip
+        path: ./dist/
+    - name: script
+      run: |
+        rm -rf materials imsmanifest.xml
+        unzip dist/*.zip -d .
+        rm -rf dist
+        if [[ $(git status --porcelain) ]]; then
+          git config --global user.name 'Git bot'
+          git config --global user.email 'bot@noreply.github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git add .
+          git commit -am "Auto updated pages"
+          git push -u origin gh-pages
+        else
+          echo "Nothing to update"
+        fi
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v4
+    - name: get release version
+      run: echo "::set-output name=version::$(date '+%Y-%m-%d')"
+      id: var1
+    - name: get release message
+      run: echo "::set-output name=message::$(git log -1 --pretty=%B | head -1)"
+      id: var2
+    - name: create release
+      uses: actions/create-release@v1
+      id: create_release
+      with:
+        draft: false
+        prerelease: false
+        release_name: Build ${{ steps.var1.outputs.version }}
+        tag_name: v${{ steps.var1.outputs.version }}
+        body: ${{ steps.var2.outputs.message }}
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+    - name: download artifact
+      uses: actions/download-artifact@master
+      with:
+        name: scorm_zip
+        path: ./dist/
+    - name: get zip file name
+      run: echo "::set-output name=zipfname::$(basename $(ls ./dist/*.zip))"
+      id: getzipfilename
+    - name: upload SCORM zip to release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./dist/${{ steps.getzipfilename.outputs.zipfname }}
+        asset_name: ${{ steps.getzipfilename.outputs.zipfname }}
+        asset_content_type: application/zip
+        

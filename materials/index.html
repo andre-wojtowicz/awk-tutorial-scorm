@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/assets/normalize.css">
+  <link rel="stylesheet" href="/assets/open-color.css">
+  <link rel="stylesheet" href="/assets/monophase/styles.css">
+  <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Samouczek AWK" />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Samouczek AWK</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Samouczek AWK" />
+<meta property="og:locale" content="pl" />
+<meta property="og:site_name" content="Samouczek AWK" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Samouczek AWK" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","headline":"Samouczek AWK","name":"Samouczek AWK","url":"/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <script async src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+  
+  
+
+</head>
+
+  <body>
+    <div class="container">
+      <header class="masthead">
+  <div class="masthead-title">
+    <a href="/" title="Home">Samouczek AWK</a>
+    <small class="tagline"></small>
+  </div>
+
+  
+</header>
+
+
+      <main>
+        <article class="page">
+  <h1 class="page-title"></h1>
+  <h2 id="podstawy">Podstawy</h2>
+
+<link rel="stylesheet" href="assets/main.css" />
+
+<link rel="shortcut icon" type="image/png" href="assets/favicon.png" />
+
+<script src="assets/awk.js"></script>
+
+<script src="assets/awk_tutorial.js"></script>
+
+<script src="assets/ace.min.js"></script>
+
+<script>
+    var editors = {};
+    var text_editors = {};
+</script>
+
+<p><em>AWK</em> to język programowania, który przyjmuje na wejściu pliki, w których dane są rozdzielone białymi znakami (kolumny), sprawdza dla kolejnych linii warunki ich dalszego przetwarzania, a następnie wykonuje kod dla danej linii w przypadku spełnienia warunków. Język <em>AWK</em> posiada <a href="https://en.wikipedia.org/wiki/AWK#Versions_and_implementations">wiele implementacji</a>, z których jedną z najpopularniejszych jest wersja GNU <a href="https://man7.org/linux/man-pages/man1/gawk.1.html"><code class="language-plaintext highlighter-rouge">gawk</code></a>. Program <code class="language-plaintext highlighter-rouge">awk</code> jest dostępny w zasadzie w każdej dystrybucji Linux, a w systemie występuje najczęściej jako dowiązanie symboliczne do wybranej implementacji języka <em>AWK</em>.</p>
+
+<p>Najczęściej program <code class="language-plaintext highlighter-rouge">awk</code> stosuje się do szybkiego skryptowego przetwarzania tekstu bezpośrednio z poziomu terminala, tworząc tzw. jednolinijkowce. Wygląda to następująco:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">awk</span> <span class="s1">'treść skryptu przetwarzającego dane wejściowe'</span> plik_do_przetworzenia
+</code></pre></div></div>
+
+<p>Poniżej znajdują się dwa szablony stanowiące podstawę skryptów <code class="language-plaintext highlighter-rouge">awk</code>:</p>
+
+<ol>
+  <li>Dla każdej linii, jeśli <code class="language-plaintext highlighter-rouge">warunek</code> jest spełniony dla linii, uruchom <code class="language-plaintext highlighter-rouge">kod</code>:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>warunek { kod }
+</code></pre></div>    </div>
+  </li>
+  <li>Dla każdej linii, uruchom <code class="language-plaintext highlighter-rouge">kod</code>:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{ kod } 
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="przykład-1">Przykład 1</h3>
+
+<p>Poniżej znajduje się przykład polecenia <code class="language-plaintext highlighter-rouge">awk</code>, które po prostu wyświetla dane otrzymane na wejściu z pliku <code class="language-plaintext highlighter-rouge">mail_list</code>. Zmienna <code class="language-plaintext highlighter-rouge">$0</code> oznacza całą aktualnie przetwarzaną linię.</p>
+
+<blockquote>
+  <p>💡 Aby uruchomić kod, możesz kliknąć w poniższy terminal i nacisnąć klawisz <code class="language-plaintext highlighter-rouge">&lt;Enter&gt;</code> albo nacisnąć przycisk <code class="language-plaintext highlighter-rouge">[▶ Uruchom]</code>.</p>
+</blockquote>
+
+<div class="awk" data-awk_file="mail_list" data-awk_soln="hello_world0" style="width: 100%;">
+    <div style="display: flex;">
+        <div spellcheck="false" contenteditable="true" role="textbox" id="hello_world0" class=" awk_input language-bash" style="float: left;">awk '{ print $0 }' mail_list</div>
+        <button class="awk_run" onclick="awk_run(this)">▶ Uruchom</button>
+    </div>
+    <samp class="awk_output"></samp>
+</div>
+<script>
+    var editor = ace.edit("hello_world0", {
+        minLines: 1,
+        maxLines: 2,
+        showLineNumbers: false,
+        readOnly: false,
+        newLineMode: 'auto',
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+
+    editors["hello_world0"] = editor;
+</script>
+
+<p>Poniżej znajduje się przykładowa zawartość pliku <code class="language-plaintext highlighter-rouge">mail_list</code>, która jest przetwarzana przez <code class="language-plaintext highlighter-rouge">awk</code>:</p>
+
+<div class="awk"><br />
+<span class="awk_file_name_hover">📜 mail_list</span>
+<div spellcheck="false" class="awk_text" id="mail_list">Amelia       555-5553    amelia.zodiacusque@gmail.com       F
+Anthony      555-3412    anthony.asserturo@hotmail.com      A
+Becky        555-7685    becky.algebrarum@gmail.com         A
+Bill         555-1675    bill.drowning@hotmail.com          A
+Broderick    555-0542    broderick.aliquotiens@yahoo.com    R
+Camilla      555-2912    camilla.infusarum@skynet.be        R
+Fabius       555-1234    fabius.undevicesimus@ucb.edu       F
+Julie        555-6699    julie.perscrutabor@skeeve.com      F
+Yoeu         555-1331    yoeu.blah@blarg.co.uk              F
+Martin       555-6480    martin.codicibus@hotmail.com       A
+Samuel       555-3430    samuel.lanceolis@shu.edu           A
+Jean-Paul    555-2127    jeanpaul.campanorum@nyu.edu        R
+Eyau         555-1133    eyau@campos.cmyk.rgb               R
+Bill         555-1337    billiam.billy@cal.tech.edu         R</div>
+</div>
+<script>
+    var editor = ace.edit("mail_list");
+    editor.setShowPrintMargin(false);
+    editor.setReadOnly(true);
+    editor.setOptions({
+        maxLines: Infinity
+    });
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(8);
+    editor.renderer.setScrollMargin(3, 3);
+    editor.setOptions({highlightActiveLine: false});
+    editor.renderer.$cursorLayer.element.style.display = "none";
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/text");
+    text_editors["mail_list"] = editor;
+</script>
+
+<p>Jak widać, dane w pliku <code class="language-plaintext highlighter-rouge">mail_list</code> są zapisane w sposób kolumnowy, w tym wypadku oddzielone spacjami (liczba spacji nie ma znaczenia).</p>
+
+<p>Spójrzmy na kolejny prosty przykład, który nie stosuje warunków przetwarzania. Poniższy skrypt wyświetli pierwszą kolumnę (<code class="language-plaintext highlighter-rouge">$1</code>):</p>
+
+<div class="awk" data-awk_file="mail_list" data-awk_soln="hello_world" style="width: 100%;">
+    <div style="display: flex;">
+        <div spellcheck="false" contenteditable="true" role="textbox" id="hello_world" class=" awk_input language-bash" style="float: left;">awk '{ print $1 }' mail_list</div>
+        <button class="awk_run" onclick="awk_run(this)">▶ Uruchom</button>
+    </div>
+    <samp class="awk_output"></samp>
+</div>
+<script>
+    var editor = ace.edit("hello_world", {
+        minLines: 1,
+        maxLines: 2,
+        showLineNumbers: false,
+        readOnly: false,
+        newLineMode: 'auto',
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+
+    editors["hello_world"] = editor;
+</script>
+
+<hr />
+
+<h3 id="zadanie-1">Zadanie 1</h3>
+
+<p>Spróbujemy wyświetlić kolumny <code class="language-plaintext highlighter-rouge">$1</code> i <code class="language-plaintext highlighter-rouge">$2</code> oddzielone spacją <code class="language-plaintext highlighter-rouge">" "</code>. W skrypcie będzie to wyglądało mniej więcej tak: <code class="language-plaintext highlighter-rouge">$1 " " $2</code>. Polecenie <code class="language-plaintext highlighter-rouge">print</code> przyjmuje wiele argumentów oddzielonych spacjami (nie ma potrzeby łączenia danych np. za pomocą znaku plus, tak jak to jest w niektórych innych językach programowania).</p>
+
+<p>Zmodyfikuj poniższy kod, dodając <code class="language-plaintext highlighter-rouge">" "</code>.</p>
+
+<div class="awk" data-awk_file="mail_list" data-awk_soln="hello_world2" style="width: 100%;">
+    <div style="display: flex;">
+        <div spellcheck="false" contenteditable="true" role="textbox" id="hello_world2" class=" awk_input language-bash" style="float: left;">awk '{ print $1 $2 }' mail_list</div>
+        <button class="awk_run" onclick="awk_run(this)">▶ Uruchom</button>
+    </div>
+    <samp class="awk_output"></samp>
+</div>
+<script>
+    var editor = ace.edit("hello_world2", {
+        minLines: 1,
+        maxLines: 2,
+        showLineNumbers: false,
+        readOnly: false,
+        newLineMode: 'auto',
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+
+    editors["hello_world2"] = editor;
+</script>
+
+<hr />
+
+<h3 id="zadanie-2">Zadanie 2</h3>
+
+<p>No dobra, a co z warunkami przetwarzania? Widzieliśmy wcześniej, że <code class="language-plaintext highlighter-rouge">$1</code> oznacza pierwszą kolumnę. Uzupełnij poniższy kod tak, aby dla każdego Billa wyświetlił się jego numer telefonu.</p>
+
+<div class="awk" data-awk_file="mail_list" data-awk_soln="column_1" style="width: 100%;">
+    <div style="display: flex;">
+        <div spellcheck="false" contenteditable="true" role="textbox" id="column_1" class=" awk_input language-bash" style="float: left;">awk '$1 == "Bill" { }' mail_list</div>
+        <button class="awk_run" onclick="awk_run(this)">▶ Uruchom</button>
+    </div>
+    <samp class="awk_output"></samp>
+</div>
+<script>
+    var editor = ace.edit("column_1", {
+        minLines: 1,
+        maxLines: 2,
+        showLineNumbers: false,
+        readOnly: false,
+        newLineMode: 'auto',
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+
+    editors["column_1"] = editor;
+</script>
+
+<hr />
+
+<h3 id="zadanie-3">Zadanie 3</h3>
+
+<p>Spójrzmy teraz na wariant z wieloma warunkami przetwarzania:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>warunek1 { kod1 } warunek2 { kod2 }
+</code></pre></div></div>
+
+<p>Popraw i uzupełnij poniższy skrypt tak, aby oprócz wyświetlenia wszystkich numerów telefonów osób o imieniu Bill, program wypisał również imię osoby z numerem telefonu <code class="language-plaintext highlighter-rouge">555-3430</code>.</p>
+
+<div class="awk" data-awk_file="mail_list" data-awk_soln="phonenum" style="width: 100%;">
+    <div style="display: flex;">
+        <div spellcheck="false" contenteditable="true" role="textbox" id="phonenum" class=" awk_input language-bash" style="float: left;">awk '$1 == "Bill" { print $1 }' mail_list</div>
+        <button class="awk_run" onclick="awk_run(this)">▶ Uruchom</button>
+    </div>
+    <samp class="awk_output"></samp>
+</div>
+<script>
+    var editor = ace.edit("phonenum", {
+        minLines: 1,
+        maxLines: 2,
+        showLineNumbers: false,
+        readOnly: false,
+        newLineMode: 'auto',
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+
+    editors["phonenum"] = editor;
+</script>
+
+<hr />
+
+<h3 id="przykład-2">Przykład 2</h3>
+
+<p>Zmienne <code class="language-plaintext highlighter-rouge">awk</code> mogą być inicjalizowane w pierwszym warunku <code class="language-plaintext highlighter-rouge">BEGIN { x = 0 }</code>; jeśli ich nie zainicjalizujemy wprost, to domyślnie mają ustawioną wartość 0. Na podobnej zasadzie działa ostatni warunek <code class="language-plaintext highlighter-rouge">END</code>, który uruchamia się po zakończeniu przetwarzania wszystkich wierszy.</p>
+
+<p>Dotychczas używaliśmy prostych skryptów <code class="language-plaintext highlighter-rouge">{ kod }</code> i <code class="language-plaintext highlighter-rouge">warunek { kod }</code>, bez poprzedzających ich warunków <code class="language-plaintext highlighter-rouge">BEGIN</code> i <code class="language-plaintext highlighter-rouge">END</code>. Kod i warunki były wykonywane dla każdej przetwarzanej linii.</p>
+
+<p>Spróbuj uruchomić poniższe dwa przykłady, tak aby zobaczyć, jak działają warunki <code class="language-plaintext highlighter-rouge">BEGIN</code> i <code class="language-plaintext highlighter-rouge">END</code>.</p>
+
+<div class="awk" data-awk_file="mail_list" data-awk_soln="beginend" style="width: 100%;">
+    <div style="display: flex;">
+        <div spellcheck="false" contenteditable="true" role="textbox" id="beginend" class=" awk_input language-bash" style="float: left;">awk 'BEGIN { print "start" } { print "dla każdej linii" } END { print "koniec" }' mail_list</div>
+        <button class="awk_run" onclick="awk_run(this)">▶ Uruchom</button>
+    </div>
+    <samp class="awk_output"></samp>
+</div>
+<script>
+    var editor = ace.edit("beginend", {
+        minLines: 1,
+        maxLines: 2,
+        showLineNumbers: false,
+        readOnly: false,
+        newLineMode: 'auto',
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+
+    editors["beginend"] = editor;
+</script>
+
+<div class="awk" data-awk_file="mail_list" data-awk_soln="beginend2" style="width: 100%;">
+    <div style="display: flex;">
+        <div spellcheck="false" contenteditable="true" role="textbox" id="beginend2" class=" awk_input language-bash" style="float: left;">awk 'BEGIN { x = 1000 } { x += 1 } END { print x }' mail_list</div>
+        <button class="awk_run" onclick="awk_run(this)">▶ Uruchom</button>
+    </div>
+    <samp class="awk_output"></samp>
+</div>
+<script>
+    var editor = ace.edit("beginend2", {
+        minLines: 1,
+        maxLines: 2,
+        showLineNumbers: false,
+        readOnly: false,
+        newLineMode: 'auto',
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+
+    editors["beginend2"] = editor;
+</script>
+
+<hr />
+
+<h3 id="zadanie-4">Zadanie 4</h3>
+
+<p>W poniższym skrypcie każda przetwarzana linia oznacza zwiększenie wartości zmiennej <code class="language-plaintext highlighter-rouge">s</code> o 5.</p>
+
+<p><em>AWK</em> posiada funkcję <code class="language-plaintext highlighter-rouge">length()</code>, która jako argument przyjmuje kolumnę i zwraca liczbę znaków przetwarzanego ciągu tekstowego. Zmień poniższy kod tak, aby wyświetlić łączną liczbę znaków wszystkich imion.</p>
+
+<div class="awk" data-awk_file="mail_list" data-awk_soln="vars1" style="width: 100%;">
+    <div style="display: flex;">
+        <div spellcheck="false" contenteditable="true" role="textbox" id="vars1" class=" awk_input language-bash" style="float: left;">awk '{ s += 5 } END { print s } ' mail_list</div>
+        <button class="awk_run" onclick="awk_run(this)">▶ Uruchom</button>
+    </div>
+    <samp class="awk_output"></samp>
+</div>
+<script>
+    var editor = ace.edit("vars1", {
+        minLines: 1,
+        maxLines: 2,
+        showLineNumbers: false,
+        readOnly: false,
+        newLineMode: 'auto',
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+
+    editors["vars1"] = editor;
+</script>
+
+<hr />
+
+<h3 id="zadanie-5">Zadanie 5</h3>
+
+<p>W <em>AWK</em> można również stosować wyrażenia regularne. Regexy można dopasowywać do całej przetwarzanej linii:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/regex/ { kod }
+</code></pre></div></div>
+
+<p>lub do wybranej kolumny:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$3 ~ /regex/ { kod }
+</code></pre></div></div>
+
+<p>Następujący regex dopasowuje słowa, które zawierają wyłącznie samogłoski: <code class="language-plaintext highlighter-rouge">/^[AEIOUYaeiouy]+$/</code>. Użyj go do wyświetlenia imion składających się z samych samogłosek.</p>
+
+<div class="awk" data-awk_file="mail_list" data-awk_soln="regex" style="width: 100%;">
+    <div style="display: flex;">
+        <div spellcheck="false" contenteditable="true" role="textbox" id="regex" class=" awk_input language-bash" style="float: left;">awk '/^[AEIOUYaeiouy]+$/ {}' mail_list</div>
+        <button class="awk_run" onclick="awk_run(this)">▶ Uruchom</button>
+    </div>
+    <samp class="awk_output"></samp>
+</div>
+<script>
+    var editor = ace.edit("regex", {
+        minLines: 1,
+        maxLines: 2,
+        showLineNumbers: false,
+        readOnly: false,
+        newLineMode: 'auto',
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+
+    editors["regex"] = editor;
+</script>
+
+<hr />
+
+<h3 id="zadanie-6">Zadanie 6</h3>
+
+<p>Czas na przepływ sterowania! W <em>AWK</em>, podobniej jak w innych językach, mamy instrukcje warunkowe <code class="language-plaintext highlighter-rouge">if</code> i <code class="language-plaintext highlighter-rouge">else</code>. Schematyczne użycie może wyglądać następująco:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>opcjonalny_warunek { if (coś_a &gt;= coś_b) { kod1 } else { kod2 } }
+</code></pre></div></div>
+
+<p>Poniższy plik zawiera dane dotyczące imion, wieku i krajów:</p>
+
+<div class="awk"><br />
+<span class="awk_file_name_hover">📜 people</span>
+<div spellcheck="false" class="awk_text" id="people">Frances-Spence         90    USA
+Yoshihide              72    JP
+Nate                   21    USA
+Moondog                83    USA
+Michael-Fastbender     42    USA
+Xiangyang              54    CN
+Jordan-Etude           13    USA
+Aditi-Acharya          83    IN
+Miyoung                41    KR
+Navya-Reddy            55    IN
+Bolade-Ibrahim         28    NG
+Jean-Bartik            87    USA
+Leslie-Lamport         80    USA</div>
+</div>
+<script>
+    var editor = ace.edit("people");
+    editor.setShowPrintMargin(false);
+    editor.setReadOnly(true);
+    editor.setOptions({
+        maxLines: Infinity
+    });
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(8);
+    editor.renderer.setScrollMargin(3, 3);
+    editor.setOptions({highlightActiveLine: false});
+    editor.renderer.$cursorLayer.element.style.display = "none";
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/text");
+    text_editors["people"] = editor;
+</script>
+
+<p>Użyj instrukcji <code class="language-plaintext highlighter-rouge">if</code>/<code class="language-plaintext highlighter-rouge">else</code> tak, aby wyświetlić imiona, ale osoby w wieku co najmniej 65 lat mają mieć przedrostek <code class="language-plaintext highlighter-rouge">(senior)</code>. Oczekiwany format wyjściowych danych:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(senior) Frances-Spence
+(senior) Yoshihide
+Nate
+...
+Bolade-Ibrahim
+(senior) Jean-Bartik
+(senior) Leslie-Lamport
+</code></pre></div></div>
+
+<div class="awk" data-awk_file="people" data-awk_soln="ifelse" style="width: 100%;">
+    <div style="display: flex;">
+        <div spellcheck="false" contenteditable="true" role="textbox" id="ifelse" class=" awk_input language-bash" style="float: left;">awk '{}' people</div>
+        <button class="awk_run" onclick="awk_run(this)">▶ Uruchom</button>
+    </div>
+    <samp class="awk_output"></samp>
+</div>
+<script>
+    var editor = ace.edit("ifelse", {
+        minLines: 1,
+        maxLines: 2,
+        showLineNumbers: false,
+        readOnly: false,
+        newLineMode: 'auto',
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+
+    editors["ifelse"] = editor;
+</script>
+
+<hr />
+
+<h3 id="zadanie-7">Zadanie 7</h3>
+
+<p>Czas na wyrażenia logiczne! <em>AWK</em> wspiera wyrażenia zawierające koniunkcję <code class="language-plaintext highlighter-rouge">&amp;&amp;</code> i alternatywę <code class="language-plaintext highlighter-rouge">||</code>.</p>
+
+<p>Wyświetl imiona osób, które mają co najmniej 65 lat <strong>oraz</strong> pochodzą ze Stanów Zjednoczonych.</p>
+
+<div class="awk" data-awk_file="people" data-awk_soln="logical1" style="width: 100%;">
+    <div style="display: flex;">
+        <div spellcheck="false" contenteditable="true" role="textbox" id="logical1" class=" awk_input language-bash" style="float: left;">awk '$2 &gt;= 65 {print $1}' people</div>
+        <button class="awk_run" onclick="awk_run(this)">▶ Uruchom</button>
+    </div>
+    <samp class="awk_output"></samp>
+</div>
+<script>
+    var editor = ace.edit("logical1", {
+        minLines: 1,
+        maxLines: 2,
+        showLineNumbers: false,
+        readOnly: false,
+        newLineMode: 'auto',
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+
+    editors["logical1"] = editor;
+</script>
+
+<hr />
+
+<h3 id="zadanie-8">Zadanie 8</h3>
+
+<p>Wyświetl imiona osób, które mają co najmniej 65 lat <strong>lub</strong> pochodzą z Nigerii.</p>
+
+<div class="awk" data-awk_file="people" data-awk_soln="logical2" style="width: 100%;">
+    <div style="display: flex;">
+        <div spellcheck="false" contenteditable="true" role="textbox" id="logical2" class=" awk_input language-bash" style="float: left;">awk '$2 &gt;= 65 {print $1}' people</div>
+        <button class="awk_run" onclick="awk_run(this)">▶ Uruchom</button>
+    </div>
+    <samp class="awk_output"></samp>
+</div>
+<script>
+    var editor = ace.edit("logical2", {
+        minLines: 1,
+        maxLines: 2,
+        showLineNumbers: false,
+        readOnly: false,
+        newLineMode: 'auto',
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+
+    editors["logical2"] = editor;
+</script>
+
+<hr />
+
+<h3 id="zadanie-9">Zadanie 9</h3>
+
+<p>Podobnie jak wcześniej niejawnie tworzyliśmy zmienną używając <code class="language-plaintext highlighter-rouge">{ s += length($2) }</code>, możemy stworzyć dwie nowe zmienne do zliczenia osób w wieku co najmniej 65 lat pochodzących z USA i spoza tego kraju.</p>
+
+<p>Spróbuj wykonać to zadanie na dwa sposoby:</p>
+
+<ol>
+  <li>przetwarzając każdą linię z osobą w wieku 65 lat, a następnie używając <code class="language-plaintext highlighter-rouge">if</code>/<code class="language-plaintext highlighter-rouge">else</code> na <code class="language-plaintext highlighter-rouge">$3</code>,</li>
+  <li>używając dwóch warunków jednocześnie, tj. pierwszy przetwarzający tylko osoby w wieku 65 lat z USA, a drugi przetwarzający tylko osoby w wieku 65 lat spoza USA (operator nierówności to <code class="language-plaintext highlighter-rouge">!=</code>).</li>
+</ol>
+
+<p>W tym zadaniu schematycznie użycie kilku warunków jednocześnie wygląda następująco:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">awk</span> <span class="s1">'warunek1 { kod1 } warunek2 { kod2 } END { kod_na_koniec }'</span> plik
+</code></pre></div></div>
+
+<p>Twoje rozwiązanie powinno zawierać dwie liczby oddzielone spacją, tj. <code class="language-plaintext highlighter-rouge">4 2</code>.</p>
+
+<div class="awk" data-awk_file="people" data-awk_soln="multPatt" style="width: 100%;">
+    <div style="display: flex;">
+        <div spellcheck="false" contenteditable="true" role="textbox" id="multPatt" class="consoleH2 awk_input language-bash" style="float: left;">awk '{}' people</div>
+        <button class="awk_run" onclick="awk_run(this)">▶ Uruchom</button>
+    </div>
+    <samp class="awk_output"></samp>
+</div>
+<script>
+    var editor = ace.edit("multPatt", {
+        minLines: 1,
+        maxLines: 2,
+        showLineNumbers: false,
+        readOnly: false,
+        newLineMode: 'auto',
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+
+    editors["multPatt"] = editor;
+</script>
+
+<hr />
+
+<h3 id="zadanie-10">Zadanie 10</h3>
+
+<p><em>AWK</em> posiada kilka dostępnych dla nas zmiennych wbudowanych. Oto kilka z nich:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Nazwa</th>
+      <th>Wartość</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">FS</code></td>
+      <td>separator pól/kolumn (ang. <em><strong>f</strong>ield <strong>s</strong>eparator</em>, domyślnie znak spacji)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">RS</code></td>
+      <td>separator wierszy (ang. <em><strong>r</strong>ecord <strong>s</strong>epartor</em>, domyślnie znak nowej linii)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">NF</code></td>
+      <td>liczba pól/kolumn (ang. <em><strong>n</strong>umber of <strong>f</strong>ields</em>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">NR</code></td>
+      <td>aktualna liczba przetworzonych wierszy (ang. <em>total <strong>n</strong>umber of <strong>r</strong>ecords seen so far</em>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">$0</code></td>
+      <td>cała linia (wszystkie kolumny)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Spróbuj użyć którychś z powyższych zmiennych tak, aby wyświetlić tylko nieparzyste wiersze pliku <code class="language-plaintext highlighter-rouge">people</code> (operator modulo to <code class="language-plaintext highlighter-rouge">%</code>).</p>
+
+<div class="awk" data-awk_file="people" data-awk_soln="odd" style="width: 100%;">
+    <div style="display: flex;">
+        <div spellcheck="false" contenteditable="true" role="textbox" id="odd" class=" awk_input language-bash" style="float: left;">awk '{}' people</div>
+        <button class="awk_run" onclick="awk_run(this)">▶ Uruchom</button>
+    </div>
+    <samp class="awk_output"></samp>
+</div>
+<script>
+    var editor = ace.edit("odd", {
+        minLines: 1,
+        maxLines: 2,
+        showLineNumbers: false,
+        readOnly: false,
+        newLineMode: 'auto',
+    });
+    editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
+    editor.session.setUseWrapMode(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(20);
+    editor.renderer.setScrollMargin(5, 5);
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/sh");
+    
+    row = editor.session.getLength() - 1;
+    column = editor.session.getLine(row).length;
+    editor.selection.moveTo(row, column);
+
+    editors["odd"] = editor;
+</script>
+
+<hr />
+
+<h2 id="pliki-skryptów-tablice-i-pętle">Pliki skryptów, tablice i pętle</h2>
+
+<p>Używając <code class="language-plaintext highlighter-rouge">awk</code> z poziomu terminala, dostępne są dla nas również flagi wpływające na działanie programu (niestety nie możemy z nich wszystkich wprost skorzystać w internetowym symulatorze).
+Poniżej znajduje się kilka istotniejszych przełączników:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Flaga</th>
+      <th style="text-align: left">Przykład użycia</th>
+      <th>Cel</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-F</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">awk -F: ...</code></td>
+      <td>wskazanie, że kolumny są oddzielone znakiem <code class="language-plaintext highlighter-rouge">:</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-f</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">awk -f script.awk ...</code></td>
+      <td>wczytanie skryptu AWK z pliku zamiast jako argumentu programu</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-v</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">awk -v init=1 ...</code></td>
+      <td>inicjalizacja zmiennej <code class="language-plaintext highlighter-rouge">init</code> z wartością 1 zamiast domyślnej 0;<br />równoważne z <code class="language-plaintext highlighter-rouge">awk 'BEGIN { init = 1 } ...</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>W dalszej części samouczka będziemy pisać nieco dłuższe skrypty. Wygodniej będzie nam uruchamiać program <code class="language-plaintext highlighter-rouge">awk</code> przekazując mu jako argument plik skryptu korzystając z flagi <code class="language-plaintext highlighter-rouge">-f</code>, np. <code class="language-plaintext highlighter-rouge">awk -f file.awk input.txt</code>.</p>
+
+<p>Poniżej znajduje się plik z zarobkami <code class="language-plaintext highlighter-rouge">earnings.txt</code>. Niektóre osoby występują kilka razy.</p>
+
+<div class="awk"><br />
+<span class="awk_file_name_hover">📜 earnings.txt</span>
+<div spellcheck="false" aria-label="Earnings text source file" class="awk_text" id="earnings">Frances-Spence          90     USA
+Yoshihide               72     JP
+Nate                   -21     USA
+Nate                    22     USA
+Nate                   -65     USA
+Moondog                 83     USA
+Moondog                 24     USA
+Michael-Fastbender      42     USA
+Xiangyang               54     CN
+Jordan-Etude            13     USA
+Aditi-Acharya           83     IN
+Miyoung                 41     KR
+Frances-Spence         -80     USA
+Frances-Spence          43     USA
+Navya-Reddy             55     IN
+Moondog                 13     USA
+Bolade-Ibrahim          28     NG
+Bolade-Ibrahim         -10     NG
+Jean-Bartik             87     USA
+Leslie-Lamport          80     USA</div>
+</div>
+<script>
+    var editor = ace.edit("earnings");
+    editor.setShowPrintMargin(false);
+    editor.setReadOnly(true);
+    editor.renderer.setShowGutter(false);
+    editor.renderer.setPadding(8);
+    editor.renderer.setScrollMargin(3, 3);
+    editor.setOptions({highlightActiveLine: false});
+    editor.renderer.$cursorLayer.element.style.display = "none";
+    editor.setTheme("ace/theme/cobalt");
+    editor.session.setMode("ace/mode/text");
+    editor.setOptions({
+        maxLines: Infinity
+    });
+    text_editors["earnings"] = editor;
+</script>
+
+<hr />
+
+<h3 id="zadanie-11">Zadanie 11</h3>
+
+<p>Rozpocznijmy od małej powtórki. Wyświetl cały wiersz <code class="language-plaintext highlighter-rouge">$0</code> jeśli imię to Frances-Spence.</p>
+
+<blockquote>
+  <p>💡 Zmień poniższy skrypt <code class="language-plaintext highlighter-rouge">.awk</code>, a następnie uruchom go klikając w prawym dolnym rogu edytora na przycisk <code class="language-plaintext highlighter-rouge">[$ awk -f exercise_11.awk earnings.txt]</code>, który zasymuluje uruchomienie programu <code class="language-plaintext highlighter-rouge">awk</code> w terminalu. Możesz również użyć kombinacji klawiszy <code class="language-plaintext highlighter-rouge">&lt;Ctrl+Enter&gt;</code> lub <code class="language-plaintext highlighter-rouge">&lt;⌘+Enter&gt;</code>.</p>
+</blockquote>
+
+<!--
+id - id
+filename - Name of file you are writing awk in (.awk added)
+soln - key of solution in awk_tutorial2.js
+txt_source - id of text file with source text (.txt added)
+awk_src_class - applied to text area to set height
+-->
+<div class="awk2" data-txt_source="earnings" data-soln="exercise_11">
+    <div class="awk_source_container">
+        <span class="awk_source_filename">📋 exercise_11.awk</span>
+        <div spellcheck="false" class="awk_source  language-awk" aria-label="Umieść tutaj swój kod awk" id="exercise_11">{ print $0 }</div>
+        <div class="buttons">
+            <button onclick="run(this)" title="Możesz również użyć kombinacji klawiszy &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;">$ awk -f exercise_11.awk earnings.txt</button>
+        </div>
+    </div>
+    <samp class="awk_output">BLAH</samp>
+</div>
+<script>
+    var editor = ace.edit("exercise_11");
+    editor.setShowPrintMargin(false);
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/sh");
+    editors["exercise_11"] = editor;
+</script>
+
+<hr />
+
+<h3 id="zadanie-12">Zadanie 12</h3>
+
+<p>Tablice w <em>AWK</em> są słownikami, w których klucze mogą być dowolne (aczkolwiek są przekształcane ostatecznie na ciągi znaków), a wartości również mogą być również dowolne. Jak wszystkie zmienne w <em>AWK</em>, tablice nie wymagają inicjalizacji.</p>
+
+<p>Np. jeśli chcesz w tablicy dodać liczbę z kolumny 2 do wartości klucza o nazwie wartości kolumny 1, możesz to zrobić tak: <code class="language-plaintext highlighter-rouge">sums[$1] += $2</code>.</p>
+
+<p>Sprawdźmy to. Zsumuj zarobki (kolumna 2) każdej osoby, a na końcu wypisz całkowite zarobki osoby o imieniu Moondog używając <code class="language-plaintext highlighter-rouge">arr["Moondog"]</code> (przydatny będzie warunek <code class="language-plaintext highlighter-rouge">END</code>; możesz go umieścić w nowej linii). W dalszej części materiałów omówimy jak przejść przez zarobki wszystkich osób.</p>
+
+<!--
+id - id
+filename - Name of file you are writing awk in (.awk added)
+soln - key of solution in awk_tutorial2.js
+txt_source - id of text file with source text (.txt added)
+awk_src_class - applied to text area to set height
+-->
+<div class="awk2" data-txt_source="earnings" data-soln="exercise_12">
+    <div class="awk_source_container">
+        <span class="awk_source_filename">📋 exercise_12.awk</span>
+        <div spellcheck="false" class="awk_source  language-awk" aria-label="Umieść tutaj swój kod awk" id="exercise_12">{ print $0 }</div>
+        <div class="buttons">
+            <button onclick="run(this)" title="Możesz również użyć kombinacji klawiszy &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;">$ awk -f exercise_12.awk earnings.txt</button>
+        </div>
+    </div>
+    <samp class="awk_output">BLAH</samp>
+</div>
+<script>
+    var editor = ace.edit("exercise_12");
+    editor.setShowPrintMargin(false);
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/sh");
+    editors["exercise_12"] = editor;
+</script>
+
+<hr />
+
+<h3 id="zadanie-13">Zadanie 13</h3>
+
+<p>No dobrze – skoro już wiemy jak zsumować zarobki poszczególnych osób, to je wyświetlmy. <em>AWK</em> posiada pętlę <code class="language-plaintext highlighter-rouge">for</code>, której schematyczne użycie może wyglądać następująco:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="o">(</span>klucz <span class="k">in </span>tablica<span class="o">)</span> <span class="o">{</span> 
+    print klucz <span class="s2">" "</span> tablica[klucz]
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Wyświetl wszystkie imiona i odpowiadające im łączne zarobki (imię i łączne zarobki oddziel pojedynczą spacją).</p>
+
+<!--
+id - id
+filename - Name of file you are writing awk in (.awk added)
+soln - key of solution in awk_tutorial2.js
+txt_source - id of text file with source text (.txt added)
+awk_src_class - applied to text area to set height
+-->
+<div class="awk2" data-txt_source="earnings" data-soln="exercise_13">
+    <div class="awk_source_container">
+        <span class="awk_source_filename">📋 exercise_13.awk</span>
+        <div spellcheck="false" class="awk_source awk_src_medium language-awk" aria-label="Umieść tutaj swój kod awk" id="exercise_13">{ print $0 }</div>
+        <div class="buttons">
+            <button onclick="run(this)" title="Możesz również użyć kombinacji klawiszy &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;">$ awk -f exercise_13.awk earnings.txt</button>
+        </div>
+    </div>
+    <samp class="awk_output">BLAH</samp>
+</div>
+<script>
+    var editor = ace.edit("exercise_13");
+    editor.setShowPrintMargin(false);
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/sh");
+    editors["exercise_13"] = editor;
+</script>
+
+<hr />
+
+<h3 id="zadanie-14">Zadanie 14</h3>
+
+<p>Teraz użyj dodatkowych zmiennych tak, aby znaleźć osobę z najwyższymi łącznymi zarobkami (wyświetl imię i łączne zarobki oddzielone spacją). Będzie to wymagało połączenia pętli <code class="language-plaintext highlighter-rouge">for</code> oraz instrukcji warunkowej typu:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="o">(</span>val <span class="o">&gt;</span> max<span class="o">)</span> <span class="o">{</span>
+    max <span class="o">=</span> val
+    ...
+<span class="o">}</span>
+</code></pre></div></div>
+
+<!--
+id - id
+filename - Name of file you are writing awk in (.awk added)
+soln - key of solution in awk_tutorial2.js
+txt_source - id of text file with source text (.txt added)
+awk_src_class - applied to text area to set height
+-->
+<div class="awk2" data-txt_source="earnings" data-soln="exercise_14">
+    <div class="awk_source_container">
+        <span class="awk_source_filename">📋 exercise_14.awk</span>
+        <div spellcheck="false" class="awk_source awk_src_medium language-awk" aria-label="Umieść tutaj swój kod awk" id="exercise_14">{ print $0 }</div>
+        <div class="buttons">
+            <button onclick="run(this)" title="Możesz również użyć kombinacji klawiszy &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;">$ awk -f exercise_14.awk earnings.txt</button>
+        </div>
+    </div>
+    <samp class="awk_output">BLAH</samp>
+</div>
+<script>
+    var editor = ace.edit("exercise_14");
+    editor.setShowPrintMargin(false);
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/sh");
+    editors["exercise_14"] = editor;
+</script>
+
+<hr />
+
+<h3 id="przykład-3">Przykład 3</h3>
+
+<div class="awk" style="display: none;">
+<div class="awk_text" id="empty_stdin"></div>
+</div>
+<script>
+    var editor = ace.edit("empty_stdin");
+    text_editors["empty_stdin"] = editor;
+</script>
+
+<p>Skrypty <em>AWK</em> mogą również pomijać przetwarzanie tekstu i dane wejściowe. Na początku musimy jednak zwrócić uwagę na to, że jeśli nie podamy w poleceniu <code class="language-plaintext highlighter-rouge">awk</code> jako ostatniego argumentu nazwy pliku do wczytania, program będzie oczekiwał danych na standardowym wejściu. W tym wypadku prostą sztuczką jest przekierowanie na standardowe wejście pustego ciągu znaków np. używając składni Bash <code class="language-plaintext highlighter-rouge">&lt;&lt;&lt; ''</code>. Przykładowo, w terminalu wyglądałoby to następująco:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">awk</span> <span class="nt">-f</span> script.awk <span class="o">&lt;&lt;&lt;</span> <span class="s1">''</span>
+</code></pre></div></div>
+
+<p>W poniższym przykładzie możemy zobaczyć, że pomijamy dane wejściowe oraz przy pomocy warunku <code class="language-plaintext highlighter-rouge">END</code> iterujemy po tablicy <code class="language-plaintext highlighter-rouge">arr</code>, której kluczami są liczby całkowite od 0 do 9:</p>
+
+<!--
+id - id
+filename - Name of file you are writing awk in (.awk added)
+soln - key of solution in awk_tutorial2.js
+txt_source - id of text file with source text (.txt added)
+awk_src_class - applied to text area to set height
+-->
+<div class="awk2" data-txt_source="empty_stdin" data-soln="loop_example">
+    <div class="awk_source_container">
+        <span class="awk_source_filename">📋 loop_example.awk</span>
+        <div spellcheck="false" class="awk_source awk_src_medium language-awk" aria-label="Umieść tutaj swój kod awk" id="loop_example">END {
+    for (i = 0; i &lt; 10; i++) {
+        arr[i] = i*i;
+        print i " =&gt; " arr[i]
+    }
+}</div>
+        <div class="buttons">
+            <button onclick="run(this)" title="Możesz również użyć kombinacji klawiszy &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;">$ awk -f loop_example.awk &lt;&lt;&lt; ''</button>
+        </div>
+    </div>
+    <samp class="awk_output">BLAH</samp>
+</div>
+<script>
+    var editor = ace.edit("loop_example");
+    editor.setShowPrintMargin(false);
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/sh");
+    editors["loop_example"] = editor;
+</script>
+
+<hr />
+
+<h3 id="zadanie-15">Zadanie 15</h3>
+
+<p>Twoim zadaniem jest przejść w pętli po przygotowanej wcześniej tablicy <code class="language-plaintext highlighter-rouge">arr</code> tak, aby dla każdego indeksu (klucza) wypisać indeks, spację i sumę bieżącą wartości tablicy.</p>
+
+<!--
+id - id
+filename - Name of file you are writing awk in (.awk added)
+soln - key of solution in awk_tutorial2.js
+txt_source - id of text file with source text (.txt added)
+awk_src_class - applied to text area to set height
+-->
+<div class="awk2" data-txt_source="empty_stdin" data-soln="exercise_15">
+    <div class="awk_source_container">
+        <span class="awk_source_filename">📋 exercise_15.awk</span>
+        <div spellcheck="false" class="awk_source awk_src_large language-awk" aria-label="Umieść tutaj swój kod awk" id="exercise_15">END {
+    arr[0] = 0
+    arr[1] = 1
+    for (i = 2 ; i &lt; 10; i++) {        
+        arr[i] += arr[i-1] + arr[i-2]
+    }
+    # Nie zmieniaj powyższego kodu ^
+    # Wyświetl indeks i sumę bieżącą od 0 do 9
+    
+}</div>
+        <div class="buttons">
+            <button onclick="run(this)" title="Możesz również użyć kombinacji klawiszy &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;">$ awk -f exercise_15.awk &lt;&lt;&lt; ''</button>
+        </div>
+    </div>
+    <samp class="awk_output">BLAH</samp>
+</div>
+<script>
+    var editor = ace.edit("exercise_15");
+    editor.setShowPrintMargin(false);
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/sh");
+    editors["exercise_15"] = editor;
+</script>
+
+<hr />
+
+<h3 id="zadanie-16">Zadanie 16</h3>
+
+<p>W <em>AWK</em> możemy sprawdzić, czy tablica zawiera klucz:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="o">(</span>klucz <span class="k">in </span>tablica<span class="o">)</span> <span class="o">{</span>
+    ...
+<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+    ...
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Możemy również usunąć klucz (i odpowiadającą mu wartość) za pomocą:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>delete tablica[klucz]
+</code></pre></div></div>
+
+<p>Twoim ostatnim zadaniem jest zaimplementowanie metody <a href="https://pl.wikipedia.org/wiki/Sito_Eratostenesa">sita Eratostenesa</a> do wyświetlenia liczb pierwszych nie większych niż 100.</p>
+
+<p>Skorzystaj z tablicy i użyj <code class="language-plaintext highlighter-rouge">delete</code> oraz <code class="language-plaintext highlighter-rouge">in</code> tak, aby usunąć wszystkie liczby, które nie są pierwsze. Po usunięciu wszystkich liczb niebędących liczbami pierwszymi, przejdź w pętli od 2 do 100 i wypisz pozostałe w tablicy liczby używając czegoś w stylu <code class="language-plaintext highlighter-rouge">if (number in arr)</code>.</p>
+
+<!--
+id - id
+filename - Name of file you are writing awk in (.awk added)
+soln - key of solution in awk_tutorial2.js
+txt_source - id of text file with source text (.txt added)
+awk_src_class - applied to text area to set height
+-->
+<div class="awk2" data-txt_source="empty_stdin" data-soln="exercise_16">
+    <div class="awk_source_container">
+        <span class="awk_source_filename">📋 exercise_16.awk</span>
+        <div spellcheck="false" class="awk_source awk_src_large language-awk" aria-label="Umieść tutaj swój kod awk" id="exercise_16">END {
+    for (i = 2; i &lt; 100; i++) {
+        arr[i] = i
+    }
+    # Idź i odsiewaj!
+    
+}</div>
+        <div class="buttons">
+            <button onclick="run(this)" title="Możesz również użyć kombinacji klawiszy &lt;Ctrl+Enter&gt; lub &lt;⌘+Enter&gt;">$ awk -f exercise_16.awk &lt;&lt;&lt; ''</button>
+        </div>
+    </div>
+    <samp class="awk_output">BLAH</samp>
+</div>
+<script>
+    var editor = ace.edit("exercise_16");
+    editor.setShowPrintMargin(false);
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/sh");
+    editors["exercise_16"] = editor;
+</script>
+
+<h2 id="podsumowanie">Podsumowanie</h2>
+
+<p>Jak widać, w ostatnich zadaniach nie używaliśmy już plików z danymi wejściowymi. <em>AWK</em> jest językiem, który możemy używać w oderwaniu od danych tabelarycznych, jednakże to właśnie podczas pracy z tego typu danymi sprawdza się on najlepiej. Co do zasady nie zaleca się pisania zbyt skomplikowanych programów w <em>AWK</em>.</p>
+
+<hr />
+
+<p>Autorem samouczka jest <a href="https://github.com/n8ta">Nathaniel Tracy-Amoroso</a>. Część zadań i przykładów została zaczerpnięta z <a href="https://www.gnu.org/software/gawk/manual/gawk.html">podręcznika użytkownika GNU awk</a> na licencji <a href="https://www.gnu.org/software/gawk/manual/gawk.html#GNU-Free-Documentation-License">GNU Free Documentation License</a>. Silnik <a href="https://www.npmjs.com/package/awkjs">awkjs</a> jest dystrybuowany na licencji <a href="https://github.com/petli-full/awkjs/blob/master/LICENSE">MIT</a>.</p>
+
+</article>
+
+      </main>
+
+      <footer class="footer">
+  <div class="footer-column">
+    <p>
+      <small>
+        &copy;&nbsp;<time datetime="2024-08-18T09:31:47+00:00">2024</time>. All right reserved.
+      </small>
+    </p>
+    <p>
+      <small>
+        Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> & <a href="https://github.com/zivhub/monophase" target="_blank">Monophase</a>
+      </small>
+    </p>
+  </div>
+  
+</footer>
+
+    </div>
+
+    
+
+    
+  </body>
+</html>

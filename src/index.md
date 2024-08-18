@@ -42,9 +42,9 @@ Poniżej znajdują się dwa szablony stanowiące podstawę skryptów `awk`:
 
 Poniżej znajduje się przykład polecenia `awk`, które po prostu wyświetla dane otrzymane na wejściu z pliku `mail_list`. Zmienna `$0` oznacza całą aktualnie przetwarzaną linię.
 
-> 💡 Aby uruchomić kod, możesz kliknąć w poniższy terminal i nacisnąć klawisz `<Enter>` albo nacisnąć przycisk `[▶ Uruchom]`.
+> 💡 Aby uruchomić kod, możesz kliknąć w poniższy terminal i nacisnąć klawisz `<Enter>`; możesz też nacisnąć przycisk `[▶ Uruchom]`. Jeśli chcesz zresetować terminal do początkowej wartości, naciśnij przycisk `[↺]`.
 
-{% include awk_console.html awk_file="mail_list" awk_soln="hello_world0" awk_init="awk '{ print $0 }' mail_list" %}
+{% include awk_console.html awk_file="mail_list" awk_soln="hello_world0" awk_init="awk '{ print $0 }' mail_list" awk_reset="awk '{ print $0 }' mail_list" %}
 
 Poniżej znajduje się przykładowa zawartość pliku `mail_list`, która jest przetwarzana przez `awk`:
 
@@ -343,7 +343,7 @@ Leslie-Lamport          80     USA</div>
 
 Rozpocznijmy od małej powtórki. Wyświetl cały wiersz `$0` jeśli imię to Frances-Spence.
 
-> 💡 Zmień poniższy skrypt `.awk`, a następnie uruchom go klikając w prawym dolnym rogu edytora na przycisk `[$ awk -f exercise_11.awk earnings.txt]`, który zasymuluje uruchomienie programu `awk` w terminalu. Możesz również użyć kombinacji klawiszy `<Ctrl+Enter>` lub `<⌘+Enter>`.
+> 💡 Zmień poniższy skrypt `.awk` w interaktywnym edytorze, a następnie uruchom go klikając w prawym dolnym rogu edytora na przycisk `[$ awk -f exercise_11.awk earnings.txt]`, który zasymuluje uruchomienie programu `awk` w terminalu. Możesz również użyć kombinacji klawiszy `<Ctrl+Enter>` lub `<⌘+Enter>`.
 
 {% include awk_file.html id="exercise_11" filename="exercise_11" soln="exercise_11" txt_source="earnings" init="{ print $0 }" %} 
 

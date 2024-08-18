@@ -1,6 +1,6 @@
 # Interactive tutorial for AWK as SCORM
 
-This repository contains scripts to wrap <https://n8ta.com/projects/awk.html> and <https://n8ta.com/projects/awk_intermediate.html> into SCORM 1.2 package. I use it to grade students' activity in Moodle.
+This repository contains scripts to wrap translated to Polish <https://n8ta.com/projects/awk.html> and <https://n8ta.com/projects/awk_intermediate.html> into SCORM 1.2 package. I use it to grade students' activity in Moodle.
 
 The latest automatically built SCORM package can be downloaded from [Releases](https://github.com/andre-wojtowicz/awk-tutorial-scorm).
 

@@ -22,6 +22,7 @@ scorm:
 	cp -r imsmanifest.xml materials dist
 	sed -i "s/Last edit: .../Last edit: $(shell date '+%Y-%m-%d %H:%M')/" dist/imsmanifest.xml
 	cp -r src/_site/* dist/materials
+	cd dist/materials && sed -i -e 's~</head>~<script src="js/scorm.js" type="text/javascript"></script></head>~' -e 's~<body>~<body onload="ScormProcessInitialize();" onbeforeunload="ScormProcessTerminate();" onunload="ScormProcessTerminate();">~' index.html
 	cd dist && \
 	zip "awk-tutorial-scorm-$(shell date '+%Y_%m_%d-%H_%M').zip" -r .
 	@echo ------------------------------------------

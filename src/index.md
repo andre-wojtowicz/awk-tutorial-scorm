@@ -13,8 +13,8 @@ layout: page
 
 <script src="assets/ace.min.js"></script>
 <script>
-    var editors = {};
-    var text_editors = {};
+    editors = {};
+    text_editors = {};
 </script>
 
 *AWK* to język programowania, który przyjmuje na wejściu pliki, w których dane są rozdzielone białymi znakami (kolumny), sprawdza dla kolejnych linii warunki ich dalszego przetwarzania, a następnie wykonuje kod dla danej linii w przypadku spełnienia warunków. Język *AWK* posiada [wiele implementacji](https://en.wikipedia.org/wiki/AWK#Versions_and_implementations), z których jedną z najpopularniejszych jest wersja GNU [`gawk`](https://man7.org/linux/man-pages/man1/gawk.1.html). Program `awk` jest dostępny w zasadzie w każdej dystrybucji Linux, a w systemie występuje najczęściej jako dowiązanie symboliczne do wybranej implementacji języka *AWK*.

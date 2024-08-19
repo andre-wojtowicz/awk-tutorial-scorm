@@ -136,7 +136,7 @@ function ScormProcessInitialize(){
             ScormProcessSetValue("cmi.interactions."+n.toString()+".result", "neutral");
             ScormProcessSetValue("cmi.interactions."+n.toString()+".correct_responses.0.pattern", SOLUTIONS[task_id]);
         }
-        ScormProcessSetValue("cmi.suspend_data", bytesToBase64(new TextEncoder().encode("{}")));
+        ScormProcessSetValue("cmi.suspend_data", bytesToBase64(new TextEncoder().encode('{"code": {}, "result":{}}')));
         ScormCommitChanges();
     } else {
         var cmi_obj = JSON.parse(cmi_str);
@@ -144,27 +144,20 @@ function ScormProcessInitialize(){
         for (const key in cmi_obj) {
 
             editors[key].setValue(cmi_obj[key], 1);
-            var run_btn = document.getElementById("button_run_"+key);
-            var btn_arr = key.split("_");
-            var btn_type = btn_arr[0];
-            var btn_num  = btn_arr[1];
+            var act_arr = key.split("_");
+            var act_type = act_arr[0];
+            var act_num  = act_arr[1];
 
-            if (btn_type == "task")
+            if (act_type == "task")
             {
-                var task_id = parseInt(btn_num);
-                if (task_id <= 10) {
-                    awk_run(run_btn);
-                } else {
+                var task_id = parseInt(act_num);
+                if (task_id > 10) {
                     editors[key].selection.moveTo(0, 0);
-                    run(run_btn);
                 }
-            } else if (btn_type == "example") {
-                var example_id = parseInt(btn_num[0]);
-                if (example_id <= 2) {
-                    awk_run(run_btn);
-                } else {
+            } else if (act_type == "example") {
+                var example_id = parseInt(act_num[0]);
+                if (example_id > 2) {
                     editors[key].selection.moveTo(0, 0);
-                    run(run_btn);
                 }
             }
         }
@@ -327,7 +320,8 @@ function ScormSaveAnswer(task_id, student_response, result)
 {   
     var cmi_str = new TextDecoder().decode(base64ToBytes(ScormProcessGetValue("cmi.suspend_data")));
     var cmi_obj = JSON.parse(cmi_str);
-    cmi_obj[task_id] = student_response;
+    cmi_obj["code"][task_id] = student_response;
+    cmi_obj["result"][task_id] = result;
     cmi_str = JSON.stringify(cmi_obj);
     ScormProcessSetValue("cmi.suspend_data", bytesToBase64(new TextEncoder().encode(cmi_str)));
 
@@ -342,7 +336,7 @@ function ScormSaveExample(example_id, student_response)
 {   
     var cmi_str = new TextDecoder().decode(base64ToBytes(ScormProcessGetValue("cmi.suspend_data")));
     var cmi_obj = JSON.parse(cmi_str);
-    cmi_obj[example_id] = student_response;
+    cmi_obj["code"][example_id] = student_response;
     cmi_str = JSON.stringify(cmi_obj);
     ScormProcessSetValue("cmi.suspend_data", bytesToBase64(new TextEncoder().encode(cmi_str)));
 
@@ -353,7 +347,8 @@ function ScormResetAnswer(task_id)
 {
     var cmi_str = new TextDecoder().decode(base64ToBytes(ScormProcessGetValue("cmi.suspend_data")));
     var cmi_obj = JSON.parse(cmi_str);
-    delete cmi_obj[task_id];
+    delete cmi_obj["code"][task_id];
+    delete cmi_obj["result"][task_id];
     cmi_str = JSON.stringify(cmi_obj);
     ScormProcessSetValue("cmi.suspend_data", bytesToBase64(new TextEncoder().encode(cmi_str)));
 
@@ -368,7 +363,7 @@ function ScormResetExample(example_id)
 {
     var cmi_str = new TextDecoder().decode(base64ToBytes(ScormProcessGetValue("cmi.suspend_data")));
     var cmi_obj = JSON.parse(cmi_str);
-    delete cmi_obj[example_id];
+    delete cmi_obj["code"][example_id];
     cmi_str = JSON.stringify(cmi_obj);
     ScormProcessSetValue("cmi.suspend_data", bytesToBase64(new TextEncoder().encode(cmi_str)));
 
@@ -377,8 +372,11 @@ function ScormResetExample(example_id)
 
 function ScormSaveScore()
 {
-    var score = document.querySelectorAll('[id^="output_task_"].correct').length;
     var total = document.querySelectorAll('[id^="task_"]').length;
+
+    var cmi_str = new TextDecoder().decode(base64ToBytes(ScormProcessGetValue("cmi.suspend_data")));
+    var cmi_obj = JSON.parse(cmi_str);
+    var score = Object.values(cmi_obj.result).filter(value => value === "correct").length;
 
     ScormProcessSetValue("cmi.core.score.raw", score/total);
     ScormProcessSetValue("cmi.core.score.min", 0);

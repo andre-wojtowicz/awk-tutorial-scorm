@@ -141,9 +141,9 @@ function ScormProcessInitialize(){
     } else {
         var cmi_obj = JSON.parse(cmi_str);
 
-        for (const key in cmi_obj) {
+        for (const key in cmi_obj["code"]) {
 
-            editors[key].setValue(cmi_obj[key], 1);
+            editors[key].setValue(cmi_obj["code"][key], 1);
             var act_arr = key.split("_");
             var act_type = act_arr[0];
             var act_num  = act_arr[1];

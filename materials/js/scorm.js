@@ -100,7 +100,7 @@ var terminateCalled = false;
 //Track whether or not we successfully initialized.
 var initialized = false;
 
-async function ScormProcessInitialize(){
+function ScormProcessInitialize(){
     var result;
     
     GetAPI(window);
@@ -148,13 +148,12 @@ async function ScormProcessInitialize(){
 
             var task_id = parseInt(task_key.split("_")[1])
             if (task_id <= 10) {
-                await awk_run(run_btn, false);
+                awk_run(run_btn);
             } else {
                 editors[task_key].selection.moveTo(0, 0);
-                await run(run_btn, false);
+                run(run_btn);
             }
         }
-        ScormSaveScore();
     }
 }
 

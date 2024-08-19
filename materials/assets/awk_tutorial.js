@@ -211,8 +211,8 @@ async function run_awk_input(root, save_score=true) {
 
 }
 
-function awk_run(button, save_score=true) {
-    handle_enter(button.parentElement.querySelector('.awk_input'), save_score)
+async function awk_run(button, save_score=true) {
+    await handle_enter(button.parentElement.querySelector('.awk_input'), save_score)
 }
 
 function awk_reset(button) {
@@ -232,8 +232,8 @@ function awk_reset(button) {
     }
 }
 
-function run(button, save_score=true) {
-    run_awk_input(button.parentElement.parentElement.parentElement, save_score);
+async function run(button, save_score=true) {
+    await run_awk_input(button.parentElement.parentElement.parentElement, save_score);
 }
 
 function awk_script_reset(button) {    

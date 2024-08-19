@@ -5,7 +5,7 @@ function trim(awkStr, filename) {
 }
 
 function call_awk(sourceText, awkStrParsed) {
-    const awk = awkJS()
+    const awk = awkJS
     return awk.awk(sourceText, awkStrParsed, [])
 }
 

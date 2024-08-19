@@ -95,7 +95,7 @@ async function handle_enter(input) {
     outputNode.classList.remove("exception")
     outputNode.classList.remove("correct")
 
-    var task_id = input.id;
+    var te_id = input.id;
     var student_response = awkStr;
 
     try {
@@ -104,9 +104,11 @@ async function handle_enter(input) {
         console.info("adding exception", error);
         outputNode.classList.add('exception')
         outputNode.innerText = ">>> Wyjątek: Wystąpił nieznany błąd...\n>>> Upewnij się, że wyrażenia są pomiędzy nawiasami klamrowymi { i }.";
-        if (task_id.startsWith("task_")) {
-            ScormSaveAnswer(task_id, student_response, "unanticipated");
+        if (te_id.startsWith("task_")) {
+            ScormSaveAnswer(te_id, student_response, "unanticipated");
             ScormSaveScore();
+        } else if (te_id.startsWith("example_")) {
+            ScormSaveExample(te_id, student_response);
         }
         return
     }
@@ -115,9 +117,11 @@ async function handle_enter(input) {
         console.info("adding exception");
         outputNode.classList.add('exception')
         outputNode.innerText = ">>> Wyjątek: " + output.stderr;
-        if (task_id.startsWith("task_")) {
-            ScormSaveAnswer(task_id, student_response, "unanticipated");
+        if (te_id.startsWith("task_")) {
+            ScormSaveAnswer(te_id, student_response, "unanticipated");
             ScormSaveScore();
+        } else if (te_id.startsWith("example_")) {
+            ScormSaveExample(te_id, student_response);
         }
         return
     }
@@ -129,17 +133,21 @@ async function handle_enter(input) {
     if (oracle_output.stdout === output.stdout) {
         outputNode.classList.add("correct")
         outputNode.innerText = output.stdout;
-        if (task_id.startsWith("task_")) {
-            ScormSaveAnswer(task_id, student_response, "correct");
+        if (te_id.startsWith("task_")) {
+            ScormSaveAnswer(te_id, student_response, "correct");
             ScormSaveScore();
+        } else if (te_id.startsWith("example_")) {
+            ScormSaveExample(te_id, student_response);
         }
     } else {
         //console.info(oracle_output.output, output.stdout)
         outputNode.classList.add("incorrect")
         outputNode.innerText = ">>> Otrzymany wynik nie pasuje do oczekiwanego rozwiązania.\n>>> Spróbuj ponownie.\n" + output.stdout
-        if (task_id.startsWith("task_")) {
-            ScormSaveAnswer(task_id, student_response, "wrong");
+        if (te_id.startsWith("task_")) {
+            ScormSaveAnswer(te_id, student_response, "wrong");
             ScormSaveScore();
+        } else if (te_id.startsWith("example_")) {
+            ScormSaveExample(te_id, student_response);
         }
     }
 
@@ -153,7 +161,7 @@ async function run_awk_input(root) {
     output_node.classList.remove("correct")
     output_node.classList.remove("incorrect")
 
-    var task_id = root.getAttribute("data-soln");
+    var te_id = root.getAttribute("data-soln");
     var student_response = root_metadata.awk_source_content;
 
 
@@ -163,9 +171,11 @@ async function run_awk_input(root) {
     } catch {
         output_node.classList.add('exception')
         output_node.innerText = ">>> Wyjątek: Wystąpił nieznany błąd...\nUpewnij się, że wyrażenia są pomiędzy nawiasami klamrowymi { i }.";
-        if (task_id.startsWith("task_")) {
-            ScormSaveAnswer(task_id, student_response, "unanticipated");
+        if (te_id.startsWith("task_")) {
+            ScormSaveAnswer(te_id, student_response, "unanticipated");
             ScormSaveScore();
+        } else if (te_id.startsWith("example_")) {
+            ScormSaveExample(te_id, student_response);
         }
         return
     }
@@ -173,9 +183,11 @@ async function run_awk_input(root) {
     if (output.stderr !== "") {
         output_node.classList.add('exception')
         output_node.innerText = ">>> Wyjątek: " + output.stderr;
-        if (task_id.startsWith("task_")) {
-            ScormSaveAnswer(task_id, student_response, "unanticipated");
+        if (te_id.startsWith("task_")) {
+            ScormSaveAnswer(te_id, student_response, "unanticipated");
             ScormSaveScore();
+        } else if (te_id.startsWith("example_")) {
+            ScormSaveExample(te_id, student_response);
         }
         return
     }
@@ -188,16 +200,20 @@ async function run_awk_input(root) {
     if (oracle_output.stdout === output.stdout) {
         output_node.classList.add("correct")
         output_node.innerText = output.stdout;
-        if (task_id.startsWith("task_")) {
-            ScormSaveAnswer(task_id, student_response, "correct");
+        if (te_id.startsWith("task_")) {
+            ScormSaveAnswer(te_id, student_response, "correct");
             ScormSaveScore();
+        } else if (te_id.startsWith("example_")) {
+            ScormSaveExample(te_id, student_response);
         }
     } else {
         output_node.classList.add("incorrect")
         output_node.innerText = ">>> Otrzymany wynik nie pasuje do oczekiwanego rozwiązania.\n>>> Spróbuj ponownie.\n" + output.stdout
-        if (task_id.startsWith("task_")) {
-            ScormSaveAnswer(task_id, student_response, "wrong");
+        if (te_id.startsWith("task_")) {
+            ScormSaveAnswer(te_id, student_response, "wrong");
             ScormSaveScore();
+        } else if (te_id.startsWith("example_")) {
+            ScormSaveExample(te_id, student_response);
         }
     }
 

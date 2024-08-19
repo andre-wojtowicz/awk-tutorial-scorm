@@ -233,10 +233,12 @@ function awk_reset(button) {
     var editor = editors[button.parentElement.parentElement.getAttribute("data-awk_soln")];
     editor.setValue(reset_code, 1);
 
-    var task_id = button.id.split("button_reset_")[1];
-    if (task_id.startsWith("task_")) {
-        ScormResetAnswer(task_id);
+    var te_id = button.id.split("button_reset_")[1];
+    if (te_id.startsWith("task_")) {
+        ScormResetAnswer(te_id);
         ScormSaveScore();
+    } else if (te_id.startsWith("example_")) {
+        ScormResetExample(te_id);
     }
 }
 
@@ -255,10 +257,12 @@ function awk_script_reset(button) {
     editor.setValue(reset_code, 1);
     editor.selection.moveTo(0, 0);
 
-    var task_id = button.id.split("button_reset_")[1];
-    if (task_id.startsWith("task_")) {
-        ScormResetAnswer(task_id);
+    var te_id = button.id.split("button_reset_")[1];
+    if (te_id.startsWith("task_")) {
+        ScormResetAnswer(te_id);
         ScormSaveScore();
+    } else if (te_id.startsWith("example_")) {
+        ScormResetExample(te_id);
     }
 }
 

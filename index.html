@@ -8,7 +8,14 @@
 <script type="text/javascript">
 (function(){
 
-	this._VERSION = "2.2.20130225";
+	this._VERSION = "2.3.20240819";
+
+	/*
+         Changes since 2.2.20130225:
+	 - Added in LMSGetValue() and LMSSetValue() simple mitigations to values containing quotations, 
+           apostrophes and new lines
+         - Changed "fill-in" answers to CMIString4096 
+         */
 	
 	/*
 	 * SimpleAPI for SCORM 1.2

@@ -364,6 +364,17 @@ function ScormResetAnswer(task_id)
     ScormCommitChanges();
 }
 
+function ScormResetExample(example_id)
+{
+    var cmi_str = new TextDecoder().decode(base64ToBytes(ScormProcessGetValue("cmi.suspend_data")));
+    var cmi_obj = JSON.parse(cmi_str);
+    delete cmi_obj[example_id];
+    cmi_str = JSON.stringify(cmi_obj);
+    ScormProcessSetValue("cmi.suspend_data", bytesToBase64(new TextEncoder().encode(cmi_str)));
+
+    ScormCommitChanges();
+}
+
 function ScormSaveScore()
 {
     var score = document.querySelectorAll('[id^="output_task_"].correct').length;

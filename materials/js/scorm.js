@@ -141,17 +141,31 @@ function ScormProcessInitialize(){
     } else {
         var cmi_obj = JSON.parse(cmi_str);
 
-        for (const task_key in cmi_obj) {
+        for (const key in cmi_obj) {
 
-            editors[task_key].setValue(cmi_obj[task_key], 1);
-            var run_btn = document.getElementById("button_run_"+task_key);
+            editors[key].setValue(cmi_obj[key], 1);
+            var run_btn = document.getElementById("button_run_"+key);
+            var btn_arr = key.split("_");
+            var btn_type = btn_arr[0];
+            var btn_num  = btn_arr[1];
 
-            var task_id = parseInt(task_key.split("_")[1])
-            if (task_id <= 10) {
-                awk_run(run_btn);
-            } else {
-                editors[task_key].selection.moveTo(0, 0);
-                run(run_btn);
+            if (btn_type == "task")
+            {
+                var task_id = parseInt(btn_num);
+                if (task_id <= 10) {
+                    awk_run(run_btn);
+                } else {
+                    editors[key].selection.moveTo(0, 0);
+                    run(run_btn);
+                }
+            } else if (btn_type == "example") {
+                var example_id = parseInt(btn_num[0]);
+                if (example_id <= 2) {
+                    awk_run(run_btn);
+                } else {
+                    editors[key].selection.moveTo(0, 0);
+                    run(run_btn);
+                }
             }
         }
     }
@@ -320,6 +334,17 @@ function ScormSaveAnswer(task_id, student_response, result)
     var n = parseInt(task_id.split("_")[1]) - 1;
     ScormProcessSetValue("cmi.interactions."+n.toString()+".student_response", student_response);
     ScormProcessSetValue("cmi.interactions."+n.toString()+".result", result);
+
+    ScormCommitChanges();
+}
+
+function ScormSaveExample(example_id, student_response)
+{   
+    var cmi_str = new TextDecoder().decode(base64ToBytes(ScormProcessGetValue("cmi.suspend_data")));
+    var cmi_obj = JSON.parse(cmi_str);
+    cmi_obj[example_id] = student_response;
+    cmi_str = JSON.stringify(cmi_obj);
+    ScormProcessSetValue("cmi.suspend_data", bytesToBase64(new TextEncoder().encode(cmi_str)));
 
     ScormCommitChanges();
 }

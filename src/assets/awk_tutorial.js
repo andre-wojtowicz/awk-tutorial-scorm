@@ -4,8 +4,8 @@ function trim(awkStr, filename) {
     return awkStr.substr(5, awkStr.length - (4 + filename.length + 3))
 }
 
-function call_awk(sourceText, awkStrParsed) {
-    const awk = awkJS
+async function call_awk(sourceText, awkStrParsed) {
+    const awk = await awkJS()
     return awk.awk(sourceText, awkStrParsed, [])
 }
 
@@ -71,7 +71,7 @@ const SOLUTIONS = {
         '}',
 }
 
-function handle_enter(input, save_score=true) {
+async function handle_enter(input, save_score=true) {
 
     const filename = input.parentElement.parentElement.dataset['awk_file']
     const soln = input.parentElement.parentElement.dataset['awk_soln']
@@ -99,7 +99,7 @@ function handle_enter(input, save_score=true) {
     var student_response = awkStr;
 
     try {
-        output = call_awk(sourceText, awkStrParsed);
+        output = await call_awk(sourceText, awkStrParsed);
     } catch (error) {
         console.info("adding exception", error);
         outputNode.classList.add('exception')
@@ -126,7 +126,7 @@ function handle_enter(input, save_score=true) {
     outputNode.classList.remove('exception')
 
 
-    const oracle_output = call_awk(sourceText, trim(SOLUTIONS[soln], filename))
+    const oracle_output = await call_awk(sourceText, trim(SOLUTIONS[soln], filename))
 
     if (oracle_output.stdout === output.stdout) {
         outputNode.classList.add("correct")
@@ -149,7 +149,7 @@ function handle_enter(input, save_score=true) {
 
 }
 
-function run_awk_input(root, save_score=true) {
+async function run_awk_input(root, save_score=true) {
     const root_metadata = metadata_from_root(root);
     const output_node = root_metadata.output_node;
 
@@ -163,7 +163,7 @@ function run_awk_input(root, save_score=true) {
 
     let output = null;
     try {
-        output = call_awk(root_metadata.text_source_content, root_metadata.awk_source_content);
+        output = await call_awk(root_metadata.text_source_content, root_metadata.awk_source_content);
     } catch {
         output_node.classList.add('exception')
         output_node.innerText = ">>> Wyjątek: Wystąpił nieznany błąd...\nUpewnij się, że wyrażenia są pomiędzy nawiasami klamrowymi { i }.";
@@ -187,7 +187,7 @@ function run_awk_input(root, save_score=true) {
     }
 
 
-    const oracle_output = call_awk(
+    const oracle_output = await call_awk(
         root_metadata.text_source_content,
         root_metadata.soln);
 
@@ -287,10 +287,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
     const source_areas = document.querySelectorAll('.awk_source');
     //console.info("sources", source_areas, source_areas.length);
     for (let i = 0; i < source_areas.length; i++) {
-        source_areas[i].addEventListener('keydown', function (event) {
+        source_areas[i].addEventListener('keydown', async function (event) {
             if ((event.metaKey && event.keyCode === 13) || (event.ctrlKey && event.keyCode === 13)) {
                 const parent = source_areas[i].parentElement.parentElement;
-                run_awk_input(parent);
+                await run_awk_input(parent);
             }
         })
     }

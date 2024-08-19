@@ -148,12 +148,13 @@ function ScormProcessInitialize(){
 
             var task_id = parseInt(task_key.split("_")[1])
             if (task_id <= 10) {
-                awk_run(run_btn);
+                awk_run(run_btn, false);
             } else {
                 editors[task_key].selection.moveTo(0, 0);
-                run(run_btn);
+                run(run_btn, false);
             }
         }
+        ScormSaveScore();
     }
 }
 

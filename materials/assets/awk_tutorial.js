@@ -71,7 +71,7 @@ const SOLUTIONS = {
         '}',
 }
 
-async function handle_enter(input) {
+async function handle_enter(input, save_score=true) {
 
     const filename = input.parentElement.parentElement.dataset['awk_file']
     const soln = input.parentElement.parentElement.dataset['awk_soln']
@@ -106,7 +106,8 @@ async function handle_enter(input) {
         outputNode.innerText = ">>> Wyjątek: Wystąpił nieznany błąd...\n>>> Upewnij się, że wyrażenia są pomiędzy nawiasami klamrowymi { i }.";
         if (task_id.startsWith("task_")) {
             ScormSaveAnswer(task_id, student_response, "unanticipated");
-            ScormSaveScore();
+            if (save_score)
+                ScormSaveScore();
         }
         return
     }
@@ -117,7 +118,8 @@ async function handle_enter(input) {
         outputNode.innerText = ">>> Wyjątek: " + output.stderr;
         if (task_id.startsWith("task_")) {
             ScormSaveAnswer(task_id, student_response, "unanticipated");
-            ScormSaveScore();
+            if (save_score)
+                ScormSaveScore();
         }
         return
     }
@@ -131,7 +133,8 @@ async function handle_enter(input) {
         outputNode.innerText = output.stdout;
         if (task_id.startsWith("task_")) {
             ScormSaveAnswer(task_id, student_response, "correct");
-            ScormSaveScore();
+            if (save_score)
+                ScormSaveScore();
         }
     } else {
         //console.info(oracle_output.output, output.stdout)
@@ -139,13 +142,14 @@ async function handle_enter(input) {
         outputNode.innerText = ">>> Otrzymany wynik nie pasuje do oczekiwanego rozwiązania.\n>>> Spróbuj ponownie.\n" + output.stdout
         if (task_id.startsWith("task_")) {
             ScormSaveAnswer(task_id, student_response, "wrong");
-            ScormSaveScore();
+            if (save_score)
+                ScormSaveScore();
         }
     }
 
 }
 
-async function run_awk_input(root) {
+async function run_awk_input(root, save_score=true) {
     const root_metadata = metadata_from_root(root);
     const output_node = root_metadata.output_node;
 
@@ -165,7 +169,8 @@ async function run_awk_input(root) {
         output_node.innerText = ">>> Wyjątek: Wystąpił nieznany błąd...\nUpewnij się, że wyrażenia są pomiędzy nawiasami klamrowymi { i }.";
         if (task_id.startsWith("task_")) {
             ScormSaveAnswer(task_id, student_response, "unanticipated");
-            ScormSaveScore();
+            if (save_score)
+                ScormSaveScore();
         }
         return
     }
@@ -175,7 +180,8 @@ async function run_awk_input(root) {
         output_node.innerText = ">>> Wyjątek: " + output.stderr;
         if (task_id.startsWith("task_")) {
             ScormSaveAnswer(task_id, student_response, "unanticipated");
-            ScormSaveScore();
+            if (save_score)
+                ScormSaveScore();
         }
         return
     }
@@ -190,21 +196,23 @@ async function run_awk_input(root) {
         output_node.innerText = output.stdout;
         if (task_id.startsWith("task_")) {
             ScormSaveAnswer(task_id, student_response, "correct");
-            ScormSaveScore();
+            if (save_score)
+                ScormSaveScore();
         }
     } else {
         output_node.classList.add("incorrect")
         output_node.innerText = ">>> Otrzymany wynik nie pasuje do oczekiwanego rozwiązania.\n>>> Spróbuj ponownie.\n" + output.stdout
         if (task_id.startsWith("task_")) {
             ScormSaveAnswer(task_id, student_response, "wrong");
-            ScormSaveScore();
+            if (save_score)
+                ScormSaveScore();
         }
     }
 
 }
 
-function awk_run(button) {
-    handle_enter(button.parentElement.querySelector('.awk_input'))
+function awk_run(button, save_score=true) {
+    handle_enter(button.parentElement.querySelector('.awk_input'), save_score)
 }
 
 function awk_reset(button) {
@@ -224,8 +232,8 @@ function awk_reset(button) {
     }
 }
 
-function run(button) {
-    run_awk_input(button.parentElement.parentElement.parentElement);
+function run(button, save_score=true) {
+    run_awk_input(button.parentElement.parentElement.parentElement, save_score);
 }
 
 function awk_script_reset(button) {    
